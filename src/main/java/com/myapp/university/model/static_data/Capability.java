@@ -1,0 +1,35 @@
+package com.myapp.university.model.static_data;
+
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import java.util.Set;
+
+@Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Table(name = "capabilities")
+public class Capability {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    Long id;
+
+    @Column(nullable = false, unique = true)
+    private String name;
+
+    @Column
+    private String description;
+
+    @ManyToMany
+    @JoinTable(
+    name = "roles_capabilities",
+    joinColumns = @JoinColumn(name = "capability_id"),
+    inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles;
+}

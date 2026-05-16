@@ -1,0 +1,42 @@
+package com.myapp.university.model;
+
+import com.myapp.university.model.static_data.Department;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import java.util.Set;
+
+@Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Table(name = "courses")
+public class Course extends AbstractEntity{
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    Long id;
+
+    @Column(nullable = false, unique = true)
+    private String code;
+
+    @Column(nullable = false, unique = true)
+    private String name;
+
+    @Column
+    private String description;
+
+    @Column(nullable = false)
+    private int ects;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "department_id", nullable = false)
+    private Department department;
+
+    @OneToMany (mappedBy = "course")
+    private Set<CourseOffering> offerings;
+}
