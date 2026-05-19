@@ -13,12 +13,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @Controller
 @RequiredArgsConstructor
@@ -34,21 +32,21 @@ public class TeacherController {
         return "/teachers/index";
     }
 
-    @GetMapping("/getTeacherForm")
-    public String viewTeachers(Model model){
+    @GetMapping("/create")
+    public String getCreateTeacher(Model model){
         model.addAttribute("teacherInsertDTO", TeacherInsertDTO.empty());
         model.addAttribute("regionReadOnlyDTO", regionService.getAllRegions());
-        return "admin/teacher-insert";
+        return "admin/teacher-create";
     }
 
-    @PostMapping("/register")
-    public String saveTeacher(@Valid @ModelAttribute("teacherInsertDTO") TeacherInsertDTO dto,
+    @PostMapping("/create")
+    public String createTeacher(@Valid @ModelAttribute("teacherInsertDTO") TeacherInsertDTO dto,
                               BindingResult bindingResult, Model model) {
 //        System.out.println("In the controller");
 //        log.error("REACHED CONTROLLER");
         if (bindingResult.hasErrors()) {
 //            log.error("Validation errors: " + bindingResult.getAllErrors());
-            return "admin/teacher-insert";
+            return "admin/teacher-create";
         }
         model.addAttribute("teacherInsertDTO", dto);
         try{
@@ -56,7 +54,7 @@ public class TeacherController {
             teacherService.saveTeacher(dto);
 //            log.error("Teacher saved successfully");
         } catch (Exception e) {
-            return "admin/teacher-insert";
+            return "admin/teacher-create";
         }
         return "redirect:/teachers/success";
     }
@@ -65,6 +63,9 @@ public class TeacherController {
     public String successSave(Model model){
         return "teachers/success";
     }
+
+
+
 
     @ModelAttribute("regionsReadOnlyDTO")
     public List<RegionReadOnlyDTO> regions() {

@@ -22,7 +22,7 @@
         <div class="col-md-8 col-lg-6">
             <div class="card shadow-sm">
                 <div class="card-header bg-primary text-white">
-                    <h2 class="card-title mb-0">Create New User</h2>
+                    <h2 class="card-title mb-0">Create New Teacher</h2>
                 </div>
 
                 <div th:if="${errorMessage}" class="error">
@@ -30,7 +30,7 @@
                 </div>
 
                 <div class="card-body">
-                    <form method="post" th:object="${teacherInsertDTO}" th:action="@{/teachers/register}" >
+                    <form method="post" th:object="${teacherInsertDTO}" th:action="@{/teachers/create}" >
                         <!-- First name -->
                         <div class="mb-3">
                             <label th:for="firstname" class="form-label">First name</label>
