@@ -10,7 +10,6 @@ import com.myapp.university.model.User;
 import com.myapp.university.model.UserInfo;
 import com.myapp.university.model.static_data.Region;
 import com.myapp.university.repository.*;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -74,7 +73,7 @@ public class TeacherServiceImpl implements ITeacherService{
             //save userInfo
             UserInfo userInfo = mapper.mapToUserInfoTeacherEntity(teacherInsertDTO);
             userInfo.setUser(userRepository.findById(insertedUserId).orElseThrow());
-            Region region = regionRepository.findById((long) teacherInsertDTO.regionId()).orElseThrow();
+            Region region = regionRepository.findById(teacherInsertDTO.regionId()).orElseThrow();
             region.saveUserInfo(userInfo);
             userInfoRepository.save(userInfo);
 
