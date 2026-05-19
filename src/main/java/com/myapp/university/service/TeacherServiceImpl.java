@@ -16,6 +16,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -88,5 +90,15 @@ public class TeacherServiceImpl implements ITeacherService{
             log.error("ERROR!!!");
             throw e;
         }
+    }
+
+    @Override
+    public List<TeacherReadOnlyDTO> viewTeachers() {
+        return teacherRepository.findAll().stream()
+                .map(teacher -> {
+                    UserInfo userInfo = userInfoRepository.findByUser(teacher.getUser()).orElseThrow();
+                    return mapper.mapToTeacherReadOnlyDTO(teacher, userInfo);
+                })
+                .toList();
     }
 }

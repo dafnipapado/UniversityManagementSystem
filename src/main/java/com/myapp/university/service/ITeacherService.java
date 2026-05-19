@@ -6,8 +6,11 @@ import com.myapp.university.exception.UserAlreadyExistsException;
 import com.myapp.university.model.Teacher;
 import com.myapp.university.repository.TeacherRepository;
 
+import java.util.List;
+
 
 public interface ITeacherService {
 
     TeacherReadOnlyDTO saveTeacher(TeacherInsertDTO teacherInsertDTO) throws UserAlreadyExistsException;
+    List<TeacherReadOnlyDTO> viewTeachers();
 }
