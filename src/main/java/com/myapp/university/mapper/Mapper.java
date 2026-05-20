@@ -1,6 +1,7 @@
 package com.myapp.university.mapper;
 
 import com.myapp.university.dto.RegionReadOnlyDTO;
+import com.myapp.university.dto.TeacherEditDTO;
 import com.myapp.university.dto.TeacherInsertDTO;
 import com.myapp.university.dto.TeacherReadOnlyDTO;
 import com.myapp.university.model.Teacher;
@@ -24,8 +25,23 @@ public class Mapper {
         return new UserInfo(null, dto.firstname(), dto.lastname(), dto.afm(), dto.email(), dto.telephone(), dto.zipCode(), null, null);
     }
 
-    public TeacherReadOnlyDTO mapToTeacherReadOnlyDTO(Teacher teacher, UserInfo userInfo) {
-        return new TeacherReadOnlyDTO(userInfo.getFirstname(), userInfo.getLastname(), teacher.getTeacherAM());
+    public TeacherReadOnlyDTO mapToTeacherReadOnlyDTO(Teacher teacher) {
+        return new TeacherReadOnlyDTO(teacher.getUser().getUserInfo().getFirstname(), teacher.getUser().getUserInfo().getLastname(), teacher.getTeacherAM());
+    }
+
+    public TeacherEditDTO mapToTeacherEditDTO(Teacher teacher) {
+        return new TeacherEditDTO(teacher.getUuid(),
+                teacher.getTeacherAM(),
+                teacher.getUser().getUserInfo().getFirstname(),
+                teacher.getUser().getUserInfo().getLastname(),
+                teacher.getUser().getUserInfo().getAfm(),
+                teacher.getUser().getUserInfo().getEmail(),
+                teacher.getUser().getUserInfo().getTelephone(),
+                teacher.getUser().getUserInfo().getZipcode(),
+                teacher.getUser().getUserInfo().getRegion().getId(),
+                teacher.getUser().getUsername(),
+                teacher.getUser().getPassword()
+                );
     }
 
     public RegionReadOnlyDTO mapToRegionReadOnlyDTO(Region region) {
