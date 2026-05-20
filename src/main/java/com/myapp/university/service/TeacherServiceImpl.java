@@ -40,12 +40,12 @@ public class TeacherServiceImpl implements ITeacherService{
                 throw new EntityAlreadyExistsException("Teacher with AM = {teacherInsertDTO.teacherAM()} already exists.");
             }
 
-            Long teacherId = 2L;
+            Long teacherRoleId = 2L;
 
             //save user
             User user = mapper.mapToUserTeacherEntity(teacherInsertDTO);
 
-            Role role = roleRepository.findById(teacherId).orElseThrow(() -> new EntityNotFoundException("Role with id = {teacherId} was not found."));
+            Role role = roleRepository.findById(teacherRoleId).orElseThrow(() -> new EntityNotFoundException("Role with id = {teacherRoleId} was not found."));
             role.addUser(user);
 
             User savedUser = userRepository.save(user);
