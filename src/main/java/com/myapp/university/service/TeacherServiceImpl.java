@@ -66,7 +66,7 @@ public class TeacherServiceImpl implements ITeacherService{
             teacherRepository.save(teacher);
 
             //return teacherReadOnlyDTO
-            return mapper.mapToTeacherReadOnlyDTO(teacher, userInfo);
+            return mapper.mapToTeacherReadOnlyDTO(teacher);
 
         } catch (EntityAlreadyExistsException | EntityNotFoundException e) {
             log.error(e.getMessage());
@@ -82,7 +82,7 @@ public class TeacherServiceImpl implements ITeacherService{
         return teacherRepository.findAll().stream()
                 .map(teacher -> {
                     UserInfo userInfo = userInfoRepository.findByUser(teacher.getUser()).orElseThrow();
-                    return mapper.mapToTeacherReadOnlyDTO(teacher, userInfo);
+                    return mapper.mapToTeacherReadOnlyDTO(teacher);
                 })
                 .toList();
     }
