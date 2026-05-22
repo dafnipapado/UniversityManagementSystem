@@ -1,4 +1,6 @@
 package com.myapp.university.dto;
 
-public record TeacherReadOnlyDTO(String firstname, String lastname, String teacherAm) {
+import java.util.UUID;
+
+public record TeacherReadOnlyDTO(UUID uuid, String firstname, String lastname, String teacherAm) {
 }
