@@ -23,7 +23,7 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class TeacherServiceImpl implements ITeacherService{
+public class TeacherServiceImpl implements ITeacherService {
 
     private final TeacherRepository teacherRepository;
     private final RoleRepository roleRepository;
@@ -33,7 +33,7 @@ public class TeacherServiceImpl implements ITeacherService{
     private final Mapper mapper;
 
     @Override
-    @Transactional (rollbackFor = {EntityAlreadyExistsException.class, EntityNotFoundException.class})
+    @Transactional(rollbackFor = {EntityAlreadyExistsException.class, EntityNotFoundException.class})
     public TeacherReadOnlyDTO saveTeacher(TeacherInsertDTO teacherInsertDTO) throws EntityAlreadyExistsException, EntityNotFoundException {
         try {
             if (teacherInsertDTO.teacherAM() != null && teacherRepository.findByTeacherAM(teacherInsertDTO.teacherAM()).isPresent()) {
@@ -74,7 +74,63 @@ public class TeacherServiceImpl implements ITeacherService{
         }
     }
 
+    @Override
+    public TeacherEditDTO findTeacherByUuid(UUID uuid) throws EntityNotFoundException {
+        Teacher teacher = teacherRepository.findByUuid(uuid).orElseThrow();
+        TeacherEditDTO teacherEditDTO = mapper.mapToTeacherEditDTO(teacher);
+        return teacherEditDTO;
+    }
 
+    @Override
+    @Transactional(rollbackFor = {EntityAlreadyExistsException.class, EntityNotFoundException.class})
+    public TeacherReadOnlyDTO updateTeacher(TeacherEditDTO teacherEditDTO) throws EntityAlreadyExistsException, EntityNotFoundException {
+        try {
+            Teacher teacher = teacherRepository.findByUuid(teacherEditDTO.uuid()).orElseThrow(() -> new EntityNotFoundException("Teacher with uuid = {teacherEditDTO.uuid()} not found.}"));
+
+            //check if teacherAM is changed - if yes, check if new teacherAM already exists
+            if (!(teacherEditDTO.teacherAM().equals(teacher.getTeacherAM()))) {
+                if (teacherRepository.findByTeacherAM((teacherEditDTO.teacherAM())).isPresent()) {
+                    throw new EntityAlreadyExistsException("Teacher with AM = {teacherEditDTO.teacherAM()} already exists.");
+                }
+                teacher.setTeacherAM(teacherEditDTO.teacherAM());
+            }
+
+            teacher.getUser().getUserInfo().setFirstname(teacherEditDTO.firstname());
+            teacher.getUser().getUserInfo().setLastname(teacherEditDTO.lastname());
+            teacher.getUser().getUserInfo().setAfm(teacherEditDTO.afm());
+            teacher.getUser().getUserInfo().setEmail(teacherEditDTO.email());
+            teacher.getUser().getUserInfo().setTelephone(teacherEditDTO.telephone());
+            teacher.getUser().getUserInfo().setZipcode(teacherEditDTO.zipCode());
+
+            //check if region is changed
+            if (!(teacherEditDTO.regionId().equals(teacher.getUser().getUserInfo().getRegion().getId()))) {
+                Region newRegion = regionRepository.findById(teacherEditDTO.regionId()).orElseThrow(() -> new EntityNotFoundException("Region with id = {teacherEditDTO.regionId()} was not found"));
+                newRegion.saveUserInfo(teacher.getUser().getUserInfo());
+            }
+
+            //check if username is changed - if yes, check if new username already exists
+            if (!(teacherEditDTO.username().equals(teacher.getUser().getUsername()))) {
+                if (userRepository.findByUsername(teacherEditDTO.username()).isPresent()) {
+                    throw new EntityAlreadyExistsException("User with username = {teacherEditDTO.username()} already exists.");
+                }
+                teacher.getUser().setUsername(teacherEditDTO.username());
+            }
+
+            teacher.getUser().setPassword(teacherEditDTO.password());
+
+            //update entities
+            userRepository.save(teacher.getUser());
+            userInfoRepository.save(teacher.getUser().getUserInfo());
+            teacherRepository.save(teacher);
+
+            return mapper.mapToTeacherReadOnlyDTO(teacher);
+
+        } catch (EntityAlreadyExistsException | EntityNotFoundException e) {
+            log.error(e.getMessage());
+            throw e;
+        }
+
+    }
 
 
     @Override

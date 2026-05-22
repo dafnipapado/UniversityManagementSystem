@@ -1,7 +1,11 @@
 package com.myapp.university.controller;
 
 import com.myapp.university.dto.RegionReadOnlyDTO;
+import com.myapp.university.dto.TeacherEditDTO;
 import com.myapp.university.dto.TeacherInsertDTO;
+import com.myapp.university.dto.TeacherReadOnlyDTO;
+import com.myapp.university.exception.EntityAlreadyExistsException;
+import com.myapp.university.exception.EntityNotFoundException;
 import com.myapp.university.service.IRegionService;
 import com.myapp.university.service.ITeacherService;
 import com.myapp.university.service.RegionServiceImpl;
@@ -11,9 +15,11 @@ import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 import java.util.UUID;
@@ -64,7 +70,37 @@ public class TeacherController {
         return "teachers/success";
     }
 
+    @GetMapping("/edit/{uuid}")
+    public String getEditTeacher(@PathVariable UUID uuid, Model model) {
+        try{
+            TeacherEditDTO teacherEditDTO = teacherService.findTeacherByUuid(uuid);
+            model.addAttribute("teacherEditDTO", teacherEditDTO);
+        } catch (EntityNotFoundException e) {
+            log.error(e.getMessage());
+        }
+        return "admin/teacher-edit";
+    }
 
+
+    @PostMapping("/edit")
+    public String editTeacher(@Valid @ModelAttribute TeacherEditDTO teacherEditDTO, BindingResult bindingResult, RedirectAttributes redirectAttributes, Model model) throws EntityAlreadyExistsException, EntityNotFoundException {
+        if (bindingResult.hasErrors()) {
+            return "admin/teacher-edit";
+        }
+        try {
+            TeacherReadOnlyDTO teacherReadOnlyDTO = teacherService.updateTeacher(teacherEditDTO);
+            redirectAttributes.addFlashAttribute("teacherReadOnlyDTO", teacherReadOnlyDTO);
+        } catch (EntityAlreadyExistsException | EntityNotFoundException e) {
+            log.error(e.getMessage());
+            return "admin/teacher-edit";
+        }
+        return "redirect:/teachers/update-success";
+    }
+
+    @GetMapping("/update-success")
+    public String updateSuccess(Model model) {
+        return "teachers/update-success";
+    }
 
 
     @ModelAttribute("regionsReadOnlyDTO")
