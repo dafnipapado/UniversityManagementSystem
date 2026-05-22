@@ -15,16 +15,19 @@
                 <th>First Name</th>
                 <th>Last Name</th>
                 <th>Teacher AM</th>
+                <th>Edit</th>
             </tr>
         </thead>
         <tbody>
-            <tr th:each="teacher : ${teachers}">
+            <tr th:each="teacher : ${teachersReadOnlyDTO}">
                 <td th:text="${teacher.firstname}"></td>
                 <td th:text="${teacher.lastname}"></td>
                 <td th:text="${teacher.teacherAm}"></td>
-                <a th:href="@{teachers/edit/{uuid}(uuid=${teacher.uuid})}">
-                    <button class="btn btn-light">Edit</button>
-                </a>
+                <td>
+                    <a th:href="@{/teachers/edit/{uuid}(uuid=${teacher.uuid})}">
+                        <button class="btn btn-light">Edit</button>
+                    </a>
+                </td>
             </tr>
         </tbody>
     </table>
