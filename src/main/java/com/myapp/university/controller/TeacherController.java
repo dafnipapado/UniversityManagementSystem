@@ -107,4 +107,11 @@ public class TeacherController {
     public List<RegionReadOnlyDTO> regions() {
         return regionService.getAllRegions();
     }
+
+    @GetMapping("/view")
+    public String view(Model model) {
+        List<TeacherReadOnlyDTO> teachersReadOnlyDTO = teacherService.viewTeachers();
+        model.addAttribute("teachersReadOnlyDTO", teachersReadOnlyDTO);
+        return "admin/teachers-view";
+    }
 }
