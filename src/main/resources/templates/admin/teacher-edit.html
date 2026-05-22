@@ -10,7 +10,7 @@
 </head>
 <body>
     <form
-            action="post"
+            method="post"
             th:action="@{/teachers/edit}"
             th:object="${teacherEditDTO}"
     >
@@ -42,7 +42,7 @@
                 <input type="text" th:field="*{teacherAM}" class="form-control" required />
             </div>
             <div class="col-lg-6 min-height-100">
-                <label th:for="*{amf}" class="form-label">Afm</label>
+                <label th:for="*{afm}" class="form-label">Afm</label>
                 <input type="text" th:field="*{afm}" class="form-control" required />
             </div>
             <div class="col-lg-6 min-height-100">
@@ -57,11 +57,15 @@
                 <label th:for="regionId" class="form-label">Region</label>
                 <select th:field="*{regionId}" id="regionId" class="form-select" required>
                     <option value="" selected>Select Region</option>
-                    <option value="${regionId}" th:each="region: ${regionsReadOnlyDTO}" th:text="${region.name}"></option>
+                    <option th:each="region : ${regionsReadOnlyDTO}"
+                            th:value="${region.id}"
+                            th:text="${region.name}"
+                            th:selected="${region.id==teacherEditDTO.regionId}">
+                    </option>
                 </select>
             </div>
         </div>
-
+        <button type="submit" class="btn btn-outline-light">Save</button>
     </form>
 </body>
 </html>
