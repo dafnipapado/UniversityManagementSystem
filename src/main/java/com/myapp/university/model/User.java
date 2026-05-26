@@ -25,13 +25,13 @@ public class User extends AbstractEntity{
     @Column
     private String password;
 
-    @OneToOne(mappedBy = "user")
+    @OneToOne(mappedBy = "user", orphanRemoval = true)
     private Teacher teacher;
 
-    @OneToOne(mappedBy = "user")
+    @OneToOne(mappedBy = "user", orphanRemoval = true)
     private Student student;
 
-    @OneToOne(mappedBy = "user")
+    @OneToOne(mappedBy = "user", orphanRemoval = true)
     private UserInfo userInfo;
 
     @ManyToOne(fetch = FetchType.LAZY)
