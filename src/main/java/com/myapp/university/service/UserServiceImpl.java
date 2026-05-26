@@ -38,6 +38,8 @@ public class UserServiceImpl implements IUserService{
                     .orElseThrow(() -> new EntityNotFoundException("No role with id = {userInsertDTO.roleId()} was found."));
             role.addUser(user);
 
+            userRepository.save(user);
+
             return mapper.mapToUserReadOnlyDTO(user);
 
         } catch (EntityAlreadyExistsException | EntityNotFoundException e) {
