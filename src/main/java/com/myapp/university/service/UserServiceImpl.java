@@ -12,6 +12,7 @@ import com.myapp.university.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -22,6 +23,7 @@ public class UserServiceImpl implements IUserService{
     private final Mapper mapper;
 
     @Override
+    @Transactional(rollbackFor = {EntityAlreadyExistsException.class, EntityNotFoundException.class})
     public UserReadOnlyDTO save(UserInsertDTO userInsertDTO) throws EntityAlreadyExistsException, EntityNotFoundException {
         try{
             //check if username already exists
