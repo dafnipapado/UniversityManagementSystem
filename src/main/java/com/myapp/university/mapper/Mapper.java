@@ -1,13 +1,11 @@
 package com.myapp.university.mapper;
 
-import com.myapp.university.dto.RegionReadOnlyDTO;
-import com.myapp.university.dto.TeacherEditDTO;
-import com.myapp.university.dto.TeacherInsertDTO;
-import com.myapp.university.dto.TeacherReadOnlyDTO;
+import com.myapp.university.dto.*;
 import com.myapp.university.model.Teacher;
 import com.myapp.university.model.User;
 import com.myapp.university.model.UserInfo;
 import com.myapp.university.model.static_data.Region;
+import com.myapp.university.model.static_data.Role;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -46,5 +44,17 @@ public class Mapper {
 
     public RegionReadOnlyDTO mapToRegionReadOnlyDTO(Region region) {
         return new RegionReadOnlyDTO(region.getId(), region.getName());
+    }
+
+    public RoleReadOnlyDTO mapToRoleReadOnlyDTO(Role role) {
+        return new RoleReadOnlyDTO(role.getId(), role.getName());
+    }
+
+    public User mapToUserEntity(UserInsertDTO userInsertDTO){
+        return new User(null, userInsertDTO.username(), userInsertDTO.password(), null, null, null, null);
+    }
+
+    public UserReadOnlyDTO mapToUserReadOnlyDTO(User user) {
+        return new UserReadOnlyDTO(user.getUsername(), user.getRole().getName());
     }
 }
