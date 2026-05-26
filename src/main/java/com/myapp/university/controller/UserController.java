@@ -27,6 +27,12 @@ public class UserController {
     private final IRoleService roleService;
     private final IUserService userService;
 
+    @GetMapping({"", "/"})
+    public String index() {
+        return "/admin/users";
+    }
+
+
     @GetMapping("/create")
     public String getCreateUser(Model model) {
         model.addAttribute("userInsertDTO", UserInsertDTO.empty());
