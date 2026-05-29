@@ -22,7 +22,7 @@
         <div class="col-md-8 col-lg-6">
             <div class="card shadow-sm">
                 <div class="card-header bg-primary text-white">
-                    <h2 class="card-title mb-0">Create New Teacher</h2>
+                    <h2 class="card-title mb-0">Sign up</h2>
                 </div>
 
                 <div th:if="${errorMessage}" class="error">
@@ -45,21 +45,6 @@
                             <input type="text" class="form-control" th:field="*{lastname}" required>
                             <div th:if="${#fields.hasErrors('lastname')}">
                                 <p th:classappend="${#fields.hasErrors('lastname')} ? 'error'" th:errors="*{lastname}"></p>
-                            </div>
-                        </div>
-                        <!-- Username Field -->
-                        <div class="mb-3">
-                            <label th:for="username" class="form-label">Username</label>
-                            <input type="text" class="form-control" th:field="*{username}" required>
-                            <div th:if="${#fields.hasErrors('username')}">
-                                <p th:classappend="${#fields.hasErrors('username')} ? 'error'" th:errors="*{username}"></p>
-                            </div>
-                        </div>
-                        <div class="mb-3">
-                            <label th:for="password" class="form-label">Password</label>
-                            <input type="password" class="form-control" th:field="*{password}" required>
-                            <div th:if="${#fields.hasErrors('password')}">
-                                <p th:classappend="${#fields.hasErrors('password')} ? 'error'" th:errors="*{password}"></p>
                             </div>
                         </div>
                         <!-- email -->
@@ -114,7 +99,7 @@
                             </div>
                         </div>
                         <div class="d-grid gap-2">
-                            <button type="submit" class="btn btn-primary btn-lg">Create Teacher</button>
+                            <button type="submit" class="btn btn-primary btn-lg">Save</button>
                         </div>
                     </form>
                 </div>
