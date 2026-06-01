@@ -42,32 +42,30 @@ public class TeacherController {
     public String getCreateTeacher(Model model){
         model.addAttribute("teacherInsertDTO", TeacherInsertDTO.empty());
         model.addAttribute("regionReadOnlyDTO", regionService.getAllRegions());
-        return "admin/teacher-create";
+        return "teachers/teacher-create";
     }
 
     @PostMapping("/create")
     public String createTeacher(@Valid @ModelAttribute("teacherInsertDTO") TeacherInsertDTO dto,
                               BindingResult bindingResult, Model model) {
-//        System.out.println("In the controller");
-//        log.error("REACHED CONTROLLER");
         if (bindingResult.hasErrors()) {
 //            log.error("Validation errors: " + bindingResult.getAllErrors());
-            return "admin/teacher-create";
+            return "teachers/teacher-create";
         }
-        model.addAttribute("teacherInsertDTO", dto);
         try{
 //            log.error("username: " + dto.username());
             teacherService.saveTeacher(dto);
 //            log.error("Teacher saved successfully");
         } catch (Exception e) {
-            return "admin/teacher-create";
+            return "teachers/teacher-create";
         }
         return "redirect:/teachers/success";
     }
 
     @GetMapping("/success")
     public String successSave(Model model){
-        return "teachers/success";
+        model.addAttribute("successMessage", "Your info was saved successfully");
+        return "/teachers";
     }
 
     @GetMapping("/edit/{uuid}")
