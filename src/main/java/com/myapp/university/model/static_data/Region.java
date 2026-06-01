@@ -2,11 +2,9 @@ package com.myapp.university.model.static_data;
 
 import com.myapp.university.model.UserInfo;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -25,10 +23,16 @@ public class Region {
     @Column(unique = true)
     private String name;
 
+    @Setter(AccessLevel.PRIVATE)
+    @Getter(AccessLevel.NONE)
     @OneToMany(mappedBy = "region")
     private Set<UserInfo> userInfo;
 
-    public void saveUserInfo(UserInfo info) {
+    public Set<UserInfo> getAllUserInfos() {
+        return Collections.unmodifiableSet(userInfo);
+    }
+
+    public void addUserInfo(UserInfo info) {
         if (userInfo.isEmpty()) userInfo = new HashSet<>();
         userInfo.add(info);
         info.setRegion(this);
