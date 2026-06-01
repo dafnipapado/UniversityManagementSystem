@@ -14,6 +14,7 @@ import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -49,13 +50,10 @@ public class TeacherController {
     public String createTeacher(@Valid @ModelAttribute("teacherInsertDTO") TeacherInsertDTO dto,
                               BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
-//            log.error("Validation errors: " + bindingResult.getAllErrors());
             return "teachers/teacher-create";
         }
         try{
-//            log.error("username: " + dto.username());
             teacherService.saveTeacher(dto);
-//            log.error("Teacher saved successfully");
         } catch (Exception e) {
             return "teachers/teacher-create";
         }
@@ -65,7 +63,7 @@ public class TeacherController {
     @GetMapping("/success")
     public String successSave(Model model){
         model.addAttribute("successMessage", "Your info was saved successfully");
-        return "/teachers";
+        return "/teachers/index";
     }
 
     @GetMapping("/edit/{uuid}")
