@@ -38,5 +38,15 @@ public class Capability {
         return Collections.unmodifiableSet(roles);
     }
 
+    @Override
+    public final boolean equals(Object o) {
+        if (!(o instanceof Capability capability)) return false;
 
+        return Objects.equals(getId(), capability.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(getId());
+    }
 }

@@ -57,4 +57,14 @@ public class Role {
         return Collections.unmodifiableSet(users);
     }
 
+    @Override
+    public final boolean equals(Object o) {
+        if (!(o instanceof Role role)) return false;
+        return getId().equals(role.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return getId().hashCode();
+    }
 }

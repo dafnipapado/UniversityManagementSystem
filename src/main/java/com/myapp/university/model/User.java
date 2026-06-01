@@ -47,6 +47,17 @@ public class User extends AbstractEntity implements UserDetails {
     private Role role;
 
     @Override
+    public final boolean equals(Object o) {
+        if (!(o instanceof User user)) return false;
+        return getId().equals(user.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return getId().hashCode();
+    }
+
+    @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
         grantedAuthorities.add(new SimpleGrantedAuthority("ROLE_" + role.getName()));

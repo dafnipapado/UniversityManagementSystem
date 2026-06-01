@@ -43,4 +43,15 @@ public class Teacher extends AbstractEntity{
         this.user = user;
         user.setTeacher(this);
     }
+
+    @Override
+    public final boolean equals(Object o) {
+        if (!(o instanceof Teacher teacher)) return false;
+        return getId().equals(teacher.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return getId().hashCode();
+    }
 }

@@ -49,4 +49,15 @@ public class UserInfo {
         this.user = user;
         user.setUserInfo(this);
     }
+
+    @Override
+    public final boolean equals(Object o) {
+        if (!(o instanceof UserInfo userInfo)) return false;
+        return getId().equals(userInfo.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return getId().hashCode();
+    }
 }
