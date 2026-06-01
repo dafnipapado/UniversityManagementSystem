@@ -39,4 +39,8 @@ public class Teacher extends AbstractEntity{
     @OneToMany(mappedBy = "teacher")
     private Set<CourseOffering> offerings;
 
+    public void addUser(User user) {
+        this.user = user;
+        user.setTeacher(this);
+    }
 }

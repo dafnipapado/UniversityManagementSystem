@@ -41,4 +41,9 @@ public class Student extends AbstractEntity{
 
     @OneToMany(mappedBy = "student")
     private Set<Enrollment> enrollments;
+
+    public void addUser(User user) {
+        this.user = user;
+        user.setStudent(this);
+    }
 }
