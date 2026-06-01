@@ -15,11 +15,7 @@ public class Mapper {
         return new Teacher(null, dto.teacherAM(), null, null, null);
     }
 
-    public User mapToUserTeacherEntity(TeacherInsertDTO dto) {
-        return new User(null, dto.username(), dto.password(), null, null, null, null);
-    }
-
-    public UserInfo mapToUserInfoTeacherEntity(TeacherInsertDTO dto) {
+    public UserInfo mapToUserInfoEntity(TeacherInsertDTO dto) {
         return new UserInfo(null, dto.firstname(), dto.lastname(), dto.afm(), dto.email(), dto.telephone(), dto.zipCode(), null, null);
     }
 
