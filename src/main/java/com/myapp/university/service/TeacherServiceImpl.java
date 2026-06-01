@@ -14,6 +14,7 @@ import com.myapp.university.model.static_data.Region;
 import com.myapp.university.repository.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,39 +34,32 @@ public class TeacherServiceImpl implements ITeacherService {
     private final Mapper mapper;
 
     @Override
+    @PreAuthorize("hasAuthority('INSERT_TEACHER')")
     @Transactional(rollbackFor = {EntityAlreadyExistsException.class, EntityNotFoundException.class})
     public TeacherReadOnlyDTO saveTeacher(TeacherInsertDTO teacherInsertDTO) throws EntityAlreadyExistsException, EntityNotFoundException {
         try {
             if (teacherInsertDTO.teacherAM() != null && teacherRepository.findByTeacherAM(teacherInsertDTO.teacherAM()).isPresent()) {
-                throw new EntityAlreadyExistsException("Teacher with AM = {teacherInsertDTO.teacherAM()} already exists.");
+                throw new EntityAlreadyExistsException("Teacher with AM = " + teacherInsertDTO.teacherAM() + " already exists.");
             }
 
             Long teacherRoleId = 2L;
 
-            //save user
-            User user = mapper.mapToUserTeacherEntity(teacherInsertDTO);
-
-            Role role = roleRepository.findById(teacherRoleId).orElseThrow(() -> new EntityNotFoundException("Role with id = {teacherRoleId} was not found."));
-            role.addUser(user);
-
-            User savedUser = userRepository.save(user);
-
-            //get user's id
-            Long insertedUserId = savedUser.getId();
-
-            //save userInfo
-            UserInfo userInfo = mapper.mapToUserInfoTeacherEntity(teacherInsertDTO);
-            userInfo.setUser(userRepository.findById(insertedUserId).orElseThrow());
-            Region region = regionRepository.findById(teacherInsertDTO.regionId()).orElseThrow();
-            region.saveUserInfo(userInfo);
-            userInfoRepository.save(userInfo);
+            User savedUser = userRepository.findByUsername(teacherInsertDTO.username())
+                    .orElseThrow(() -> new EntityNotFoundException("User with username = " + teacherInsertDTO.username() + " doesn't exist"));
 
             //save teacher
             Teacher teacher = mapper.mapToTeacherEntity(teacherInsertDTO);
-            teacher.setUser(userRepository.findById(insertedUserId).orElseThrow());
+            teacher.addUser(savedUser);
             teacherRepository.save(teacher);
 
-            //return teacherReadOnlyDTO
+            //save userInfo
+            UserInfo userInfo = mapper.mapToUserInfoEntity(teacherInsertDTO);
+            userInfo.addUser(savedUser);
+
+            Region region = regionRepository.findById(teacherInsertDTO.regionId()).orElseThrow();
+            region.addUserInfo(userInfo);
+            userInfoRepository.save(userInfo);
+
             return mapper.mapToTeacherReadOnlyDTO(teacher);
 
         } catch (EntityAlreadyExistsException | EntityNotFoundException e) {
@@ -105,7 +99,7 @@ public class TeacherServiceImpl implements ITeacherService {
             //check if region is changed
             if (!(teacherEditDTO.regionId().equals(teacher.getUser().getUserInfo().getRegion().getId()))) {
                 Region newRegion = regionRepository.findById(teacherEditDTO.regionId()).orElseThrow(() -> new EntityNotFoundException("Region with id = {teacherEditDTO.regionId()} was not found"));
-                newRegion.saveUserInfo(teacher.getUser().getUserInfo());
+                newRegion.addUserInfo(teacher.getUser().getUserInfo());
             }
 
             //check if username is changed - if yes, check if new username already exists
