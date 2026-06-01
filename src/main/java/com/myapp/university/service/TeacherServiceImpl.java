@@ -15,6 +15,7 @@ import com.myapp.university.repository.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -44,8 +45,12 @@ public class TeacherServiceImpl implements ITeacherService {
 
             Long teacherRoleId = 2L;
 
-            User savedUser = userRepository.findByUsername(teacherInsertDTO.username())
-                    .orElseThrow(() -> new EntityNotFoundException("User with username = " + teacherInsertDTO.username() + " doesn't exist"));
+            String username = SecurityContextHolder.getContext().getAuthentication().getName();
+
+            log.error("Username: " + username);
+
+            User savedUser = userRepository.findByUsername(username)
+                    .orElseThrow(() -> new EntityNotFoundException("User with username = " + username + " doesn't exist"));
 
             //save teacher
             Teacher teacher = mapper.mapToTeacherEntity(teacherInsertDTO);

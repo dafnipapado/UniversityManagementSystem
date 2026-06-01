@@ -30,7 +30,6 @@
 
                 <div class="card-body">
                     <form method="post" th:object="${teacherInsertDTO}" th:action="@{/teachers/create}" >
-                        <input type="hidden" th:field="*{username}" th:value="${#authentication.name}">
                         <!-- First name -->
                         <div class="mb-3">
                             <label th:for="firstname" class="form-label">First name</label>
