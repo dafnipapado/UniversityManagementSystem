@@ -1,11 +1,10 @@
 package com.myapp.university.model.static_data;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
+import java.util.Collections;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -26,10 +25,18 @@ public class Capability {
     @Column
     private String description;
 
-    @ManyToMany
+    @Setter(AccessLevel.PRIVATE)
+    @Getter(AccessLevel.NONE)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
     name = "roles_capabilities",
     joinColumns = @JoinColumn(name = "capability_id"),
     inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
+
+    public Set<Role> getAllRoles() {
+        return Collections.unmodifiableSet(roles);
+    }
+
+
 }
