@@ -11,6 +11,8 @@ import com.myapp.university.repository.RoleRepository;
 import com.myapp.university.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,8 +23,10 @@ public class UserServiceImpl implements IUserService{
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final Mapper mapper;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @Transactional(rollbackFor = {EntityAlreadyExistsException.class, EntityNotFoundException.class})
     public UserReadOnlyDTO save(UserInsertDTO userInsertDTO) throws EntityAlreadyExistsException, EntityNotFoundException {
         try{
@@ -32,6 +36,7 @@ public class UserServiceImpl implements IUserService{
             }
 
             User user = mapper.mapToUserEntity(userInsertDTO);
+            user.setPassword(passwordEncoder.encode(userInsertDTO.password()));
 
             //set role to user
             Role role = roleRepository.findById(userInsertDTO.roleId())
