@@ -5,7 +5,9 @@ import com.myapp.university.dto.TeacherInsertDTO;
 import com.myapp.university.dto.TeacherReadOnlyDTO;
 import com.myapp.university.exception.EntityAlreadyExistsException;
 import com.myapp.university.exception.EntityNotFoundException;
+import com.myapp.university.model.User;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.UUID;
 
@@ -16,6 +18,8 @@ public interface ITeacherService {
     TeacherEditDTO findTeacherByUuid(UUID uuid) throws EntityNotFoundException;
     TeacherReadOnlyDTO updateTeacher(TeacherEditDTO teacherEditDTO) throws EntityAlreadyExistsException, EntityNotFoundException;
     List<TeacherReadOnlyDTO> viewTeachers();
+    TeacherReadOnlyDTO getIndex() throws EntityNotFoundException;
+    User getUserByUsername(String username) throws EntityNotFoundException;
 
 
 }
