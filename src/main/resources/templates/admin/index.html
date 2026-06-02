@@ -14,22 +14,24 @@
 </head>
 <body>
 
-<div th:if="${successMessage}">
-    <p th:text="${successMessage}"></p>
-</div>
-<br>
+    <div th:replace="~{fragments/header :: headerFragment}"></div>
 
-<a th:href="@{/teachers/create}" class="btn btn-light btn-lg px-4 btn-success-custom">
-    <i class="bi bi-person-plus me-2"></i>Add a new teacher
-</a>
-<a th:href="@{/students/register}" class="btn btn-light btn-lg px-4 btn-success-custom">
-    <i class="bi bi-person-plus me-2"></i>Add a new student
-</a>
-<a th:href="@{/users/create}" class="btn btn-light btn-lg px-4 btn-success-custom">
-    <i class="bi bi-person-plus me-2"></i>Add a new user
-</a>
-<a th:href="@{/teachers/view}" class="btn btn-light">
-    View teachers
-</a>
+    <div th:if="${successMessage}">
+        <p th:text="${successMessage}"></p>
+    </div>
+    <br>
+
+    <a th:href="@{/teachers/create}" class="btn btn-light btn-lg px-4 btn-success-custom">
+        <i class="bi bi-person-plus me-2"></i>Add a new teacher
+    </a>
+    <a th:href="@{/students/register}" class="btn btn-light btn-lg px-4 btn-success-custom">
+        <i class="bi bi-person-plus me-2"></i>Add a new student
+    </a>
+    <a th:href="@{/users/create}" class="btn btn-light btn-lg px-4 btn-success-custom">
+        <i class="bi bi-person-plus me-2"></i>Add a new user
+    </a>
+    <a th:href="@{/teachers/view}" class="btn btn-light">
+        View teachers
+    </a>
 </body>
 </html>
