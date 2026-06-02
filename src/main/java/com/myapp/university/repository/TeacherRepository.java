@@ -8,7 +8,6 @@ import java.util.UUID;
 
 public interface TeacherRepository extends JpaRepository<Teacher, Long> {
 
-    Optional<Teacher> findById(int id);
     Optional<Teacher> findByTeacherAM(String teacherAM);
     Optional<Teacher> findByUuid(UUID uuid);
 
