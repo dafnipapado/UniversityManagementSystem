@@ -22,6 +22,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.UUID;
 
@@ -35,7 +36,14 @@ public class TeacherController {
     private final IRegionService regionService;
 
     @GetMapping({"", "/"})
-    public String index(){
+    public String index(Model model){
+        try{
+            TeacherReadOnlyDTO teacherReadOnlyDTO = teacherService.getIndex();
+            model.addAttribute("teacherReadOnlyDTO", teacherReadOnlyDTO);
+        } catch(EntityNotFoundException e) {
+//            e.getMessage();
+            //return error page
+        }
         return "/teachers/index";
     }
 
@@ -74,28 +82,29 @@ public class TeacherController {
         } catch (EntityNotFoundException e) {
             log.error(e.getMessage());
         }
-        return "admin/teacher-edit";
+        return "teachers/teacher-edit";
     }
 
 
     @PostMapping("/edit")
     public String editTeacher(@Valid @ModelAttribute TeacherEditDTO teacherEditDTO, BindingResult bindingResult, RedirectAttributes redirectAttributes, Model model) throws EntityAlreadyExistsException, EntityNotFoundException {
         if (bindingResult.hasErrors()) {
-            return "admin/teacher-edit";
+            return "teachers/teacher-edit";
         }
         try {
             TeacherReadOnlyDTO teacherReadOnlyDTO = teacherService.updateTeacher(teacherEditDTO);
             redirectAttributes.addFlashAttribute("teacherReadOnlyDTO", teacherReadOnlyDTO);
         } catch (EntityAlreadyExistsException | EntityNotFoundException e) {
             log.error(e.getMessage());
-            return "admin/teacher-edit";
+            return "teachers/teacher-edit";
         }
         return "redirect:/teachers/update-success";
     }
 
     @GetMapping("/update-success")
     public String updateSuccess(Model model) {
-        return "teachers/update-success";
+        model.addAttribute("successMessage", "Personal info has been updated successfully.");
+        return "teachers/index";
     }
 
 
