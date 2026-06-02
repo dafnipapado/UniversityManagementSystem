@@ -15,10 +15,13 @@ import com.myapp.university.repository.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.UUID;
 
@@ -33,6 +36,15 @@ public class TeacherServiceImpl implements ITeacherService {
     private final RegionRepository regionRepository;
     private final UserInfoRepository userInfoRepository;
     private final Mapper mapper;
+    private final PasswordEncoder passwordEncoder;
+
+    @Override
+    @PreAuthorize("hasAuthority('ROLE_TEACHER')")
+    public TeacherReadOnlyDTO getIndex() throws EntityNotFoundException {
+        User user = getUserByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+        Teacher teacher = user.getTeacher();
+        return mapper.mapToTeacherReadOnlyDTO(teacher);
+    }
 
     @Override
     @PreAuthorize("hasAuthority('INSERT_TEACHER')")
@@ -46,11 +58,7 @@ public class TeacherServiceImpl implements ITeacherService {
             Long teacherRoleId = 2L;
 
             String username = SecurityContextHolder.getContext().getAuthentication().getName();
-
-            log.error("Username: " + username);
-
-            User savedUser = userRepository.findByUsername(username)
-                    .orElseThrow(() -> new EntityNotFoundException("User with username = " + username + " doesn't exist"));
+            User savedUser = getUserByUsername(username);
 
             //save teacher
             Teacher teacher = mapper.mapToTeacherEntity(teacherInsertDTO);
@@ -115,7 +123,7 @@ public class TeacherServiceImpl implements ITeacherService {
                 teacher.getUser().setUsername(teacherEditDTO.username());
             }
 
-            teacher.getUser().setPassword(teacherEditDTO.password());
+            teacher.getUser().setPassword(passwordEncoder.encode(teacherEditDTO.password()));
 
             //update entities
             userRepository.save(teacher.getUser());
@@ -140,5 +148,12 @@ public class TeacherServiceImpl implements ITeacherService {
                     return mapper.mapToTeacherReadOnlyDTO(teacher);
                 })
                 .toList();
+    }
+
+    @Override
+    public User getUserByUsername(String username) throws EntityNotFoundException {
+        return userRepository.findByUsername(username)
+                .orElseThrow(() -> new EntityNotFoundException("User with username = " + username + " doesn't exist"));
+
     }
 }
