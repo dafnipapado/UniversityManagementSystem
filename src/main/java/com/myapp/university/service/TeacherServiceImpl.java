@@ -70,8 +70,8 @@ public class TeacherServiceImpl implements ITeacherService {
             //save userInfo
             UserInfo userInfo = mapper.mapToUserInfoEntity(teacherInsertDTO);
             userInfo.addUser(savedUser);
-
-            Region region = regionRepository.findById(teacherInsertDTO.regionId()).orElseThrow();
+            Region region = regionRepository.findById(teacherInsertDTO.regionId())
+                    .orElseThrow(() -> new EntityNotFoundException("Region with id = {teacherInsertDTO.regionId()} not found."));
             region.addUserInfo(userInfo);
             userInfoRepository.save(userInfo);
 
