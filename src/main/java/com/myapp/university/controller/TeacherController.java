@@ -38,7 +38,7 @@ public class TeacherController {
     private final ITeacherService teacherService;
     private final IRegionService regionService;
 
-    @GetMapping({"", "/"})
+    @GetMapping({"", "/", "/index"})
     public String index(Model model){
         try{
             TeacherReadOnlyDTO teacherReadOnlyDTO = teacherService.getIndex();
@@ -72,9 +72,9 @@ public class TeacherController {
     }
 
     @GetMapping("/success")
-    public String successSave(Model model){
-        model.addAttribute("successMessage", "Your info was saved successfully");
-        return "/teachers/index";
+    public String successSave(RedirectAttributes redirectAttributes){
+        redirectAttributes.addFlashAttribute("successMessage", "Your info was saved successfully");
+        return "redirect:/teachers/index";
     }
 
     @GetMapping("/edit/{uuid}")
@@ -111,10 +111,16 @@ public class TeacherController {
     }
 
     @PostMapping("/delete/{uuid}")
-    public String delete(@PathVariable UUID uuid, Model model) {
-        teacherService.deleteTeacher(uuid);
-        model.addAttribute("successMessage", "Teacher deleted successfully");
-        return "admin/teachers-view";
+    public String delete(@PathVariable UUID uuid, RedirectAttributes redirectAttributes) {
+        try{
+            teacherService.deleteTeacher(uuid);
+            redirectAttributes.addFlashAttribute("successMessage", "Teacher deleted successfully");
+            return "redirect:/teachers/view";
+        } catch (EntityNotFoundException e) {
+            log.error(e.getMessage());
+            return "admin/teachers-view";
+        }
+
     }
 
     @GetMapping("/view")
