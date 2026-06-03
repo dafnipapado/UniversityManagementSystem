@@ -142,15 +142,7 @@ public class TeacherServiceImpl implements ITeacherService {
     }
 
 
-    @Override
-    public List<TeacherReadOnlyDTO> viewTeachers() {
-        return teacherRepository.findAll().stream()
-                .map(teacher -> {
-                    UserInfo userInfo = userInfoRepository.findByUser(teacher.getUser()).orElseThrow();
-                    return mapper.mapToTeacherReadOnlyDTO(teacher);
-                })
-                .toList();
-    }
+
 
     @Override
     public User getUserByUsername(String username) throws EntityNotFoundException {

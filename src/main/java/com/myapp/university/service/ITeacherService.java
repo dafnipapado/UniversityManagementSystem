@@ -19,7 +19,6 @@ public interface ITeacherService {
     TeacherReadOnlyDTO saveTeacher(TeacherInsertDTO teacherInsertDTO) throws EntityAlreadyExistsException, EntityNotFoundException;
     TeacherEditDTO findTeacherByUuid(UUID uuid) throws EntityNotFoundException;
     TeacherReadOnlyDTO updateTeacher(TeacherEditDTO teacherEditDTO) throws EntityAlreadyExistsException, EntityNotFoundException;
-    List<TeacherReadOnlyDTO> viewTeachers();
     TeacherReadOnlyDTO getIndex() throws EntityNotFoundException;
     User getUserByUsername(String username) throws EntityNotFoundException;
     Page<TeacherReadOnlyDTO> getTeachersPaginated(Pageable pageable);

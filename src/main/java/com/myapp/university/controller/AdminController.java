@@ -24,10 +24,4 @@ public class AdminController {
         return "admin/index";
     }
 
-    @GetMapping("/teachers")
-    public String viewTeachers(Model model) {
-        List<TeacherReadOnlyDTO> teachers = teacherService.viewTeachers();
-        model.addAttribute("teachers", teachers);
-        return "admin/teachers-view";
-    }
 }
