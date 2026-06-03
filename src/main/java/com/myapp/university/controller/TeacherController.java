@@ -110,6 +110,13 @@ public class TeacherController {
         return "teachers/index";
     }
 
+    @PostMapping("/delete/{uuid}")
+    public String delete(@PathVariable UUID uuid, Model model) {
+        teacherService.deleteTeacher(uuid);
+        model.addAttribute("successMessage", "Teacher deleted successfully");
+        return "admin/teachers-view";
+    }
+
     @GetMapping("/view")
     public String getTeachersPaginated(@PageableDefault(page = 0, size = 5, sort = "teacherAM") Pageable pageable, Model model){
         Page<TeacherReadOnlyDTO> teachersPaginated = teacherService.getTeachersPaginated(pageable);

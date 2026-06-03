@@ -141,7 +141,13 @@ public class TeacherServiceImpl implements ITeacherService {
 
     }
 
-
+    @Override
+    @PreAuthorize("hasAuthority('DELETE_TEACHER')")
+    public void deleteTeacher(UUID uuid) {
+        Teacher teacher = teacherRepository.findByUuid(uuid).orElseThrow();
+        teacher.getUser().softDelete();
+        teacher.softDelete();
+    }
 
 
     @Override

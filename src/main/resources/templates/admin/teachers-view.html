@@ -17,7 +17,7 @@
                 <th>First Name</th>
                 <th>Last Name</th>
                 <th>Teacher AM</th>
-                <th>Edit</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -29,6 +29,9 @@
                     <a th:href="@{/teachers/edit/{uuid}(uuid=${teacher.uuid})}">
                         <button class="btn btn-light">Edit</button>
                     </a>
+                    <form method="post" th:action="@{/teachers/delete/{uuid}(uuid=${teacher.uuid})}">
+                        <button type="submit" class="btn btn-light">Delete</button>
+                    </form>
                 </td>
             </tr>
         </tbody>
