@@ -143,10 +143,17 @@ public class TeacherServiceImpl implements ITeacherService {
 
     @Override
     @PreAuthorize("hasAuthority('DELETE_TEACHER')")
-    public void deleteTeacher(UUID uuid) {
-        Teacher teacher = teacherRepository.findByUuid(uuid).orElseThrow();
-        teacher.getUser().softDelete();
-        teacher.softDelete();
+    @Transactional(rollbackFor = EntityNotFoundException.class)
+    public void deleteTeacher(UUID uuid) throws EntityNotFoundException {
+        try{
+            Teacher teacher = teacherRepository.findByUuid(uuid).orElseThrow(() -> new EntityNotFoundException("Teacher with uuid = {uuid} was not found."));
+            teacher.getUser().softDelete();
+            teacher.softDelete();
+        } catch (EntityNotFoundException e) {
+            log.error("Deletion of teacher with uuid = {uuid} failed.");
+            throw e;
+        }
+
     }
 
 
