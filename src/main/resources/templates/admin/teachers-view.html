@@ -21,7 +21,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr th:each="teacher : ${teachersReadOnlyDTO}">
+            <tr th:each="teacher : ${teachers}">
                 <td th:text="${teacher.firstname}"></td>
                 <td th:text="${teacher.lastname}"></td>
                 <td th:text="${teacher.teacherAm}"></td>
@@ -33,5 +33,23 @@
             </tr>
         </tbody>
     </table>
+
+    <div class="pagination-controls">
+        <div th:if="${page.first} AND ${!(page.hasContent)}">No teachers found.</div>
+
+        <a th:if="${!page.first}" th:href="@{/teachers/view(page=0, size=${page.size})}">&laquo;</a>
+        <span th:if="${page.first}" class="disabled">&laquo;</span>
+
+        <a th:if="${!page.first}" th:href="@{/teachers/view(page=${page.number - 1}, size=${page.size})}">&lsaquo;</a>
+        <span th:if="${page.first}" class="disabled">&lsaquo;</span>
+
+        <a th:href="@{/teachers/view(page=${page.number}, size=${page.size})}" th:text="${page.number + 1}"></a>
+
+        <a th:if="${!page.last}" th:href="/teachers/view(page=${page.number + 1}, size=${page.size})">&rsaquo;</a>
+        <span th:if="${page.last}" class="disabled">&rsaquo;</span>
+
+        <a th:if="${!page.last}" th:href="/teachers/view(page=${page.total - 1}, size=${page.size})">&raquo;</a>
+        <span th:if="${page.last}" class="disabled">&raquo;</span>
+    </div>
 </body>
 </html>

@@ -14,6 +14,8 @@ import com.myapp.university.model.static_data.Region;
 import com.myapp.university.repository.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -155,5 +157,13 @@ public class TeacherServiceImpl implements ITeacherService {
         return userRepository.findByUsername(username)
                 .orElseThrow(() -> new EntityNotFoundException("User with username = " + username + " doesn't exist"));
 
+    }
+
+    @Override
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    public Page<TeacherReadOnlyDTO> getTeachersPaginated(Pageable pageable) {
+        Page<Teacher> teacherPage = teacherRepository.findAll(pageable);
+        log.debug("Get paginated return successfully page={} and size={}", teacherPage.getNumber(), teacherPage.getSize());
+        return teacherPage.map(mapper::mapToTeacherReadOnlyDTO);
     }
 }

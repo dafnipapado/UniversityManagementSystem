@@ -6,6 +6,8 @@ import com.myapp.university.dto.TeacherReadOnlyDTO;
 import com.myapp.university.exception.EntityAlreadyExistsException;
 import com.myapp.university.exception.EntityNotFoundException;
 import com.myapp.university.model.User;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.security.Principal;
 import java.util.List;
@@ -20,6 +22,7 @@ public interface ITeacherService {
     List<TeacherReadOnlyDTO> viewTeachers();
     TeacherReadOnlyDTO getIndex() throws EntityNotFoundException;
     User getUserByUsername(String username) throws EntityNotFoundException;
+    Page<TeacherReadOnlyDTO> getTeachersPaginated(Pageable pageable);
 
 
 }

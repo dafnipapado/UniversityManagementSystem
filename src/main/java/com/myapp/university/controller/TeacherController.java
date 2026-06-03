@@ -14,6 +14,9 @@ import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -107,16 +110,18 @@ public class TeacherController {
         return "teachers/index";
     }
 
+    @GetMapping("/view")
+    public String getTeachersPaginated(@PageableDefault(page = 0, size = 5, sort = "teacherAM") Pageable pageable, Model model){
+        Page<TeacherReadOnlyDTO> teachersPaginated = teacherService.getTeachersPaginated(pageable);
+        model.addAttribute("teachers", teachersPaginated.getContent());
+        model.addAttribute("page", teachersPaginated);
+        return "admin/teachers-view";
+    }
+
 
     @ModelAttribute("regionsReadOnlyDTO")
     public List<RegionReadOnlyDTO> regions() {
         return regionService.getAllRegions();
     }
 
-    @GetMapping("/view")
-    public String view(Model model) {
-        List<TeacherReadOnlyDTO> teachersReadOnlyDTO = teacherService.viewTeachers();
-        model.addAttribute("teachersReadOnlyDTO", teachersReadOnlyDTO);
-        return "admin/teachers-view";
-    }
 }
