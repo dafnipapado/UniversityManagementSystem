@@ -46,12 +46,12 @@
         <a th:if="${!page.first}" th:href="@{/teachers/view(page=${page.number - 1}, size=${page.size})}">&lsaquo;</a>
         <span th:if="${page.first}" class="disabled">&lsaquo;</span>
 
-        <a th:href="@{/teachers/view(page=${page.number}, size=${page.size})}" th:text="${page.number + 1}"></a>
+        <span th:text="${page.number + 1}"></span>
 
-        <a th:if="${!page.last}" th:href="/teachers/view(page=${page.number + 1}, size=${page.size})">&rsaquo;</a>
+        <a th:if="${!page.last}" th:href="@{/teachers/view(page=${page.number + 1}, size=${page.size})}">&rsaquo;</a>
         <span th:if="${page.last}" class="disabled">&rsaquo;</span>
 
-        <a th:if="${!page.last}" th:href="/teachers/view(page=${page.total - 1}, size=${page.size})">&raquo;</a>
+        <a th:if="${!page.last}" th:href="@{/teachers/view(page=${page.totalPages - 1}, size=${page.size})}">&raquo;</a>
         <span th:if="${page.last}" class="disabled">&raquo;</span>
     </div>
 </body>
