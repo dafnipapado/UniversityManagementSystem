@@ -88,6 +88,7 @@ public class TeacherServiceImpl implements ITeacherService {
     }
 
     @Override
+    @PreAuthorize("hasAuthority('EDIT_TEACHER')")
     @Transactional(rollbackFor = {EntityAlreadyExistsException.class, EntityNotFoundException.class})
     public TeacherReadOnlyDTO updateTeacher(TeacherEditDTO teacherEditDTO) throws EntityAlreadyExistsException, EntityNotFoundException {
         try {
