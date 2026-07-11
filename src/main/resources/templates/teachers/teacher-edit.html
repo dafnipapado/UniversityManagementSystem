@@ -19,49 +19,49 @@
 
         <div class="row">
             <div class="col-lg-6 min-height-100">
-                <label th:for="*{firstname}" class="form-label"></label><br>
-                <input type="text" th:field="*{firstname}" class="form-control" required />
+                <label class="form-label"></label><br>
+                <input type="text" th:field="*{userInfoEditDTO.firstname}" class="form-control" required />
             </div>
             <div class="col-lg-3 min-height-100">
-                <label th:for="*{lastname}" class="form-label">Lastname</label>
-                <input type="text" th:field="*{lastname}" class="form-control" required/>
+                <label class="form-label">Lastname</label>
+                <input type="text" th:field="*{userInfoEditDTO.lastname}" class="form-control" required/>
             </div>
             <div class="col-lg-6 min-height-100">
-                <label th:for="*{username}" class="form-label">Username</label>
-                <input type="text" th:field="*{username}" class="form-control" required />
+                <label class="form-label">Username</label>
+                <input type="text" th:field="*{userEditDTO.username}" class="form-control" required />
             </div>
             <div class="col-lg-3 min-height-100">
-                <label th:for="*{password}" class="form-label">Password</label>
-                <input type="password" th:field="*{password}" class="form-control" required />
+                <label class="form-label">Password</label>
+                <input type="password" th:field="*{userEditDTO.password}" class="form-control" required />
             </div>
             <div class="col-lg-6 min-height-100">
-                <label th:for="*{email}" class="form-label">Email</label>
-                <input type="text" th:field="*{email}" class="form-control" required />
+                <label class="form-label">Email</label>
+                <input type="text" th:field="*{userInfoEditDTO.email}" class="form-control" required />
             </div>
             <div class="col-lg-6 min-height-100">
-                <label th:for="*{teacherAM}" class="form-label">Teacher AM</label>
+                <label class="form-label">Teacher AM</label>
                 <input type="text" th:field="*{teacherAM}" class="form-control" required />
             </div>
             <div class="col-lg-6 min-height-100">
-                <label th:for="*{afm}" class="form-label">Afm</label>
-                <input type="text" th:field="*{afm}" class="form-control" required />
+                <label class="form-label">Afm</label>
+                <input type="text" th:field="*{userInfoEditDTO.afm}" class="form-control" required />
             </div>
             <div class="col-lg-6 min-height-100">
-                <label th:for="*{telephone}" class="form-label">Telephone number</label>
-                <input type="text" th:field="*{telephone}" class="form-control" required />
+                <label class="form-label">Telephone number</label>
+                <input type="text" th:field="*{userInfoEditDTO.telephone}" class="form-control" required />
             </div>
             <div class="col-lg-6 min-height-100">
-                <label th:for="*{zipCode}" class="form-label">Zip Code</label>
-                <input type="text" th:field="*{zipCode}" class="form-control" required />
+                <label class="form-label">Zip Code</label>
+                <input type="text" th:field="*{userInfoEditDTO.zipCode}" class="form-control" required />
             </div>
             <div class="col-lg-6 min-height-100">
                 <label th:for="regionId" class="form-label">Region</label>
-                <select th:field="*{regionId}" id="regionId" class="form-select" required>
+                <select th:field="*{userInfoEditDTO.regionId}" id="regionId" class="form-select" required>
                     <option value="" selected>Select Region</option>
                     <option th:each="region : ${regionsReadOnlyDTO}"
                             th:value="${region.id}"
                             th:text="${region.name}"
-                            th:selected="${region.id==teacherEditDTO.regionId}">
+                            th:selected="${region.id==teacherEditDTO.userInfoEditDTO.regionId}">
                     </option>
                 </select>
             </div>

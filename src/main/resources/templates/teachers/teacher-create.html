@@ -34,31 +34,31 @@
                     <form method="post" th:object="${teacherInsertDTO}" th:action="@{/teachers/create}" >
                         <!-- First name -->
                         <div class="mb-3">
-                            <label th:for="firstname" class="form-label">First name</label>
-                            <input type="text" class="form-control" th:field="*{firstname}" required>
-                            <div th:if="${#fields.hasErrors('firstname')}">
-                                <p th:classappend="${#fields.hasErrors('firstname')} ? 'error'" th:errors="*{firstname}"></p>
+                            <label class="form-label">First name</label>
+                            <input type="text" class="form-control" th:field="*{userInfoInsertDTO.firstname}" required>
+                            <div th:if="${#fields.hasErrors('userInfoInsertDTO.firstname')}">
+                                <p th:classappend="${#fields.hasErrors('userInfoInsertDTO.firstname')} ? 'error'" th:errors="*{userInfoInsertDTO.firstname}"></p>
                             </div>
                         </div>
                         <!-- Last name -->
                         <div class="mb-3">
-                            <label th:for="lastname" class="form-label">Last name</label>
-                            <input type="text" class="form-control" th:field="*{lastname}" required>
-                            <div th:if="${#fields.hasErrors('lastname')}">
-                                <p th:classappend="${#fields.hasErrors('lastname')} ? 'error'" th:errors="*{lastname}"></p>
+                            <label class="form-label">Last name</label>
+                            <input type="text" class="form-control" th:field="*{userInfoInsertDTO.lastname}" required>
+                            <div th:if="${#fields.hasErrors('userInfoInsertDTO.lastname')}">
+                                <p th:classappend="${#fields.hasErrors('userInfoInsertDTO.lastname')} ? 'error'" th:errors="*{userInfoInsertDTO.lastname}"></p>
                             </div>
                         </div>
                         <!-- email -->
                         <div class="mb-3">
-                            <label th:for="email" class="form-label">Email</label>
-                            <input type="text" class="form-control" th:field="*{email}" required>
-                            <div th:if="${#fields.hasErrors('email')}">
-                                <p th:classappend="${#fields.hasErrors('email')} ? 'error'" th:errors="*{email}"></p>
+                            <label class="form-label">Email</label>
+                            <input type="text" class="form-control" th:field="*{userInfoInsertDTO.email}" required>
+                            <div th:if="${#fields.hasErrors('userInfoInsertDTO.email')}">
+                                <p th:classappend="${#fields.hasErrors('userInfoInsertDTO.email')} ? 'error'" th:errors="*{userInfoInsertDTO.email}"></p>
                             </div>
                         </div>
                         <!-- teacher am -->
                         <div class="mb-3">
-                            <label th:for="teacherAM" class="form-label">Teacher AM</label>
+                            <label class="form-label">Teacher AM</label>
                             <input type="text" class="form-control" th:field="*{teacherAM}" required>
                             <div th:if="${#fields.hasErrors('teacherAM')}">
                                 <p th:classappend="${#fields.hasErrors('teacherAM')} ? 'error'" th:errors="*{teacherAM}"></p>
@@ -66,37 +66,37 @@
                         </div>
                         <!-- afm -->
                         <div class="mb-3">
-                            <label th:for="afm" class="form-label">Afm</label>
-                            <input type="text" class="form-control" th:field="*{afm}" required>
-                            <div th:if="${#fields.hasErrors('afm')}">
-                                <p th:classappend="${#fields.hasErrors('afm')} ? 'error'" th:errors="*{afm}"></p>
+                            <label class="form-label">Afm</label>
+                            <input type="text" class="form-control" th:field="*{userInfoInsertDTO.afm}" required>
+                            <div th:if="${#fields.hasErrors('userInfoInsertDTO.afm')}">
+                                <p th:classappend="${#fields.hasErrors('userInfoInsertDTO.afm')} ? 'error'" th:errors="*{userInfoInsertDTO.afm}"></p>
                             </div>
                         </div>
                         <!-- telephone -->
                         <div class="mb-3">
-                            <label th:for="telephone" class="form-label">telephone number</label>
-                            <input type="text" class="form-control" th:field="*{telephone}" required>
-                            <div th:if="${#fields.hasErrors('telephone')}">
-                                <p th:classappend="${#fields.hasErrors('telephone')} ? 'error'" th:errors="*{telephone}"></p>
+                            <label class="form-label">telephone number</label>
+                            <input type="text" class="form-control" th:field="*{userInfoInsertDTO.telephone}" required>
+                            <div th:if="${#fields.hasErrors('userInfoInsertDTO.telephone')}">
+                                <p th:classappend="${#fields.hasErrors('userInfoInsertDTO.telephone')} ? 'error'" th:errors="*{userInfoInsertDTO.telephone}"></p>
                             </div>
                         </div>
                         <!-- Zip Code -->
                         <div class="mb-3">
-                            <label th:for="zipCode" class="form-label">Zip Code</label>
-                            <input type="text" class="form-control" th:field="*{zipCode}" required>
-                            <div th:if="${#fields.hasErrors('zipCode')}">
-                                <p th:classappend="${#fields.hasErrors('zipCode')} ? 'error'" th:errors="*{zipCode}"></p>
+                            <label class="form-label">Zip Code</label>
+                            <input type="text" class="form-control" th:field="*{userInfoInsertDTO.zipCode}" required>
+                            <div th:if="${#fields.hasErrors('userInfoInsertDTO.zipCode')}">
+                                <p th:classappend="${#fields.hasErrors('userInfoInsertDTO.zipCode')} ? 'error'" th:errors="*{userInfoInsertDTO.zipCode}"></p>
                             </div>
                         </div>
                         <!-- Region -->
                         <div class="mb-3">
                             <label th:for="region" class="form-label">Region</label>
-                            <select th:field="*{regionId}" class="form-select" id="region" required>
+                            <select th:field="*{userInfoInsertDTO.regionId}" class="form-select" id="region" required>
                                 <option value="" selected>Select Region</option>
                                 <option th:each="region : ${regionsReadOnlyDTO}" th:value="${region.id}" th:text="${region.name}"></option>
                             </select>
-                            <div th:if="${#fields.hasErrors('regionId')}">
-                                <p th:classappend="${#fields.hasErrors('regionId')} ? 'error'" th:errors="*{regionId}"></p>
+                            <div th:if="${#fields.hasErrors('userInfoInsertDTO.regionId')}">
+                                <p th:classappend="${#fields.hasErrors('userInfoInsertDTO.regionId')} ? 'error'" th:errors="*{userInfoInsertDTO.regionId}"></p>
                             </div>
                         </div>
                         <div class="d-grid gap-2">

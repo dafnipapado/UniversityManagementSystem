@@ -1,8 +1,8 @@
 package io.github.dafnipapado.university.service;
 
-import io.github.dafnipapado.university.dto.TeacherEditDTO;
-import io.github.dafnipapado.university.dto.TeacherInsertDTO;
-import io.github.dafnipapado.university.dto.TeacherReadOnlyDTO;
+import io.github.dafnipapado.university.dto.teacher.TeacherEditDTO;
+import io.github.dafnipapado.university.dto.teacher.TeacherInsertDTO;
+import io.github.dafnipapado.university.dto.teacher.TeacherReadOnlyDTO;
 import io.github.dafnipapado.university.exception.EntityAlreadyExistsException;
 import io.github.dafnipapado.university.exception.EntityNotFoundException;
 import io.github.dafnipapado.university.mapper.Mapper;
@@ -10,7 +10,6 @@ import io.github.dafnipapado.university.model.Teacher;
 import io.github.dafnipapado.university.model.User;
 import io.github.dafnipapado.university.model.UserInfo;
 import io.github.dafnipapado.university.model.static_data.Region;
-import io.github.dafnipapado.university.repository.*;
 import io.github.dafnipapado.university.repository.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -67,7 +66,7 @@ public class TeacherServiceImpl implements ITeacherService {
             //save userInfo
             UserInfo userInfo = mapper.mapToUserInfoEntity(teacherInsertDTO);
             userInfo.addUser(savedUser);
-            Region region = regionRepository.findById(teacherInsertDTO.regionId())
+            Region region = regionRepository.findById(teacherInsertDTO.userInfoInsertDTO().regionId())
                     .orElseThrow(() -> new EntityNotFoundException("Region with id = {teacherInsertDTO.regionId()} not found."));
             region.addUserInfo(userInfo);
             userInfoRepository.save(userInfo);
@@ -102,28 +101,29 @@ public class TeacherServiceImpl implements ITeacherService {
                 teacher.setTeacherAM(teacherEditDTO.teacherAM());
             }
 
-            teacher.getUser().getUserInfo().setFirstname(teacherEditDTO.firstname());
-            teacher.getUser().getUserInfo().setLastname(teacherEditDTO.lastname());
-            teacher.getUser().getUserInfo().setAfm(teacherEditDTO.afm());
-            teacher.getUser().getUserInfo().setEmail(teacherEditDTO.email());
-            teacher.getUser().getUserInfo().setTelephone(teacherEditDTO.telephone());
-            teacher.getUser().getUserInfo().setZipcode(teacherEditDTO.zipCode());
+            teacher.getUser().getUserInfo().setFirstname(teacherEditDTO.userInfoEditDTO().firstname());
+            teacher.getUser().getUserInfo().setLastname(teacherEditDTO.userInfoEditDTO().lastname());
+            teacher.getUser().getUserInfo().setAfm(teacherEditDTO.userInfoEditDTO().afm());
+            teacher.getUser().getUserInfo().setEmail(teacherEditDTO.userInfoEditDTO().email());
+            teacher.getUser().getUserInfo().setTelephone(teacherEditDTO.userInfoEditDTO().telephone());
+            teacher.getUser().getUserInfo().setZipcode(teacherEditDTO.userInfoEditDTO().zipCode());
 
             //check if region is changed
-            if (!(teacherEditDTO.regionId().equals(teacher.getUser().getUserInfo().getRegion().getId()))) {
-                Region newRegion = regionRepository.findById(teacherEditDTO.regionId()).orElseThrow(() -> new EntityNotFoundException("Region with id = {teacherEditDTO.regionId()} was not found"));
+            if (!(teacherEditDTO.userInfoEditDTO().regionId().equals(teacher.getUser().getUserInfo().getRegion().getId()))) {
+                Region newRegion = regionRepository.findById(teacherEditDTO.userInfoEditDTO().regionId())
+                        .orElseThrow(() -> new EntityNotFoundException("Region with id = {teacherEditDTO.regionId()} was not found"));
                 newRegion.addUserInfo(teacher.getUser().getUserInfo());
             }
 
             //check if username is changed - if yes, check if new username already exists
-            if (!(teacherEditDTO.username().equals(teacher.getUser().getUsername()))) {
-                if (userRepository.findByUsername(teacherEditDTO.username()).isPresent()) {
+            if (!(teacherEditDTO.userEditDTO().username().equals(teacher.getUser().getUsername()))) {
+                if (userRepository.findByUsername(teacherEditDTO.userEditDTO().username()).isPresent()) {
                     throw new EntityAlreadyExistsException("User with username = {teacherEditDTO.username()} already exists.");
                 }
-                teacher.getUser().setUsername(teacherEditDTO.username());
+                teacher.getUser().setUsername(teacherEditDTO.userEditDTO().username());
             }
 
-            teacher.getUser().setPassword(passwordEncoder.encode(teacherEditDTO.password()));
+            teacher.getUser().setPassword(passwordEncoder.encode(teacherEditDTO.userEditDTO().password()));
 
             //update entities
             userRepository.save(teacher.getUser());

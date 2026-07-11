@@ -1,7 +1,13 @@
 package io.github.dafnipapado.university.mapper;
 
 import io.github.dafnipapado.university.dto.*;
-import io.github.dafnipapado.university.dto.*;
+import io.github.dafnipapado.university.dto.teacher.TeacherEditDTO;
+import io.github.dafnipapado.university.dto.teacher.TeacherInsertDTO;
+import io.github.dafnipapado.university.dto.teacher.TeacherReadOnlyDTO;
+import io.github.dafnipapado.university.dto.user.UserEditDTO;
+import io.github.dafnipapado.university.dto.user.UserInsertDTO;
+import io.github.dafnipapado.university.dto.user.UserReadOnlyDTO;
+import io.github.dafnipapado.university.dto.userInfo.UserInfoEditDTO;
 import io.github.dafnipapado.university.model.Teacher;
 import io.github.dafnipapado.university.model.User;
 import io.github.dafnipapado.university.model.UserInfo;
@@ -17,7 +23,16 @@ public class Mapper {
     }
 
     public UserInfo mapToUserInfoEntity(TeacherInsertDTO dto) {
-        return new UserInfo(null, dto.firstname(), dto.lastname(), dto.afm(), dto.email(), dto.telephone(), dto.zipCode(), null, null);
+        return new UserInfo(
+                null,
+                dto.userInfoInsertDTO().firstname(),
+                dto.userInfoInsertDTO().lastname(),
+                dto.userInfoInsertDTO().afm(),
+                dto.userInfoInsertDTO().email(),
+                dto.userInfoInsertDTO().telephone(),
+                dto.userInfoInsertDTO().zipCode(),
+                null,
+                null);
     }
 
     public TeacherReadOnlyDTO mapToTeacherReadOnlyDTO(Teacher teacher) {
@@ -25,17 +40,22 @@ public class Mapper {
     }
 
     public TeacherEditDTO mapToTeacherEditDTO(Teacher teacher) {
-        return new TeacherEditDTO(teacher.getUuid(),
+        return new TeacherEditDTO(
+                teacher.getUuid(),
                 teacher.getTeacherAM(),
-                teacher.getUser().getUserInfo().getFirstname(),
-                teacher.getUser().getUserInfo().getLastname(),
-                teacher.getUser().getUserInfo().getAfm(),
-                teacher.getUser().getUserInfo().getEmail(),
-                teacher.getUser().getUserInfo().getTelephone(),
-                teacher.getUser().getUserInfo().getZipcode(),
-                teacher.getUser().getUserInfo().getRegion().getId(),
-                teacher.getUser().getUsername(),
-                teacher.getUser().getPassword()
+                new UserEditDTO(
+                        teacher.getUser().getUsername(),
+                        teacher.getUser().getPassword()
+                ),
+                new UserInfoEditDTO(
+                        teacher.getUser().getUserInfo().getFirstname(),
+                        teacher.getUser().getUserInfo().getLastname(),
+                        teacher.getUser().getUserInfo().getAfm(),
+                        teacher.getUser().getUserInfo().getEmail(),
+                        teacher.getUser().getUserInfo().getTelephone(),
+                        teacher.getUser().getUserInfo().getZipcode(),
+                        teacher.getUser().getUserInfo().getRegion().getId()
+                )
                 );
     }
 
