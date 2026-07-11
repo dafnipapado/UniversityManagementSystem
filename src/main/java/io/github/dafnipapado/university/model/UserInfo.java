@@ -28,7 +28,7 @@ public class UserInfo {
     @Column(unique = true, nullable = false)
     private String afm;
 
-    @Column(nullable = false)
+    @Column(unique = true, nullable = false)
     private String email;
 
     @Column
