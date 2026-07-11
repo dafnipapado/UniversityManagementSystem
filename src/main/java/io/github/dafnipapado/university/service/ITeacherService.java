@@ -1,8 +1,8 @@
 package io.github.dafnipapado.university.service;
 
-import io.github.dafnipapado.university.dto.TeacherEditDTO;
-import io.github.dafnipapado.university.dto.TeacherInsertDTO;
-import io.github.dafnipapado.university.dto.TeacherReadOnlyDTO;
+import io.github.dafnipapado.university.dto.teacher.TeacherEditDTO;
+import io.github.dafnipapado.university.dto.teacher.TeacherInsertDTO;
+import io.github.dafnipapado.university.dto.teacher.TeacherReadOnlyDTO;
 import io.github.dafnipapado.university.exception.EntityAlreadyExistsException;
 import io.github.dafnipapado.university.exception.EntityNotFoundException;
 import io.github.dafnipapado.university.model.User;

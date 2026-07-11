@@ -1,9 +1,10 @@
 package io.github.dafnipapado.university.controller;
 
 import io.github.dafnipapado.university.dto.RegionReadOnlyDTO;
-import io.github.dafnipapado.university.dto.TeacherEditDTO;
-import io.github.dafnipapado.university.dto.TeacherInsertDTO;
-import io.github.dafnipapado.university.dto.TeacherReadOnlyDTO;
+import io.github.dafnipapado.university.dto.teacher.TeacherEditDTO;
+import io.github.dafnipapado.university.dto.teacher.TeacherInsertDTO;
+import io.github.dafnipapado.university.dto.teacher.TeacherReadOnlyDTO;
+import io.github.dafnipapado.university.dto.userInfo.UserInfoInsertDTO;
 import io.github.dafnipapado.university.exception.EntityAlreadyExistsException;
 import io.github.dafnipapado.university.exception.EntityNotFoundException;
 import io.github.dafnipapado.university.service.IRegionService;
