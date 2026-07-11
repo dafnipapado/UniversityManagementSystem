@@ -21,38 +21,65 @@
             <div class="col-lg-6 min-height-100">
                 <label class="form-label"></label><br>
                 <input type="text" th:field="*{userInfoEditDTO.firstname}" class="form-control" required />
+                <div th:if="${#fields.hasErrors('userInfoEditDTO.firstname')}">
+                    <p th:classappend="${#fields.hasErrors('userInfoEditDTO.firstname')} ? 'error'" th:errors="*{userInfoEditDTO.firstname}"></p>
+                </div>
             </div>
             <div class="col-lg-3 min-height-100">
                 <label class="form-label">Lastname</label>
                 <input type="text" th:field="*{userInfoEditDTO.lastname}" class="form-control" required/>
+                <div th:if="${#fields.hasErrors('userInfoEditDTO.lastname')}">
+                    <p th:classappend="${#fields.hasErrors('userInfoEditDTO.lastname')} ? 'error'" th:errors="*{userInfoEditDTO.lastname}"></p>
+                </div>
             </div>
             <div class="col-lg-6 min-height-100">
                 <label class="form-label">Username</label>
                 <input type="text" th:field="*{userEditDTO.username}" class="form-control" required />
+                <div th:if="${#fields.hasErrors('userEditDTO.username')}">
+                    <p th:classappend="${#fields.hasErrors('userEditDTO.username')} ? 'error'" th:errors="*{userEditDTO.username}"></p>
+                </div>
             </div>
             <div class="col-lg-3 min-height-100">
                 <label class="form-label">Password</label>
                 <input type="password" th:field="*{userEditDTO.password}" class="form-control" required />
+                <div th:if="${#fields.hasErrors('userEditDTO.password')}">
+                    <p th:classappend="${#fields.hasErrors('userEditDTO.password')} ? 'error'" th:errors="*{userEditDTO.password}"></p>
+                </div>
             </div>
             <div class="col-lg-6 min-height-100">
                 <label class="form-label">Email</label>
                 <input type="text" th:field="*{userInfoEditDTO.email}" class="form-control" required />
+                <div th:if="${#fields.hasErrors('userInfoEditDTO.email')}">
+                    <p th:classappend="${#fields.hasErrors('userInfoEditDTO.email')} ? 'error'" th:errors="*{userInfoEditDTO.email}"></p>
+                </div>
             </div>
             <div class="col-lg-6 min-height-100">
                 <label class="form-label">Teacher AM</label>
                 <input type="text" th:field="*{teacherAM}" class="form-control" required />
+                <div th:if="${#fields.hasErrors('teacherAM')}">
+                    <p th:classappend="${#fields.hasErrors('teacherAM')} ? 'error'" th:errors="*{teacherAM}"></p>
+                </div>
             </div>
             <div class="col-lg-6 min-height-100">
                 <label class="form-label">Afm</label>
                 <input type="text" th:field="*{userInfoEditDTO.afm}" class="form-control" required />
+                <div th:if="${#fields.hasErrors('userInfoEditDTO.afm')}">
+                    <p th:classappend="${#fields.hasErrors('userInfoEditDTO.afm')} ? 'error'" th:errors="*{userInfoEditDTO.afm}"></p>
+                </div>
             </div>
             <div class="col-lg-6 min-height-100">
                 <label class="form-label">Telephone number</label>
                 <input type="text" th:field="*{userInfoEditDTO.telephone}" class="form-control" required />
+                <div th:if="${#fields.hasErrors('userInfoEditDTO.telephone')}">
+                    <p th:classappend="${#fields.hasErrors('userInfoEditDTO.telephone')} ? 'error'" th:errors="*{userInfoEditDTO.telephone}"></p>
+                </div>
             </div>
             <div class="col-lg-6 min-height-100">
                 <label class="form-label">Zip Code</label>
                 <input type="text" th:field="*{userInfoEditDTO.zipCode}" class="form-control" required />
+                <div th:if="${#fields.hasErrors('userInfoEditDTO.zipCode')}">
+                    <p th:classappend="${#fields.hasErrors('userInfoEditDTO.zipCode')} ? 'error'" th:errors="*{userInfoEditDTO.zipCode}"></p>
+                </div>
             </div>
             <div class="col-lg-6 min-height-100">
                 <label th:for="regionId" class="form-label">Region</label>
@@ -64,6 +91,9 @@
                             th:selected="${region.id==teacherEditDTO.userInfoEditDTO.regionId}">
                     </option>
                 </select>
+                <div th:if="${#fields.hasErrors('userInfoEditDTO.regionId')}">
+                    <p th:classappend="${#fields.hasErrors('userInfoEditDTO.regionId')} ? 'error'" th:errors="*{userInfoEditDTO.regionId}"></p>
+                </div>
             </div>
         </div>
         <button type="submit" class="btn btn-outline-light">Save</button>
