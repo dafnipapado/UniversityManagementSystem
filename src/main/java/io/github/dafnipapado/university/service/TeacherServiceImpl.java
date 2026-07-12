@@ -76,19 +76,21 @@ public class TeacherServiceImpl implements ITeacherService {
             region.addUserInfo(userInfo);
             userInfoRepository.save(userInfo);
 
+            log.info("Teacher = {} {} was saved successfully.", teacher.getUser().getUserInfo().getFirstname(), teacher.getUser().getUserInfo().getLastname());
             return mapper.mapToTeacherReadOnlyDTO(teacher);
 
         } catch (EntityAlreadyExistsException | EntityNotFoundException e) {
-            log.error(e.getMessage());
+            log.error("Failed to save teacher with teacherAM =  {}.", teacherInsertDTO.teacherAM());
             throw e;
         }
     }
 
     @Override
+    @PreAuthorize("hasAuthority('VIEW_TEACHER')")
     public TeacherEditDTO findTeacherByUuid(UUID uuid) throws EntityNotFoundException {
-        Teacher teacher = teacherRepository.findByUuid(uuid).orElseThrow();
-        TeacherEditDTO teacherEditDTO = mapper.mapToTeacherEditDTO(teacher);
-        return teacherEditDTO;
+        Teacher teacher = teacherRepository.findByUuid(uuid)
+                .orElseThrow(() -> new EntityNotFoundException("Teacher with uuid " + uuid + " not found."));
+        return mapper.mapToTeacherEditDTO(teacher);
     }
 
     @Override
@@ -124,19 +126,18 @@ public class TeacherServiceImpl implements ITeacherService {
             teacher.getUser().getUserInfo().setZipcode(teacherEditDTO.userInfoEditDTO().zipCode());
 
             //get new region, if changed
-            if (!(teacherEditDTO.userInfoEditDTO().regionId().equals(teacher.getUser().getUserInfo().getRegion().getId()))) {
+            if (!Objects.equals(teacherEditDTO.userInfoEditDTO().regionId(), teacher.getUser().getUserInfo().getRegion().getId())) {
                 Region newRegion = regionRepository.findById(teacherEditDTO.userInfoEditDTO().regionId())
-                        .orElseThrow(() -> new EntityNotFoundException("Region with id = {teacherEditDTO.regionId()} was not found"));
+                        .orElseThrow(() -> new EntityNotFoundException("Region with id = " + teacherEditDTO.userInfoEditDTO().regionId() + " was not found"));
                 newRegion.addUserInfo(teacher.getUser().getUserInfo());
             }
 
             //check for already existing username, if changed
-            if (!(teacherEditDTO.userEditDTO().username().equals(teacher.getUser().getUsername()))) {
-                if (userRepository.findByUsername(teacherEditDTO.userEditDTO().username()).isPresent()) {
-                    throw new EntityAlreadyExistsException("User with username = {teacherEditDTO.username()} already exists.");
-                }
-                teacher.getUser().setUsername(teacherEditDTO.userEditDTO().username());
+            String updatedUsername = teacherEditDTO.userEditDTO().username();
+            if (!Objects.equals(updatedUsername, teacher.getUser().getUsername()) && userRepository.findByUsername(updatedUsername).isPresent()) {
+                throw new EntityAlreadyExistsException("User with username = " + updatedUsername + " already exists.");
             }
+            teacher.getUser().setUsername(updatedUsername);
 
             teacher.getUser().setPassword(passwordEncoder.encode(teacherEditDTO.userEditDTO().password()));
 
@@ -145,10 +146,11 @@ public class TeacherServiceImpl implements ITeacherService {
             userInfoRepository.save(teacher.getUser().getUserInfo());
             teacherRepository.save(teacher);
 
+            log.info("Teacher = {} {} was updated successfully.", teacher.getUser().getUserInfo().getFirstname(), teacher.getUser().getUserInfo().getLastname());
             return mapper.mapToTeacherReadOnlyDTO(teacher);
 
         } catch (EntityAlreadyExistsException | EntityNotFoundException e) {
-            log.error(e.getMessage());
+            log.error("Failed to update teacher with uuid = {}.", teacherEditDTO.uuid());
             throw e;
         }
     }
@@ -158,29 +160,27 @@ public class TeacherServiceImpl implements ITeacherService {
     @Transactional(rollbackFor = EntityNotFoundException.class)
     public void deleteTeacher(UUID uuid) throws EntityNotFoundException {
         try{
-            Teacher teacher = teacherRepository.findByUuid(uuid).orElseThrow(() -> new EntityNotFoundException("Teacher with uuid = {uuid} was not found."));
+            Teacher teacher = teacherRepository.findByUuid(uuid)
+                    .orElseThrow(() -> new EntityNotFoundException("Teacher with uuid = " + uuid + " was not found."));
             teacher.getUser().softDelete();
             teacher.softDelete();
         } catch (EntityNotFoundException e) {
-            log.error("Deletion of teacher with uuid = {uuid} failed.");
+            log.error("Failed to soft delete teacher with uuid = {}.", uuid);
             throw e;
         }
-
     }
-
 
     @Override
     public User getUserByUsername(String username) throws EntityNotFoundException {
         return userRepository.findByUsername(username)
-                .orElseThrow(() -> new EntityNotFoundException("User with username = " + username + " doesn't exist"));
-
+                .orElseThrow(() -> new EntityNotFoundException("User with username = " + username + " not found."));
     }
 
     @Override
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public Page<TeacherReadOnlyDTO> getTeachersPaginated(Pageable pageable) {
         Page<Teacher> teacherPage = teacherRepository.findAll(pageable);
-        log.debug("Get paginated return successfully page={} and size={}", teacherPage.getNumber(), teacherPage.getSize());
+        log.info("Paginated teachers fetched successfully with page = {} and size = {}", teacherPage.getNumber(), teacherPage.getSize());
         return teacherPage.map(mapper::mapToTeacherReadOnlyDTO);
     }
 }

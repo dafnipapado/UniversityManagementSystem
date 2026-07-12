@@ -32,7 +32,7 @@ public class UserServiceImpl implements IUserService{
         try{
             //check if username already exists
             if (userInsertDTO.username() != null && userRepository.findByUsername(userInsertDTO.username()).isPresent()) {
-                throw new EntityAlreadyExistsException("User with username = {userInsertDTO.username()} already exists.");
+                throw new EntityAlreadyExistsException("User with username = " + userInsertDTO.username() + " already exists.");
             }
 
             User user = mapper.mapToUserEntity(userInsertDTO);
@@ -40,15 +40,14 @@ public class UserServiceImpl implements IUserService{
 
             //set role to user
             Role role = roleRepository.findById(userInsertDTO.roleId())
-                    .orElseThrow(() -> new EntityNotFoundException("No role with id = {userInsertDTO.roleId()} was found."));
+                    .orElseThrow(() -> new EntityNotFoundException("Role with id = " + userInsertDTO.roleId() + " was not found."));
             role.addUser(user);
 
             userRepository.save(user);
-
             return mapper.mapToUserReadOnlyDTO(user);
 
         } catch (EntityAlreadyExistsException | EntityNotFoundException e) {
-            log.error(e.getMessage());
+            log.error("Failed to save user with username = {}", userInsertDTO.username());
             throw e;
         }
     }
