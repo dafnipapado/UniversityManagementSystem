@@ -86,8 +86,7 @@ public class TeacherServiceImpl implements ITeacherService {
     }
 
     @Override
-    @PreAuthorize("hasAuthority('VIEW_TEACHER')")
-    public TeacherEditDTO findTeacherByUuid(UUID uuid) throws EntityNotFoundException {
+    public TeacherEditDTO getTeacherEditDTO(UUID uuid) throws EntityNotFoundException {
         Teacher teacher = teacherRepository.findByUuid(uuid)
                 .orElseThrow(() -> new EntityNotFoundException("Teacher with uuid " + uuid + " not found."));
         return mapper.mapToTeacherEditDTO(teacher);

@@ -75,7 +75,7 @@ public class TeacherController {
     @GetMapping("/edit/{uuid}")
     public String getEditTeacher(@PathVariable UUID uuid, Model model) {
         try{
-            TeacherEditDTO teacherEditDTO = teacherService.findTeacherByUuid(uuid);
+            TeacherEditDTO teacherEditDTO = teacherService.getTeacherEditDTO(uuid);
             model.addAttribute("teacherEditDTO", teacherEditDTO);
         } catch (EntityNotFoundException e) {
             log.error(e.getMessage());

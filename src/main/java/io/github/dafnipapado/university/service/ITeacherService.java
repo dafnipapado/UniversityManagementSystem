@@ -15,7 +15,7 @@ import java.util.UUID;
 public interface ITeacherService {
 
     TeacherReadOnlyDTO saveTeacher(TeacherInsertDTO teacherInsertDTO) throws EntityAlreadyExistsException, EntityNotFoundException;
-    TeacherEditDTO findTeacherByUuid(UUID uuid) throws EntityNotFoundException;
+    TeacherEditDTO getTeacherEditDTO(UUID uuid) throws EntityNotFoundException;
     TeacherReadOnlyDTO updateTeacher(TeacherEditDTO teacherEditDTO) throws EntityAlreadyExistsException, EntityNotFoundException;
     void deleteTeacher(UUID uuid) throws EntityNotFoundException;
     TeacherReadOnlyDTO getIndex() throws EntityNotFoundException;
