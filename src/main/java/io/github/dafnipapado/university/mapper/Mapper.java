@@ -8,6 +8,7 @@ import io.github.dafnipapado.university.dto.user.UserEditDTO;
 import io.github.dafnipapado.university.dto.user.UserInsertDTO;
 import io.github.dafnipapado.university.dto.user.UserReadOnlyDTO;
 import io.github.dafnipapado.university.dto.userInfo.UserInfoEditDTO;
+import io.github.dafnipapado.university.dto.userInfo.UserInfoInsertDTO;
 import io.github.dafnipapado.university.model.Teacher;
 import io.github.dafnipapado.university.model.User;
 import io.github.dafnipapado.university.model.UserInfo;
@@ -22,15 +23,15 @@ public class Mapper {
         return new Teacher(null, dto.teacherAM(), null, null, null);
     }
 
-    public UserInfo mapToUserInfoEntity(TeacherInsertDTO dto) {
+    public UserInfo mapToUserInfoEntity(UserInfoInsertDTO dto) {
         return new UserInfo(
                 null,
-                dto.userInfoInsertDTO().firstname(),
-                dto.userInfoInsertDTO().lastname(),
-                dto.userInfoInsertDTO().afm(),
-                dto.userInfoInsertDTO().email(),
-                dto.userInfoInsertDTO().telephone(),
-                dto.userInfoInsertDTO().zipCode(),
+                dto.firstname(),
+                dto.lastname(),
+                dto.afm(),
+                dto.email(),
+                dto.telephone(),
+                dto.zipCode(),
                 null,
                 null);
     }
