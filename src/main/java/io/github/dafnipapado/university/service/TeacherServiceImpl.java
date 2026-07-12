@@ -21,6 +21,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Objects;
 import java.util.UUID;
 
 @Service
@@ -52,6 +53,12 @@ public class TeacherServiceImpl implements ITeacherService {
             if (teacherInsertDTO.teacherAM() != null && teacherRepository.findByTeacherAM(teacherInsertDTO.teacherAM()).isPresent()) {
                 throw new EntityAlreadyExistsException("Teacher with AM = " + teacherInsertDTO.teacherAM() + " already exists.");
             }
+            if (teacherInsertDTO.userInfoInsertDTO().afm() != null && userInfoRepository.findByAfm(teacherInsertDTO.userInfoInsertDTO().afm()).isPresent()) {
+                throw new EntityAlreadyExistsException("User with afm = " + teacherInsertDTO.userInfoInsertDTO().afm() + " already exists.");
+            }
+            if (teacherInsertDTO.userInfoInsertDTO().email() != null && userInfoRepository.findByEmail(teacherInsertDTO.userInfoInsertDTO().email()).isPresent()) {
+                throw new EntityAlreadyExistsException("User with email = " + teacherInsertDTO.userInfoInsertDTO().email() + " already exists.");
+            }
 
             Long teacherRoleId = 2L;
 
@@ -67,7 +74,7 @@ public class TeacherServiceImpl implements ITeacherService {
             UserInfo userInfo = mapper.mapToUserInfoEntity(teacherInsertDTO);
             userInfo.addUser(savedUser);
             Region region = regionRepository.findById(teacherInsertDTO.userInfoInsertDTO().regionId())
-                    .orElseThrow(() -> new EntityNotFoundException("Region with id = {teacherInsertDTO.regionId()} not found."));
+                    .orElseThrow(() -> new EntityNotFoundException("Region with id = " + teacherInsertDTO.userInfoInsertDTO().regionId() + " not found."));
             region.addUserInfo(userInfo);
             userInfoRepository.save(userInfo);
 
@@ -91,31 +98,41 @@ public class TeacherServiceImpl implements ITeacherService {
     @Transactional(rollbackFor = {EntityAlreadyExistsException.class, EntityNotFoundException.class})
     public TeacherReadOnlyDTO updateTeacher(TeacherEditDTO teacherEditDTO) throws EntityAlreadyExistsException, EntityNotFoundException {
         try {
-            Teacher teacher = teacherRepository.findByUuid(teacherEditDTO.uuid()).orElseThrow(() -> new EntityNotFoundException("Teacher with uuid = {teacherEditDTO.uuid()} not found.}"));
+            Teacher teacher = teacherRepository.findByUuid(teacherEditDTO.uuid())
+                    .orElseThrow(() -> new EntityNotFoundException("Teacher with uuid = " + teacherEditDTO.uuid() + " not found.}"));
 
-            //check if teacherAM is changed - if yes, check if new teacherAM already exists
-            if (!(teacherEditDTO.teacherAM().equals(teacher.getTeacherAM()))) {
-                if (teacherRepository.findByTeacherAM((teacherEditDTO.teacherAM())).isPresent()) {
-                    throw new EntityAlreadyExistsException("Teacher with AM = {teacherEditDTO.teacherAM()} already exists.");
-                }
-                teacher.setTeacherAM(teacherEditDTO.teacherAM());
+            //checks for already existing teacherAM, afm, email, if changed
+            String updatedTeacherAM = teacherEditDTO.teacherAM();
+            if (!Objects.equals(updatedTeacherAM, teacher.getTeacherAM()) && teacherRepository.findByTeacherAM((updatedTeacherAM)).isPresent()) {
+                throw new EntityAlreadyExistsException("Teacher with AM = " + updatedTeacherAM + " already exists.");
             }
+            teacher.setTeacherAM(updatedTeacherAM);
+
+            String updatedAfm = teacherEditDTO.userInfoEditDTO().afm();
+            if (!Objects.equals(updatedAfm, teacher.getUser().getUserInfo().getAfm()) && userInfoRepository.findByAfm(updatedAfm).isPresent()) {
+                throw new EntityAlreadyExistsException("User with afm = " + updatedAfm + " already exists.");
+            }
+            teacher.getUser().getUserInfo().setAfm(updatedAfm);
+
+            String updatedEmail = teacherEditDTO.userInfoEditDTO().email();
+            if (!Objects.equals(updatedEmail, teacher.getUser().getUserInfo().getEmail()) && userInfoRepository.findByEmail(updatedEmail).isPresent()) {
+                throw new EntityAlreadyExistsException("User with email = " + updatedEmail + " already exists.");
+            }
+            teacher.getUser().getUserInfo().setEmail(updatedEmail);
 
             teacher.getUser().getUserInfo().setFirstname(teacherEditDTO.userInfoEditDTO().firstname());
             teacher.getUser().getUserInfo().setLastname(teacherEditDTO.userInfoEditDTO().lastname());
-            teacher.getUser().getUserInfo().setAfm(teacherEditDTO.userInfoEditDTO().afm());
-            teacher.getUser().getUserInfo().setEmail(teacherEditDTO.userInfoEditDTO().email());
             teacher.getUser().getUserInfo().setTelephone(teacherEditDTO.userInfoEditDTO().telephone());
             teacher.getUser().getUserInfo().setZipcode(teacherEditDTO.userInfoEditDTO().zipCode());
 
-            //check if region is changed
+            //get new region, if changed
             if (!(teacherEditDTO.userInfoEditDTO().regionId().equals(teacher.getUser().getUserInfo().getRegion().getId()))) {
                 Region newRegion = regionRepository.findById(teacherEditDTO.userInfoEditDTO().regionId())
                         .orElseThrow(() -> new EntityNotFoundException("Region with id = {teacherEditDTO.regionId()} was not found"));
                 newRegion.addUserInfo(teacher.getUser().getUserInfo());
             }
 
-            //check if username is changed - if yes, check if new username already exists
+            //check for already existing username, if changed
             if (!(teacherEditDTO.userEditDTO().username().equals(teacher.getUser().getUsername()))) {
                 if (userRepository.findByUsername(teacherEditDTO.userEditDTO().username()).isPresent()) {
                     throw new EntityAlreadyExistsException("User with username = {teacherEditDTO.username()} already exists.");
@@ -136,7 +153,6 @@ public class TeacherServiceImpl implements ITeacherService {
             log.error(e.getMessage());
             throw e;
         }
-
     }
 
     @Override
