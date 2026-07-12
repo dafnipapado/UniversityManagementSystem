@@ -51,4 +51,10 @@ public class UserServiceImpl implements IUserService{
             throw e;
         }
     }
+
+    @Override
+    public User getUserByUsername(String username) throws EntityNotFoundException {
+        return userRepository.findByUsername(username)
+                .orElseThrow(() -> new EntityNotFoundException("User with username = " + username + " not found."));
+    }
 }

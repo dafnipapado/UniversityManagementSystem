@@ -29,6 +29,7 @@ import java.util.UUID;
 @Slf4j
 public class TeacherServiceImpl implements ITeacherService {
 
+    private final IUserService userService;
     private final TeacherRepository teacherRepository;
     private final RoleRepository roleRepository;
     private final UserRepository userRepository;
@@ -40,7 +41,7 @@ public class TeacherServiceImpl implements ITeacherService {
     @Override
     @PreAuthorize("hasAuthority('ROLE_TEACHER')")
     public TeacherReadOnlyDTO getIndex() throws EntityNotFoundException {
-        User user = getUserByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+        User user = userService.getUserByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
         Teacher teacher = user.getTeacher();
         return mapper.mapToTeacherReadOnlyDTO(teacher);
     }
@@ -61,7 +62,7 @@ public class TeacherServiceImpl implements ITeacherService {
             }
 
             String username = SecurityContextHolder.getContext().getAuthentication().getName();
-            User savedUser = getUserByUsername(username);
+            User savedUser = userService.getUserByUsername(username);
 
             //save teacher
             Teacher teacher = mapper.mapToTeacherEntity(teacherInsertDTO);
@@ -167,12 +168,6 @@ public class TeacherServiceImpl implements ITeacherService {
             log.error("Failed to soft delete teacher with uuid = {}.", uuid);
             throw e;
         }
-    }
-
-    @Override
-    public User getUserByUsername(String username) throws EntityNotFoundException {
-        return userRepository.findByUsername(username)
-                .orElseThrow(() -> new EntityNotFoundException("User with username = " + username + " not found."));
     }
 
     @Override
