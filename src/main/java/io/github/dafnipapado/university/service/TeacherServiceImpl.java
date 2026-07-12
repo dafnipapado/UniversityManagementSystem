@@ -60,8 +60,6 @@ public class TeacherServiceImpl implements ITeacherService {
                 throw new EntityAlreadyExistsException("User with email = " + teacherInsertDTO.userInfoInsertDTO().email() + " already exists.");
             }
 
-            Long teacherRoleId = 2L;
-
             String username = SecurityContextHolder.getContext().getAuthentication().getName();
             User savedUser = getUserByUsername(username);
 
