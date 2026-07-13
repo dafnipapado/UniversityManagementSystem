@@ -19,13 +19,14 @@ public record CourseInsertDTO(
         String description,
 
         @NotNull
-        int ects,
+        @Size(min = 1, max = 10)
+        Integer ects,
 
         @NotNull
         Long departmentId
 ) {
 
     public static CourseInsertDTO empty() {
-        return new CourseInsertDTO("", "", "", 0, 0L);
+        return new CourseInsertDTO("", "", "", null, 0L);
     }
 }

@@ -5,7 +5,7 @@ public record CourseReadOnlyDTO(
         String code,
         String name,
         String description,
-        int ects,
+        Integer ects,
         String departmentName
 ) {
 }

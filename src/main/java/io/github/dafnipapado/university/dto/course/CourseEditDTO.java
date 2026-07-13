@@ -24,7 +24,8 @@ public record CourseEditDTO(
         String description,
 
         @NotNull
-        int ects,
+        @Size(min = 1, max = 10)
+        Integer ects,
 
         @NotNull
         Long departmentId
