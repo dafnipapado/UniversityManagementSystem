@@ -1,6 +1,9 @@
 package io.github.dafnipapado.university.mapper;
 
 import io.github.dafnipapado.university.dto.*;
+import io.github.dafnipapado.university.dto.student.StudentEditDTO;
+import io.github.dafnipapado.university.dto.student.StudentInsertDTO;
+import io.github.dafnipapado.university.dto.student.StudentReadOnlyDTO;
 import io.github.dafnipapado.university.dto.teacher.TeacherEditDTO;
 import io.github.dafnipapado.university.dto.teacher.TeacherInsertDTO;
 import io.github.dafnipapado.university.dto.teacher.TeacherReadOnlyDTO;
@@ -9,6 +12,7 @@ import io.github.dafnipapado.university.dto.user.UserInsertDTO;
 import io.github.dafnipapado.university.dto.user.UserReadOnlyDTO;
 import io.github.dafnipapado.university.dto.userInfo.UserInfoEditDTO;
 import io.github.dafnipapado.university.dto.userInfo.UserInfoInsertDTO;
+import io.github.dafnipapado.university.model.Student;
 import io.github.dafnipapado.university.model.Teacher;
 import io.github.dafnipapado.university.model.User;
 import io.github.dafnipapado.university.model.UserInfo;
@@ -75,4 +79,37 @@ public class Mapper {
     public UserReadOnlyDTO mapToUserReadOnlyDTO(User user) {
         return new UserReadOnlyDTO(user.getUsername(), user.getRole().getName());
     }
+
+    public StudentReadOnlyDTO mapToStudentReadOnlyDTO(Student student) {
+        return new StudentReadOnlyDTO(
+                student.getUuid().toString(),
+                student.getUser().getUserInfo().getFirstname(),
+                student.getUser().getUserInfo().getLastname(),
+                student.getStudentAM());
+    }
+
+    public Student mapToStudentEntity(StudentInsertDTO studentInsertDTO) {
+        return new Student(null, studentInsertDTO.studentAM(), null, null, null, null);
+    }
+
+    public StudentEditDTO mapToStudentEditDTO(Student student) {
+        return new StudentEditDTO(
+                student.getUuid(),
+                student.getStudentAM(),
+                new UserEditDTO(
+                        student.getUser().getUsername(),
+                        student.getUser().getPassword()
+                ),
+                new UserInfoEditDTO(
+                        student.getUser().getUserInfo().getFirstname(),
+                        student.getUser().getUserInfo().getLastname(),
+                        student.getUser().getUserInfo().getAfm(),
+                        student.getUser().getUserInfo().getEmail(),
+                        student.getUser().getUserInfo().getTelephone(),
+                        student.getUser().getUserInfo().getZipcode(),
+                        student.getUser().getUserInfo().getRegion().getId()
+                )
+        );
+    }
+
 }
