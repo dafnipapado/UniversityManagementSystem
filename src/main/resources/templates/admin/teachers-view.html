@@ -24,7 +24,7 @@
             <tr th:each="teacher : ${teachers}">
                 <td th:text="${teacher.firstname}"></td>
                 <td th:text="${teacher.lastname}"></td>
-                <td th:text="${teacher.teacherAm}"></td>
+                <td th:text="${teacher.teacherAM}"></td>
                 <td>
                     <a th:href="@{/teachers/edit/{uuid}(uuid=${teacher.uuid})}">
                         <button class="btn btn-light">Edit</button>
