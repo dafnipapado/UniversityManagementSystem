@@ -27,4 +27,13 @@ public class Department {
 
     @OneToMany(mappedBy = "department")
     private Set<Course> courses = new HashSet<>();
+
+    public void addCourse(Course course) {
+        courses.add(course);
+        course.setDepartment(this);
+    }
+
+    public void removeCourse(Course course) {
+        courses.remove(course);
+    }
 }
