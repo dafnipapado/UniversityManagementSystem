@@ -16,7 +16,7 @@ public record UserInfoInsertDTO(
         String lastname,
 
         @NotBlank
-        @Pattern(regexp = "\\d{9,}")
+        @Pattern(regexp = "\\d{9}")
         String afm,
 
         @NotBlank
@@ -24,11 +24,11 @@ public record UserInfoInsertDTO(
         String email,
 
         @NotBlank
-        @Pattern(regexp = "//d{10,}")
+        @Pattern(regexp = "\\d{10}")
         String telephone,
 
         @NotBlank
-        @Pattern(regexp = "//d{5,}")
+        @Pattern(regexp = "\\d{5}")
         String zipCode,
 
         @NotNull

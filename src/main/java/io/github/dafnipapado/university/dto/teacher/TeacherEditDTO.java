@@ -14,7 +14,7 @@ public record TeacherEditDTO (
         UUID uuid,
 
         @NotBlank
-        @Pattern(regexp = "\\d{5,}")
+        @Pattern(regexp = "\\d{5}")
         String teacherAM,
 
         @NotNull

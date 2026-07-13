@@ -8,7 +8,7 @@ import jakarta.validation.constraints.Pattern;
 public record StudentInsertDTO(
 
         @NotBlank
-        @Pattern(regexp = "\\d{5,}")
+        @Pattern(regexp = "\\d{5}")
         String studentAM,
 
         @NotNull
