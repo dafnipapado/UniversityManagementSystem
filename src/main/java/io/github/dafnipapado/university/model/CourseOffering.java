@@ -36,9 +36,8 @@ public class CourseOffering {
     @JoinColumn(name = "semester_id")
     private Semester semester;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "examination_id")
-    private Examination examination;
+    @OneToMany(mappedBy = "courseOffering")
+    private Set<Examination> examinations;
 
     @OneToMany(mappedBy = "offering")
     private Set<Enrollment> enrollments;

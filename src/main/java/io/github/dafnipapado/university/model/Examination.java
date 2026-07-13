@@ -28,8 +28,9 @@ public class Examination {
     @Column(nullable = false, columnDefinition = "DATE")
     private Date examination_date;
 
-    @OneToMany(mappedBy = "examination")
-    private Set<CourseOffering> offerings;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "examination_id")
+    private CourseOffering courseOffering;
 
     @OneToMany(mappedBy = "examination")
     private Set<ExamResult> results;
