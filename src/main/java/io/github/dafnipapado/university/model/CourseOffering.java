@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.Set;
+import java.util.UUID;
 
 @Entity
 @Getter
@@ -19,6 +20,9 @@ public class CourseOffering {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
+
+    @Column(nullable = false, unique = true, updatable = false, columnDefinition = "BINARY(16)")
+    private UUID uuid;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "course_id")
@@ -39,5 +43,8 @@ public class CourseOffering {
     @OneToMany(mappedBy = "offering")
     private Set<Enrollment> enrollments;
 
-
+    @PrePersist
+    public void initializeUuid() {
+        this.uuid = UUID.randomUUID();
+    }
 }

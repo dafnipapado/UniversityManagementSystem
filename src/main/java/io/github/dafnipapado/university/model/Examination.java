@@ -8,6 +8,7 @@ import lombok.Setter;
 
 import java.util.Date;
 import java.util.Set;
+import java.util.UUID;
 
 @Entity
 @Getter
@@ -21,6 +22,9 @@ public class Examination {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
+    @Column(nullable = false, unique = true, updatable = false, columnDefinition = "BINARY(16)")
+    private UUID uuid;
+
     @Column(nullable = false, columnDefinition = "DATE")
     private Date examination_date;
 
@@ -30,5 +34,8 @@ public class Examination {
     @OneToMany(mappedBy = "examination")
     private Set<ExamResult> results;
 
-
+    @PrePersist
+    public void initializeUuid() {
+        this.uuid = UUID.randomUUID();
+    }
 }

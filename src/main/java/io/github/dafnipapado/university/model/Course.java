@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.Set;
+import java.util.UUID;
 
 @Entity
 @Getter
@@ -20,6 +21,9 @@ public class Course extends AbstractEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
+
+    @Column(nullable = false, unique = true, updatable = false, columnDefinition = "BINARY(16)")
+    private UUID uuid;
 
     @Column(nullable = false, unique = true)
     private String code;
@@ -39,4 +43,20 @@ public class Course extends AbstractEntity{
 
     @OneToMany (mappedBy = "course")
     private Set<CourseOffering> offerings;
+
+    @PrePersist
+    public void initializeUuid() {
+        this.uuid = UUID.randomUUID();
+    }
+
+    @Override
+    public final boolean equals(Object o) {
+        if (!(o instanceof Course course)) return false;
+        return getUuid().equals(course.getUuid());
+    }
+
+    @Override
+    public int hashCode() {
+        return getUuid().hashCode();
+    }
 }
