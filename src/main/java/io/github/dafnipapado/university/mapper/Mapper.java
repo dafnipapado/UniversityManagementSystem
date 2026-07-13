@@ -1,6 +1,9 @@
 package io.github.dafnipapado.university.mapper;
 
 import io.github.dafnipapado.university.dto.*;
+import io.github.dafnipapado.university.dto.course.CourseEditDTO;
+import io.github.dafnipapado.university.dto.course.CourseInsertDTO;
+import io.github.dafnipapado.university.dto.course.CourseReadOnlyDTO;
 import io.github.dafnipapado.university.dto.student.StudentEditDTO;
 import io.github.dafnipapado.university.dto.student.StudentInsertDTO;
 import io.github.dafnipapado.university.dto.student.StudentReadOnlyDTO;
@@ -12,10 +15,8 @@ import io.github.dafnipapado.university.dto.user.UserInsertDTO;
 import io.github.dafnipapado.university.dto.user.UserReadOnlyDTO;
 import io.github.dafnipapado.university.dto.userInfo.UserInfoEditDTO;
 import io.github.dafnipapado.university.dto.userInfo.UserInfoInsertDTO;
-import io.github.dafnipapado.university.model.Student;
-import io.github.dafnipapado.university.model.Teacher;
-import io.github.dafnipapado.university.model.User;
-import io.github.dafnipapado.university.model.UserInfo;
+import io.github.dafnipapado.university.model.*;
+import io.github.dafnipapado.university.model.static_data.Department;
 import io.github.dafnipapado.university.model.static_data.Region;
 import io.github.dafnipapado.university.model.static_data.Role;
 import org.springframework.stereotype.Component;
@@ -110,6 +111,44 @@ public class Mapper {
                         student.getUser().getUserInfo().getRegion().getId()
                 )
         );
+    }
+
+    public Course mapToCourseEntity(CourseInsertDTO courseInsertDTO) {
+        return new Course(
+                null,
+                null,
+                courseInsertDTO.code(),
+                courseInsertDTO.name(),
+                courseInsertDTO.description(),
+                courseInsertDTO.ects(),
+                null,
+                null);
+    }
+
+    public CourseReadOnlyDTO mapToCourseReadOnlyDTO(Course course) {
+        return new CourseReadOnlyDTO(
+                course.getUuid().toString(),
+                course.getCode(),
+                course.getName(),
+                course.getDescription(),
+                course.getEcts(),
+                course.getDepartment().getName()
+        );
+    }
+
+    public CourseEditDTO mapToCourseEditDTO(Course course) {
+        return new CourseEditDTO(
+                course.getUuid(),
+                course.getCode(),
+                course.getName(),
+                course.getDescription(),
+                course.getEcts(),
+                course.getDepartment().getId()
+        );
+    }
+
+    public DepartmentReadOnlyDTO mapToDepartmentReadOnlyDTO(Department department) {
+        return new DepartmentReadOnlyDTO(department.getId(), department.getName());
     }
 
 }
