@@ -17,5 +17,5 @@ public interface ICourseOfferingService {
     CourseOfferingReadOnlyDTO updateCourseOffering(CourseOfferingEditDTO courseOfferingEditDTO) throws EntityNotFoundException, EntityAlreadyExistsException;
     void deleteCourseOffering(UUID uuid) throws EntityNotFoundException;
     Page<CourseOfferingReadOnlyDTO> getCourseOfferingsPaginated(Pageable pageable);
-    CourseOffering getCourseOfferingByUuid(UUID uuid) throws EntityNotFoundException;
+    CourseOffering getCourseOfferingByUuidAndDeletedFalse(UUID uuid) throws EntityNotFoundException;
 }

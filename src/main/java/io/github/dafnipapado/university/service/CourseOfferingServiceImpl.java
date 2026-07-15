@@ -70,7 +70,7 @@ public class CourseOfferingServiceImpl implements ICourseOfferingService{
 
     @Override
     public CourseOfferingEditDTO getCourseOfferingEditDTO(UUID uuid) throws EntityNotFoundException {
-        CourseOffering courseOffering = getCourseOfferingByUuid(uuid);
+        CourseOffering courseOffering = getCourseOfferingByUuidAndDeletedFalse(uuid);
         return mapper.mapToCourseOfferingEditDTO(courseOffering);
     }
 
@@ -79,7 +79,7 @@ public class CourseOfferingServiceImpl implements ICourseOfferingService{
     @Transactional(rollbackFor = {EntityAlreadyExistsException.class, EntityNotFoundException.class})
     public CourseOfferingReadOnlyDTO updateCourseOffering(CourseOfferingEditDTO courseOfferingEditDTO) throws EntityNotFoundException, EntityAlreadyExistsException {
         try {
-            CourseOffering courseOffering = getCourseOfferingByUuid(courseOfferingEditDTO.uuid());
+            CourseOffering courseOffering = getCourseOfferingByUuidAndDeletedFalse(courseOfferingEditDTO.uuid());
 
             boolean isCourseUpdated = !Objects.equals(courseOfferingEditDTO.courseUuid(), courseOffering.getCourse().getUuid());
             boolean isTeacherUpdated = !Objects.equals(courseOfferingEditDTO.teacherUuid(), courseOffering.getTeacher().getUuid());
@@ -121,7 +121,7 @@ public class CourseOfferingServiceImpl implements ICourseOfferingService{
     @Transactional(rollbackFor = EntityNotFoundException.class)
     public void deleteCourseOffering(UUID uuid) throws EntityNotFoundException {
         try {
-            CourseOffering courseOffering = getCourseOfferingByUuid(uuid);
+            CourseOffering courseOffering = getCourseOfferingByUuidAndDeletedFalse(uuid);
             courseOffering.softDelete();
         } catch (EntityNotFoundException e) {
             log.error("Failed to soft delete course offering with uuid = {}.", uuid);
@@ -138,7 +138,7 @@ public class CourseOfferingServiceImpl implements ICourseOfferingService{
     }
 
     @Override
-    public CourseOffering getCourseOfferingByUuid(UUID uuid) throws EntityNotFoundException {
+    public CourseOffering getCourseOfferingByUuidAndDeletedFalse(UUID uuid) throws EntityNotFoundException {
         return courseOfferingRepository.findByUuidAndDeletedFalse(uuid)
                 .orElseThrow(() -> new EntityNotFoundException("Active course offering with uuid = " + uuid + " not found."));
     }
