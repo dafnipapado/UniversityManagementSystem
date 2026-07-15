@@ -4,6 +4,8 @@ import io.github.dafnipapado.university.dto.*;
 import io.github.dafnipapado.university.dto.course.CourseEditDTO;
 import io.github.dafnipapado.university.dto.course.CourseInsertDTO;
 import io.github.dafnipapado.university.dto.course.CourseReadOnlyDTO;
+import io.github.dafnipapado.university.dto.semester.SemesterInsertDTO;
+import io.github.dafnipapado.university.dto.semester.SemesterReadOnlyDTO;
 import io.github.dafnipapado.university.dto.student.StudentEditDTO;
 import io.github.dafnipapado.university.dto.student.StudentInsertDTO;
 import io.github.dafnipapado.university.dto.student.StudentReadOnlyDTO;
@@ -151,4 +153,12 @@ public class Mapper {
         return new DepartmentReadOnlyDTO(department.getId(), department.getName());
     }
 
+    public Semester mapToSemesterEntity(SemesterInsertDTO semesterInsertDTO) {
+        return new Semester(
+                null,
+                semesterInsertDTO.name(),
+                semesterInsertDTO.year(),
+                null
+        );
+    }
 }
