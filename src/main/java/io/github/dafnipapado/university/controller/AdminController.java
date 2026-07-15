@@ -15,7 +15,7 @@ public class AdminController {
 
     private final ITeacherService teacherService;
 
-    @GetMapping({"", "/"})
+    @GetMapping({"", "/", "/index"})
     public String index() {
         return "admin/index";
     }
