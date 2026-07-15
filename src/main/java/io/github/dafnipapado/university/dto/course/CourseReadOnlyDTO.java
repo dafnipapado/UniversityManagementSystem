@@ -1,7 +1,9 @@
 package io.github.dafnipapado.university.dto.course;
 
+import java.util.UUID;
+
 public record CourseReadOnlyDTO(
-        String uuid,
+        UUID uuid,
         String code,
         String name,
         String description,

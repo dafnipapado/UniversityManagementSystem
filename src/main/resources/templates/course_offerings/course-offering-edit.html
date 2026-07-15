@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Edit course offering</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+</head>
+<body>
+    <form
+            method="post"
+            th:action="@{/course-offerings/edit}"
+            th:object="${courseOfferingEditDTO}"
+    >
+        <input type="hidden" th:field="*{uuid}" />
+
+        <div class="row">
+            <div class="col-lg-6 min-height-100">
+                <label th:for="courseUuid" class="form-label">Course</label>
+                <select th:field="*{courseUuid}" id="courseUuid" class="form-select" required>
+                    <option value="" selected>Select Course</option>
+                    <option th:each="course : ${coursesList}"
+                            th:value="${course.uuid}"
+                            th:text="${course.code}"
+                            th:selected="${course.uuid==courseOfferingEditDTO.courseUuid}">
+                    </option>
+                </select>
+                <div th:if="${#fields.hasErrors('courseUuid')}">
+                    <p th:classappend="${#fields.hasErrors('courseUuid')} ? 'error'" th:errors="*{courseUuid}"></p>
+                </div>
+            </div>
+            <div class="col-lg-6 min-height-100">
+                <label th:for="teacherUuid" class="form-label">Teacher</label>
+                <select th:field="*{teacherUuid}" id="teacherUuid" class="form-select" required>
+                    <option value="" selected>Select Teacher</option>
+                    <option th:each="teacher : ${teachersList}"
+                            th:value="${teacher.uuid}"
+                            th:text="${teacher.teacherAM}"
+                            th:selected="${teacher.uuid==courseOfferingEditDTO.teacherUuid}">
+                    </option>
+                </select>
+                <div th:if="${#fields.hasErrors('teacherUuid')}">
+                    <p th:classappend="${#fields.hasErrors('teacherUuid')} ? 'error'" th:errors="*{teacherUuid}"></p>
+                </div>
+            </div>
+            <div class="col-lg-6 min-height-100">
+                <label th:for="semesterId" class="form-label">Semester</label>
+                <select th:field="*{semesterId}" id="semesterId" class="form-select" required>
+                    <option value="" selected>Select Semester</option>
+                    <option th:each="semester : ${semestersList}"
+                            th:value="${semester.id}"
+                            th:text="${semester.year} + ' ' + ${semester.name}"
+                            th:selected="${semester.id==courseOfferingEditDTO.semesterId}">
+                    </option>
+                </select>
+                <div th:if="${#fields.hasErrors('semesterId')}">
+                    <p th:classappend="${#fields.hasErrors('semesterId')} ? 'error'" th:errors="*{semesterId}"></p>
+                </div>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-outline-dark">Save</button>
+    </form>
+</body>
+</html>

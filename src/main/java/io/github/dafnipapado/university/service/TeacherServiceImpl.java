@@ -21,6 +21,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -88,7 +89,7 @@ public class TeacherServiceImpl implements ITeacherService {
 
     @Override
     public TeacherEditDTO getTeacherEditDTO(UUID uuid) throws EntityNotFoundException {
-        Teacher teacher = teacherRepository.findByUuid(uuid)
+        Teacher teacher = teacherRepository.findByUuidAndDeletedFalse(uuid)
                 .orElseThrow(() -> new EntityNotFoundException("Teacher with uuid " + uuid + " not found."));
         return mapper.mapToTeacherEditDTO(teacher);
     }
@@ -98,7 +99,7 @@ public class TeacherServiceImpl implements ITeacherService {
     @Transactional(rollbackFor = {EntityAlreadyExistsException.class, EntityNotFoundException.class})
     public TeacherReadOnlyDTO updateTeacher(TeacherEditDTO teacherEditDTO) throws EntityAlreadyExistsException, EntityNotFoundException {
         try {
-            Teacher teacher = teacherRepository.findByUuid(teacherEditDTO.uuid())
+            Teacher teacher = teacherRepository.findByUuidAndDeletedFalse(teacherEditDTO.uuid())
                     .orElseThrow(() -> new EntityNotFoundException("Teacher with uuid = " + teacherEditDTO.uuid() + " not found.}"));
 
             //checks for already existing teacherAM, afm, email, if changed
@@ -160,7 +161,7 @@ public class TeacherServiceImpl implements ITeacherService {
     @Transactional(rollbackFor = EntityNotFoundException.class)
     public void deleteTeacher(UUID uuid) throws EntityNotFoundException {
         try{
-            Teacher teacher = teacherRepository.findByUuid(uuid)
+            Teacher teacher = teacherRepository.findByUuidAndDeletedFalse(uuid)
                     .orElseThrow(() -> new EntityNotFoundException("Teacher with uuid = " + uuid + " was not found."));
             teacher.getUser().softDelete();
             teacher.softDelete();
@@ -176,5 +177,20 @@ public class TeacherServiceImpl implements ITeacherService {
         Page<Teacher> teacherPage = teacherRepository.findAll(pageable);
         log.info("Paginated teachers fetched successfully with page = {} and size = {}", teacherPage.getNumber(), teacherPage.getSize());
         return teacherPage.map(mapper::mapToTeacherReadOnlyDTO);
+    }
+
+    @Override
+    public List<TeacherReadOnlyDTO> getAllTeachers() {
+        return teacherRepository.findAllByOrderByTeacherAM()
+                .stream()
+                .map(mapper::mapToTeacherReadOnlyDTO)
+                .toList();
+    }
+
+    @Override
+    public Teacher getTeacherByUuid(UUID uuid) throws EntityNotFoundException {
+        return teacherRepository.findByUuidAndDeletedFalse(uuid)
+                .orElseThrow(() -> new EntityNotFoundException("Active teacher with uuid = " + uuid + " not found."));
+
     }
 }

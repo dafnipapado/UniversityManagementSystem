@@ -18,6 +18,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -57,7 +58,7 @@ public class CourseServiceImpl implements ICourseService{
 
     @Override
     public CourseEditDTO getCourseEditDTO(UUID uuid) throws EntityNotFoundException {
-        Course course = courseRepository.findByUuid(uuid)
+        Course course = courseRepository.findByUuidAndDeletedFalse(uuid)
                 .orElseThrow(() -> new EntityNotFoundException("Course with uuid = " + uuid + " not found."));
         return mapper.mapToCourseEditDTO(course);
     }
@@ -67,7 +68,7 @@ public class CourseServiceImpl implements ICourseService{
     @Transactional(rollbackFor = {EntityAlreadyExistsException.class, EntityNotFoundException.class})
     public CourseReadOnlyDTO updateCourse(CourseEditDTO courseEditDTO) throws EntityNotFoundException, EntityAlreadyExistsException {
         try {
-            Course course = courseRepository.findByUuid(courseEditDTO.uuid())
+            Course course = courseRepository.findByUuidAndDeletedFalse(courseEditDTO.uuid())
                     .orElseThrow(() -> new EntityNotFoundException("Course with uuid = " + courseEditDTO.uuid() + " not found.}"));
 
             if (!Objects.equals(courseEditDTO.code(), course.getCode()) && courseRepository.findByCode(courseEditDTO.code()).isPresent()) {
@@ -100,7 +101,7 @@ public class CourseServiceImpl implements ICourseService{
     @Transactional(rollbackFor = EntityNotFoundException.class)
     public void deleteCourse(UUID uuid) throws EntityNotFoundException {
         try{
-            Course course = courseRepository.findByUuid(uuid)
+            Course course = courseRepository.findByUuidAndDeletedFalse(uuid)
                     .orElseThrow(() -> new EntityNotFoundException("Course with uuid = " + uuid + " was not found."));
             course.softDelete();
             log.info("Course with uuid = {} was soft deleted successfully.", course.getUuid());
@@ -116,5 +117,19 @@ public class CourseServiceImpl implements ICourseService{
         Page<Course> coursePage = courseRepository.findAll(pageable);
         log.info("Paginated courses fetched successfully with page = {} and size = {}", coursePage.getNumber(), coursePage.getSize());
         return coursePage.map(mapper::mapToCourseReadOnlyDTO);
+    }
+
+    @Override
+    public List<CourseReadOnlyDTO> getAllCourses() {
+        return courseRepository.findAllByOrderByDepartment_NameAscCodeAsc()
+                .stream()
+                .map(mapper::mapToCourseReadOnlyDTO)
+                .toList();
+    }
+
+    @Override
+    public Course getCourseByUuid(UUID uuid) throws EntityNotFoundException {
+        return courseRepository.findByUuidAndDeletedFalse(uuid)
+                .orElseThrow(() -> new EntityNotFoundException("Active course with uuid = " + uuid + " not found."));
     }
 }

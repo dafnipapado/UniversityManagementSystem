@@ -4,6 +4,8 @@ import io.github.dafnipapado.university.dto.*;
 import io.github.dafnipapado.university.dto.course.CourseEditDTO;
 import io.github.dafnipapado.university.dto.course.CourseInsertDTO;
 import io.github.dafnipapado.university.dto.course.CourseReadOnlyDTO;
+import io.github.dafnipapado.university.dto.course_offering.CourseOfferingEditDTO;
+import io.github.dafnipapado.university.dto.course_offering.CourseOfferingReadOnlyDTO;
 import io.github.dafnipapado.university.dto.semester.SemesterInsertDTO;
 import io.github.dafnipapado.university.dto.semester.SemesterReadOnlyDTO;
 import io.github.dafnipapado.university.dto.student.StudentEditDTO;
@@ -44,7 +46,11 @@ public class Mapper {
     }
 
     public TeacherReadOnlyDTO mapToTeacherReadOnlyDTO(Teacher teacher) {
-        return new TeacherReadOnlyDTO(teacher.getUuid().toString(), teacher.getUser().getUserInfo().getFirstname(), teacher.getUser().getUserInfo().getLastname(), teacher.getTeacherAM());
+        return new TeacherReadOnlyDTO(
+                teacher.getUuid(),
+                teacher.getUser().getUserInfo().getFirstname(),
+                teacher.getUser().getUserInfo().getLastname(),
+                teacher.getTeacherAM());
     }
 
     public TeacherEditDTO mapToTeacherEditDTO(Teacher teacher) {
@@ -129,7 +135,7 @@ public class Mapper {
 
     public CourseReadOnlyDTO mapToCourseReadOnlyDTO(Course course) {
         return new CourseReadOnlyDTO(
-                course.getUuid().toString(),
+                course.getUuid(),
                 course.getCode(),
                 course.getName(),
                 course.getDescription(),
@@ -161,4 +167,23 @@ public class Mapper {
                 null
         );
     }
+
+    public CourseOfferingReadOnlyDTO mapToCourseOfferingReadOnlyDTO(CourseOffering courseOffering) {
+        return new CourseOfferingReadOnlyDTO(
+                courseOffering.getUuid().toString(),
+                mapToCourseReadOnlyDTO(courseOffering.getCourse()),
+                mapToTeacherReadOnlyDTO(courseOffering.getTeacher()),
+                new SemesterReadOnlyDTO(courseOffering.getSemester().getName(), courseOffering.getSemester().getYear())
+        );
+    }
+
+    public CourseOfferingEditDTO mapToCourseOfferingEditDTO(CourseOffering courseOffering){
+        return new CourseOfferingEditDTO(
+                courseOffering.getUuid(),
+                courseOffering.getCourse().getUuid(),
+                courseOffering.getTeacher().getUuid(),
+                courseOffering.getSemester().getId()
+        );
+    }
+
 }

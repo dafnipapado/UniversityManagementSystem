@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Create New Course Offering</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div class="container mt-5 main-content">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h2 class="card-title mb-0">Add a course offering</h2>
+                </div>
+
+                <div th:if="${errorMessage}" class="error">
+                    <p th:text="${errorMessage}"></p>
+                </div>
+
+                <div class="card-body">
+                    <form method="post" th:object="${courseOfferingInsertDTO}" th:action="@{/course-offerings/create}" >
+                        <div class="mb-3">
+                            <label th:for="courseUuid" class="form-label">Course</label>
+                            <select th:field="*{courseUuid}" class="form-select" id="courseUuid" required>
+                                <option value="" selected>Select Course</option>
+                                <option th:each="course : ${coursesList}" th:value="${course.uuid}" th:text="${course.code}"></option>
+                            </select>
+                            <div th:if="${#fields.hasErrors('courseUuid')}">
+                                <p th:classappend="${#fields.hasErrors('courseUuid')} ? 'error'" th:errors="*{courseUuid}"></p>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label th:for="teacherUuid" class="form-label">Teacher</label>
+                            <select th:field="*{teacherUuid}" class="form-select" id="teacherUuid" required>
+                                <option value="" selected>Select Teacher</option>
+                                <option th:each="teacher : ${teachersList}" th:value="${teacher.uuid}" th:text="${teacher.teacherAM}"></option>
+                            </select>
+                            <div th:if="${#fields.hasErrors('teacherUuid')}">
+                                <p th:classappend="${#fields.hasErrors('teacherUuid')} ? 'error'" th:errors="*{teacherUuid}"></p>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label th:for="semesterId" class="form-label">Semester</label>
+                            <select th:field="*{semesterId}" class="form-select" id="semesterId" required>
+                                <option value="" selected>Select Semester</option>
+                                <option th:each="semester : ${semestersList}" th:value="${semester.id}" th:text="${semester.year} + ' ' + ${semester.name}"></option>
+                            </select>
+                            <div th:if="${#fields.hasErrors('semesterId')}">
+                                <p th:classappend="${#fields.hasErrors('semesterId')} ? 'error'" th:errors="*{semesterId}"></p>
+                            </div>
+                        </div>
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary btn-lg">Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Bootstrap JS Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
