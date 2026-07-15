@@ -59,4 +59,13 @@ public class Course extends AbstractEntity{
     public int hashCode() {
         return getUuid().hashCode();
     }
+
+    public void addCourseOffering(CourseOffering courseOffering) {
+        offerings.add(courseOffering);
+        courseOffering.setCourse(this);
+    }
+
+    public void removeCourseOffering(CourseOffering courseOffering) {
+        offerings.remove(courseOffering);
+    }
 }

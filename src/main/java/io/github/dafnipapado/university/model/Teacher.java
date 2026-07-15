@@ -54,4 +54,13 @@ public class Teacher extends AbstractEntity{
     public int hashCode() {
         return getId().hashCode();
     }
+
+    public void addCourseOffering(CourseOffering courseOffering) {
+        offerings.add(courseOffering);
+        courseOffering.setTeacher(this);
+    }
+
+    public void removeCourseOffering(CourseOffering courseOffering) {
+        offerings.remove(courseOffering);
+    }
 }

@@ -28,4 +28,13 @@ public class Semester {
 
     @OneToMany(mappedBy = "semester")
     private Set<CourseOffering> offerings;
+
+    public void addCourseOffering(CourseOffering courseOffering) {
+        offerings.add(courseOffering);
+        courseOffering.setSemester(this);
+    }
+
+    public void removeCourseOffering(CourseOffering courseOffering) {
+        offerings.remove(courseOffering);
+    }
 }
