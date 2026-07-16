@@ -5,6 +5,7 @@ import io.github.dafnipapado.university.dto.student.StudentInsertDTO;
 import io.github.dafnipapado.university.dto.student.StudentReadOnlyDTO;
 import io.github.dafnipapado.university.exception.EntityAlreadyExistsException;
 import io.github.dafnipapado.university.exception.EntityNotFoundException;
+import io.github.dafnipapado.university.model.Student;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -17,5 +18,6 @@ public interface IStudentService {
     StudentReadOnlyDTO updateStudent(StudentEditDTO studentEditDTO) throws EntityAlreadyExistsException, EntityNotFoundException;
     void deleteStudent(UUID uuid) throws EntityNotFoundException;
     Page<StudentReadOnlyDTO> getStudentsPaginated(Pageable pageable);
+    Student getStudentByUuidAndDeletedFalse(UUID uuid) throws EntityNotFoundException;
 
 }

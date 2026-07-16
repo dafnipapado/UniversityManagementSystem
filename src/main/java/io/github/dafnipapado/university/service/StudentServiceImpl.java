@@ -179,4 +179,10 @@ public class StudentServiceImpl implements IStudentService{
         log.info("Paginated students fetched successfully with page = {} and size = {}", studentPage.getNumber(), studentPage.getSize());
         return studentPage.map(mapper::mapToStudentReadOnlyDTO);
     }
+
+    @Override
+    public Student getStudentByUuidAndDeletedFalse(UUID uuid) throws EntityNotFoundException {
+        return studentRepository.findByUuidAndDeletedFalse(uuid)
+                .orElseThrow(() -> new EntityNotFoundException("Active student with uuid = " + uuid + " not found."));
+    }
 }
