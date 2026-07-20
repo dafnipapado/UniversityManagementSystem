@@ -8,6 +8,7 @@ public record CourseOfferingReadOnlyDTO(
         String uuid,
         CourseReadOnlyDTO courseReadOnlyDTO,
         TeacherReadOnlyDTO teacherReadOnlyDTO,
-        SemesterReadOnlyDTO semesterReadOnlyDTO
+        SemesterReadOnlyDTO semesterReadOnlyDTO,
+        Boolean isStudentEnrolled
 ) {
 }
