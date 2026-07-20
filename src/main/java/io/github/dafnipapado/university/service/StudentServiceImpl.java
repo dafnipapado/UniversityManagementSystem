@@ -43,9 +43,7 @@ public class StudentServiceImpl implements IStudentService{
     @Override
     @PreAuthorize("hasAuthority('ROLE_STUDENT')")
     public StudentReadOnlyDTO getIndex() throws EntityNotFoundException {
-        User user = userService.getUserByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
-        Student student = user.getStudent();
-        return mapper.mapToStudentReadOnlyDTO(student);
+        return mapper.mapToStudentReadOnlyDTO(getLoggedInStudent());
     }
 
     @Override
@@ -181,8 +179,17 @@ public class StudentServiceImpl implements IStudentService{
     }
 
     @Override
-    public Student getStudentByUuidAndDeletedFalse(UUID uuid) throws EntityNotFoundException {
-        return studentRepository.findByUuidAndDeletedFalse(uuid)
-                .orElseThrow(() -> new EntityNotFoundException("Active student with uuid = " + uuid + " not found."));
+    public Student getStudentByStudentAmAndDeletedFalse(String studentAM) throws EntityNotFoundException {
+        return studentRepository.findByStudentAmAndDeletedFalse(studentAM)
+                .orElseThrow(() -> new EntityNotFoundException("Active student with AM = " + studentAM + " not found."));
+    }
+
+    @Override
+    public Student getLoggedInStudent() throws EntityNotFoundException {
+        User user = userService.getUserByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+        if (user.getStudent() == null || user.getStudent().isDeleted()) {
+            throw new EntityNotFoundException("Active student with username = " + user.getUsername() + " not found.");
+        }
+        return user.getStudent();
     }
 }

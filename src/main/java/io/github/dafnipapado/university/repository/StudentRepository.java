@@ -10,4 +10,5 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
     Optional<Student> findByStudentAM(String studentAM);
     Optional<Student> findByUuid(UUID uuid);
     Optional<Student> findByUuidAndDeletedFalse(UUID uuid);
+    Optional<Student> findByStudentAmAndDeletedFalse(String StudentAM);
 }
