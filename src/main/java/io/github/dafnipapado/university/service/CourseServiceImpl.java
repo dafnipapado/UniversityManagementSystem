@@ -126,10 +126,4 @@ public class CourseServiceImpl implements ICourseService{
                 .map(mapper::mapToCourseReadOnlyDTO)
                 .toList();
     }
-
-    @Override
-    public Course getCourseByUuid(UUID uuid) throws EntityNotFoundException {
-        return courseRepository.findByUuidAndDeletedFalse(uuid)
-                .orElseThrow(() -> new EntityNotFoundException("Active course with uuid = " + uuid + " not found."));
-    }
 }

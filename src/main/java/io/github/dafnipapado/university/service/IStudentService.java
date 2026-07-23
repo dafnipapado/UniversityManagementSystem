@@ -18,6 +18,4 @@ public interface IStudentService {
     StudentReadOnlyDTO updateStudent(StudentEditDTO studentEditDTO) throws EntityAlreadyExistsException, EntityNotFoundException;
     void deleteStudent(UUID uuid) throws EntityNotFoundException;
     Page<StudentReadOnlyDTO> getStudentsPaginated(Pageable pageable);
-    Student getStudentByStudentAmAndDeletedFalse(String studentAM) throws EntityNotFoundException;
-    Student getLoggedInStudent() throws EntityNotFoundException;
 }

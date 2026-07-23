@@ -22,5 +22,4 @@ public interface ITeacherService {
     void deleteTeacher(UUID uuid) throws EntityNotFoundException;
     Page<TeacherReadOnlyDTO> getTeachersPaginated(Pageable pageable);
     List<TeacherReadOnlyDTO> getAllTeachers();
-    Teacher getTeacherByUuid(UUID uuid) throws EntityNotFoundException;
 }

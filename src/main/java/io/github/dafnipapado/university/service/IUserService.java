@@ -8,5 +8,4 @@ import io.github.dafnipapado.university.model.User;
 
 public interface IUserService {
     UserReadOnlyDTO save(UserInsertDTO userInsertDTO) throws EntityAlreadyExistsException, EntityNotFoundException;
-    User getUserByUsername(String username) throws EntityNotFoundException;
 }

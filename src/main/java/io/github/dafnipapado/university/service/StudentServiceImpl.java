@@ -32,7 +32,7 @@ import java.util.UUID;
 @Slf4j
 public class StudentServiceImpl implements IStudentService{
 
-    private final IUserService userService;
+    private final IUtilityService utilityService;
     private final StudentRepository studentRepository;
     private final UserInfoRepository userInfoRepository;
     private final UserRepository userRepository;
@@ -43,7 +43,7 @@ public class StudentServiceImpl implements IStudentService{
     @Override
     @PreAuthorize("hasAuthority('ROLE_STUDENT')")
     public StudentReadOnlyDTO getIndex() throws EntityNotFoundException {
-        return mapper.mapToStudentReadOnlyDTO(getLoggedInStudent());
+        return mapper.mapToStudentReadOnlyDTO(utilityService.getLoggedInStudent());
     }
 
     @Override
@@ -62,7 +62,7 @@ public class StudentServiceImpl implements IStudentService{
             }
 
             String username = SecurityContextHolder.getContext().getAuthentication().getName();
-            User savedUser = userService.getUserByUsername(username);
+            User savedUser = utilityService.getUserByUsername(username);
 
             //save student
             Student student = mapper.mapToStudentEntity(studentInsertDTO);
@@ -176,20 +176,5 @@ public class StudentServiceImpl implements IStudentService{
         Page<Student> studentPage = studentRepository.findAll(pageable);
         log.info("Paginated students fetched successfully with page = {} and size = {}", studentPage.getNumber(), studentPage.getSize());
         return studentPage.map(mapper::mapToStudentReadOnlyDTO);
-    }
-
-    @Override
-    public Student getStudentByStudentAmAndDeletedFalse(String studentAM) throws EntityNotFoundException {
-        return studentRepository.findByStudentAmAndDeletedFalse(studentAM)
-                .orElseThrow(() -> new EntityNotFoundException("Active student with AM = " + studentAM + " not found."));
-    }
-
-    @Override
-    public Student getLoggedInStudent() throws EntityNotFoundException {
-        User user = userService.getUserByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
-        if (user.getStudent() == null || user.getStudent().isDeleted()) {
-            throw new EntityNotFoundException("Active student with username = " + user.getUsername() + " not found.");
-        }
-        return user.getStudent();
     }
 }

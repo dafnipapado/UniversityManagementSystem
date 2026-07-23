@@ -30,6 +30,7 @@ import java.util.UUID;
 @Slf4j
 public class TeacherServiceImpl implements ITeacherService {
 
+    private final IUtilityService utilityService;
     private final IUserService userService;
     private final TeacherRepository teacherRepository;
     private final RoleRepository roleRepository;
@@ -42,7 +43,7 @@ public class TeacherServiceImpl implements ITeacherService {
     @Override
     @PreAuthorize("hasAuthority('ROLE_TEACHER')")
     public TeacherReadOnlyDTO getIndex() throws EntityNotFoundException {
-        User user = userService.getUserByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+        User user = utilityService.getUserByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
         Teacher teacher = user.getTeacher();
         return mapper.mapToTeacherReadOnlyDTO(teacher);
     }
@@ -63,7 +64,7 @@ public class TeacherServiceImpl implements ITeacherService {
             }
 
             String username = SecurityContextHolder.getContext().getAuthentication().getName();
-            User savedUser = userService.getUserByUsername(username);
+            User savedUser = utilityService.getUserByUsername(username);
 
             //save teacher
             Teacher teacher = mapper.mapToTeacherEntity(teacherInsertDTO);
@@ -185,12 +186,5 @@ public class TeacherServiceImpl implements ITeacherService {
                 .stream()
                 .map(mapper::mapToTeacherReadOnlyDTO)
                 .toList();
-    }
-
-    @Override
-    public Teacher getTeacherByUuid(UUID uuid) throws EntityNotFoundException {
-        return teacherRepository.findByUuidAndDeletedFalse(uuid)
-                .orElseThrow(() -> new EntityNotFoundException("Active teacher with uuid = " + uuid + " not found."));
-
     }
 }
