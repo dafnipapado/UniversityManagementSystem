@@ -168,12 +168,13 @@ public class Mapper {
         );
     }
 
-    public CourseOfferingReadOnlyDTO mapToCourseOfferingReadOnlyDTO(CourseOffering courseOffering) {
+    public CourseOfferingReadOnlyDTO mapToCourseOfferingReadOnlyDTO(CourseOffering courseOffering, Boolean isEnrolled) {
         return new CourseOfferingReadOnlyDTO(
                 courseOffering.getUuid().toString(),
                 mapToCourseReadOnlyDTO(courseOffering.getCourse()),
                 mapToTeacherReadOnlyDTO(courseOffering.getTeacher()),
-                new SemesterReadOnlyDTO(courseOffering.getSemester().getName(), courseOffering.getSemester().getYear())
+                new SemesterReadOnlyDTO(courseOffering.getSemester().getName(), courseOffering.getSemester().getYear()),
+                isEnrolled != null && isEnrolled
         );
     }
 
