@@ -9,6 +9,7 @@ import io.github.dafnipapado.university.model.CourseOffering;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.Set;
 import java.util.UUID;
 
 public interface ICourseOfferingService {
@@ -17,5 +18,7 @@ public interface ICourseOfferingService {
     CourseOfferingReadOnlyDTO updateCourseOffering(CourseOfferingEditDTO courseOfferingEditDTO) throws EntityNotFoundException, EntityAlreadyExistsException;
     void deleteCourseOffering(UUID uuid) throws EntityNotFoundException;
     Page<CourseOfferingReadOnlyDTO> getCourseOfferingsPaginated(Pageable pageable);
-    CourseOffering getCourseOfferingByUuidAndDeletedFalse(UUID uuid) throws EntityNotFoundException;
+    Page<CourseOfferingReadOnlyDTO> getCourseOfferingsPaginatedDeletedFalse(Pageable pageable) throws EntityAlreadyExistsException, EntityNotFoundException;
+    boolean isStudentEnrolled(CourseOffering courseOffering) throws EntityNotFoundException, EntityAlreadyExistsException;
+    Set<CourseOffering> getCourseOfferingsByStudent() throws EntityNotFoundException;
 }

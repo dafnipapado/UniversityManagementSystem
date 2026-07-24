@@ -7,10 +7,7 @@ import io.github.dafnipapado.university.exception.EntityAlreadyExistsException;
 import io.github.dafnipapado.university.exception.EntityNotFoundException;
 import io.github.dafnipapado.university.mapper.Mapper;
 import io.github.dafnipapado.university.model.*;
-import io.github.dafnipapado.university.repository.CourseOfferingRepository;
-import io.github.dafnipapado.university.repository.CourseRepository;
-import io.github.dafnipapado.university.repository.SemesterRepository;
-import io.github.dafnipapado.university.repository.TeacherRepository;
+import io.github.dafnipapado.university.repository.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -19,8 +16,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -28,11 +24,8 @@ import java.util.UUID;
 public class CourseOfferingServiceImpl implements ICourseOfferingService{
 
     private final CourseOfferingRepository courseOfferingRepository;
-    private final CourseRepository courseRepository;
-    private final TeacherRepository teacherRepository;
     private final SemesterRepository semesterRepository;
-    private final ICourseService courseService;
-    private final ITeacherService teacherService;
+    private final IUtilityService utilityService;
     private final Mapper mapper;
 
     @Override
@@ -42,8 +35,8 @@ public class CourseOfferingServiceImpl implements ICourseOfferingService{
         try {
             CourseOffering courseOffering = new CourseOffering();
 
-            Course course = courseService.getCourseByUuid(courseOfferingInsertDTO.courseUuid());
-            Teacher teacher = teacherService.getTeacherByUuid(courseOfferingInsertDTO.teacherUuid());
+            Course course = utilityService.getCourseByUuid(courseOfferingInsertDTO.courseUuid());
+            Teacher teacher = utilityService.getTeacherByUuid(courseOfferingInsertDTO.teacherUuid());
             Semester semester = semesterRepository.findById(courseOfferingInsertDTO.semesterId())
                     .orElseThrow(() -> new EntityNotFoundException("Semester with id = " + courseOfferingInsertDTO.semesterId() + " not found."));
 
@@ -58,7 +51,7 @@ public class CourseOfferingServiceImpl implements ICourseOfferingService{
             courseOfferingRepository.save(courseOffering);
 
             log.info("Course offering was saved successfully.");
-            return mapper.mapToCourseOfferingReadOnlyDTO(courseOffering);
+            return mapper.mapToCourseOfferingReadOnlyDTO(courseOffering, false);
         } catch (EntityNotFoundException | EntityAlreadyExistsException e) {
             log.error("Failed to save course offering.");
             throw e;
@@ -70,7 +63,7 @@ public class CourseOfferingServiceImpl implements ICourseOfferingService{
 
     @Override
     public CourseOfferingEditDTO getCourseOfferingEditDTO(UUID uuid) throws EntityNotFoundException {
-        CourseOffering courseOffering = getCourseOfferingByUuidAndDeletedFalse(uuid);
+        CourseOffering courseOffering = utilityService.getCourseOfferingByUuidAndDeletedFalse(uuid);
         return mapper.mapToCourseOfferingEditDTO(courseOffering);
     }
 
@@ -79,7 +72,7 @@ public class CourseOfferingServiceImpl implements ICourseOfferingService{
     @Transactional(rollbackFor = {EntityAlreadyExistsException.class, EntityNotFoundException.class})
     public CourseOfferingReadOnlyDTO updateCourseOffering(CourseOfferingEditDTO courseOfferingEditDTO) throws EntityNotFoundException, EntityAlreadyExistsException {
         try {
-            CourseOffering courseOffering = getCourseOfferingByUuidAndDeletedFalse(courseOfferingEditDTO.uuid());
+            CourseOffering courseOffering = utilityService.getCourseOfferingByUuidAndDeletedFalse(courseOfferingEditDTO.uuid());
 
             boolean isCourseUpdated = !Objects.equals(courseOfferingEditDTO.courseUuid(), courseOffering.getCourse().getUuid());
             boolean isTeacherUpdated = !Objects.equals(courseOfferingEditDTO.teacherUuid(), courseOffering.getTeacher().getUuid());
@@ -90,8 +83,8 @@ public class CourseOfferingServiceImpl implements ICourseOfferingService{
                 throw new EntityAlreadyExistsException("Course offering already exists.");
             }
 
-            Course course = courseService.getCourseByUuid(courseOfferingEditDTO.courseUuid());
-            Teacher teacher = teacherService.getTeacherByUuid(courseOfferingEditDTO.teacherUuid());
+            Course course = utilityService.getCourseByUuid(courseOfferingEditDTO.courseUuid());
+            Teacher teacher = utilityService.getTeacherByUuid(courseOfferingEditDTO.teacherUuid());
             Semester semester = semesterRepository.findById(courseOfferingEditDTO.semesterId())
                     .orElseThrow(() -> new EntityNotFoundException("Semester with id = " + courseOfferingEditDTO.semesterId() + " not found."));
 
@@ -109,7 +102,7 @@ public class CourseOfferingServiceImpl implements ICourseOfferingService{
             }
 
             log.info("Course offering was updated successfully.");
-            return mapper.mapToCourseOfferingReadOnlyDTO(courseOffering);
+            return mapper.mapToCourseOfferingReadOnlyDTO(courseOffering, false);
         } catch (EntityNotFoundException | EntityAlreadyExistsException e) {
             log.error("Failed to update course offering.");
             throw e;
@@ -121,7 +114,7 @@ public class CourseOfferingServiceImpl implements ICourseOfferingService{
     @Transactional(rollbackFor = EntityNotFoundException.class)
     public void deleteCourseOffering(UUID uuid) throws EntityNotFoundException {
         try {
-            CourseOffering courseOffering = getCourseOfferingByUuidAndDeletedFalse(uuid);
+            CourseOffering courseOffering = utilityService.getCourseOfferingByUuidAndDeletedFalse(uuid);
             courseOffering.softDelete();
         } catch (EntityNotFoundException e) {
             log.error("Failed to soft delete course offering with uuid = {}.", uuid);
@@ -134,12 +127,31 @@ public class CourseOfferingServiceImpl implements ICourseOfferingService{
     public Page<CourseOfferingReadOnlyDTO> getCourseOfferingsPaginated(Pageable pageable) {
         Page<CourseOffering> courseOfferingPage = courseOfferingRepository.findAll(pageable);
         log.info("Paginated course offerings fetched successfully with page = {} and size = {}", courseOfferingPage.getNumber(), courseOfferingPage.getSize());
-        return courseOfferingPage.map(mapper::mapToCourseOfferingReadOnlyDTO);
+        return courseOfferingPage.map(courseOffering -> mapper.mapToCourseOfferingReadOnlyDTO(courseOffering, false));
     }
 
     @Override
-    public CourseOffering getCourseOfferingByUuidAndDeletedFalse(UUID uuid) throws EntityNotFoundException {
-        return courseOfferingRepository.findByUuidAndDeletedFalse(uuid)
-                .orElseThrow(() -> new EntityNotFoundException("Active course offering with uuid = " + uuid + " not found."));
+    public Page<CourseOfferingReadOnlyDTO> getCourseOfferingsPaginatedDeletedFalse(Pageable pageable) throws EntityAlreadyExistsException, EntityNotFoundException {
+        Page<CourseOffering> courseOfferingPage = courseOfferingRepository.findAllByDeletedFalse(pageable);
+        //get all courseOfferings logged-in student is enrolled into
+        Set<CourseOffering> studentCourseOfferings = getCourseOfferingsByStudent();
+        Map<CourseOffering, Boolean> courseOfferingsMap = new HashMap<>();
+        courseOfferingPage.forEach(courseOffering -> courseOfferingsMap.put(courseOffering, studentCourseOfferings.contains(courseOffering)));
+        return courseOfferingPage.map(courseOffering -> mapper.mapToCourseOfferingReadOnlyDTO(courseOffering, courseOfferingsMap.get(courseOffering)));
+    }
+
+    @Override
+    public boolean isStudentEnrolled(CourseOffering courseOffering) throws EntityNotFoundException, EntityAlreadyExistsException {
+        Student student = utilityService.getLoggedInStudent();
+        Enrollment enrollment = utilityService.getByStudentIdCourseOfferingId(student.getId(), courseOffering.getId());
+        return utilityService.isEnrollmentExists(enrollment);
+    }
+
+    @Override
+    public Set<CourseOffering> getCourseOfferingsByStudent() throws EntityNotFoundException {
+        Set<CourseOffering> courseOfferings = new HashSet<>();
+        Student student = utilityService.getLoggedInStudent();
+        student.getEnrollments().forEach(enrollment -> courseOfferings.add(enrollment.getOffering()));
+        return courseOfferings;
     }
 }
