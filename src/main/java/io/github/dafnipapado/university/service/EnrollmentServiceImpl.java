@@ -43,6 +43,7 @@ public class EnrollmentServiceImpl implements IEnrollmentService {
                         "course offering with uuid = " + courseOffering.getUuid());
             }
             enrollmentRepository.save(enrollment);
+            courseOffering.addEnrollment(enrollment);
 
             log.info("Student with uuid = {} was enrolled in course offering with uuid = {} successfully.", student.getUuid(), courseOffering.getUuid());
 
@@ -65,6 +66,8 @@ public class EnrollmentServiceImpl implements IEnrollmentService {
             Enrollment enrollment = utilityService.getByStudentIdCourseOfferingId(student.getId(), courseOffering.getId());
 
             enrollmentRepository.delete(enrollment);
+            courseOffering.removeEnrollment(enrollment);
+
             log.info("Student with uuid = {} withdrew from course offering with uuid = {}.", student.getUuid(), courseOffering.getUuid());
 
         } catch (EntityNotFoundException e) {
@@ -88,6 +91,7 @@ public class EnrollmentServiceImpl implements IEnrollmentService {
                         "course offering with uuid = " + courseOffering.getUuid());
             }
             enrollmentRepository.save(enrollment);
+            courseOffering.addEnrollment(enrollment);
 
             log.info("Student with AM = {} was enrolled in course offering with uuid = {} successfully.", studentAM, courseOfferingUuid);
         } catch (EntityNotFoundException | EntityAlreadyExistsException e) {
@@ -105,6 +109,8 @@ public class EnrollmentServiceImpl implements IEnrollmentService {
             Enrollment enrollment = utilityService.getByStudentIdCourseOfferingId(student.getId(), courseOffering.getId());
 
             enrollmentRepository.delete(enrollment);
+            courseOffering.removeEnrollment(enrollment);
+
             log.info("Student with uuid = {} has been withdrawn from course offering with uuid = {}.", studentAM, courseOfferingUuid);
 
         } catch (EntityNotFoundException e) {

@@ -46,4 +46,13 @@ public class CourseOffering extends AbstractEntity{
     public void initializeUuid() {
         this.uuid = UUID.randomUUID();
     }
+
+    public void addEnrollment(Enrollment enrollment) {
+        enrollments.add(enrollment);
+        enrollment.setOffering(this);
+    }
+
+    public void removeEnrollment(Enrollment enrollment) {
+        enrollments.remove(enrollment);
+    }
 }
