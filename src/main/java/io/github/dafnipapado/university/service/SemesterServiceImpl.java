@@ -6,6 +6,7 @@ import io.github.dafnipapado.university.model.Semester;
 import io.github.dafnipapado.university.repository.SemesterRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,6 +20,7 @@ public class SemesterServiceImpl implements ISemesterService{
     private final SemesterRepository semesterRepository;
 
     @Override
+    @PreAuthorize("hasAuthority('INSERT_SEMESTER')")
     public void saveSemester(SemesterInsertDTO semesterInsertDTO) {
         try {
             Semester semester = mapper.mapToSemesterEntity(semesterInsertDTO);

@@ -31,9 +31,7 @@ import java.util.UUID;
 public class TeacherServiceImpl implements ITeacherService {
 
     private final IUtilityService utilityService;
-    private final IUserService userService;
     private final TeacherRepository teacherRepository;
-    private final RoleRepository roleRepository;
     private final UserRepository userRepository;
     private final RegionRepository regionRepository;
     private final UserInfoRepository userInfoRepository;
@@ -89,6 +87,7 @@ public class TeacherServiceImpl implements ITeacherService {
     }
 
     @Override
+    @PreAuthorize("hasAuthority('EDIT_TEACHER')")
     public TeacherEditDTO getTeacherEditDTO(UUID uuid) throws EntityNotFoundException {
         Teacher teacher = teacherRepository.findByUuidAndDeletedFalse(uuid)
                 .orElseThrow(() -> new EntityNotFoundException("Teacher with uuid " + uuid + " not found."));

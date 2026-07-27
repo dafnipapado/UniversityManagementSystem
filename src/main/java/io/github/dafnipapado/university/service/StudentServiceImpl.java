@@ -87,6 +87,7 @@ public class StudentServiceImpl implements IStudentService{
     }
 
     @Override
+    @PreAuthorize("hasAuthority('EDIT_STUDENT')")
     public StudentEditDTO getStudentEditDTO(UUID uuid) throws EntityNotFoundException {
         Student student = studentRepository.findByUuid(uuid)
                 .orElseThrow(() -> new EntityNotFoundException("Student with uuid " + uuid + " not found."));

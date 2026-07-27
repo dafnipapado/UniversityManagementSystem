@@ -57,6 +57,7 @@ public class CourseServiceImpl implements ICourseService{
     }
 
     @Override
+    @PreAuthorize("hasAuthority('EDIT_COURSE')")
     public CourseEditDTO getCourseEditDTO(UUID uuid) throws EntityNotFoundException {
         Course course = courseRepository.findByUuidAndDeletedFalse(uuid)
                 .orElseThrow(() -> new EntityNotFoundException("Course with uuid = " + uuid + " not found."));

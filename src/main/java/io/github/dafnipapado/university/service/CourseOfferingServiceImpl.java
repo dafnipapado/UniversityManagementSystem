@@ -62,6 +62,7 @@ public class CourseOfferingServiceImpl implements ICourseOfferingService{
     }
 
     @Override
+    @PreAuthorize("hasAuthority('EDIT_COURSE_OFFERING')")
     public CourseOfferingEditDTO getCourseOfferingEditDTO(UUID uuid) throws EntityNotFoundException {
         CourseOffering courseOffering = utilityService.getCourseOfferingByUuidAndDeletedFalse(uuid);
         return mapper.mapToCourseOfferingEditDTO(courseOffering);
