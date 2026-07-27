@@ -8,11 +8,10 @@ import io.github.dafnipapado.university.dto.teacher.TeacherReadOnlyDTO;
 import io.github.dafnipapado.university.exception.EntityAlreadyExistsException;
 import io.github.dafnipapado.university.exception.EntityNotFoundException;
 import io.github.dafnipapado.university.model.Semester;
-import io.github.dafnipapado.university.service.ICourseOfferingService;
-import io.github.dafnipapado.university.service.ICourseService;
-import io.github.dafnipapado.university.service.ISemesterService;
-import io.github.dafnipapado.university.service.ITeacherService;
+import io.github.dafnipapado.university.service.*;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -37,6 +36,7 @@ public class CourseOfferingController {
     private final ICourseService courseService;
     private final ITeacherService teacherService;
     private final ISemesterService semesterService;
+    private final IEnrollmentService enrollmentService;
 
     @GetMapping("/create")
     public String getCreateCourseOffering(Model model){
@@ -97,12 +97,93 @@ public class CourseOfferingController {
         }
     }
 
-    @GetMapping("/view")
+    @GetMapping("/admin-view")
     public String getCourseOfferingsPaginated(@PageableDefault(page = 0, size = 5, sort = {"deleted" , "course.department.name"}) Pageable pageable, Model model){
         Page<CourseOfferingReadOnlyDTO> courseOfferingsPaginated = courseOfferingService.getCourseOfferingsPaginated(pageable);
         model.addAttribute("courseOfferings", courseOfferingsPaginated.getContent());
         model.addAttribute("page", courseOfferingsPaginated);
         return "course_offerings/course-offerings-view";
+    }
+
+    @GetMapping("/view")
+    public String getActiveCourseOfferingsPaginated(@PageableDefault(page = 0, size = 5, sort = {"deleted" , "course.department.name"}) Pageable pageable, Model model)
+            throws EntityAlreadyExistsException, EntityNotFoundException {
+        Page<CourseOfferingReadOnlyDTO> courseOfferingsPaginated = courseOfferingService.getCourseOfferingsPaginatedDeletedFalse(pageable);
+        model.addAttribute("courseOfferings", courseOfferingsPaginated.getContent());
+        model.addAttribute("page", courseOfferingsPaginated);
+        return "course_offerings/course-offerings-view";
+    }
+
+    @PostMapping("/enroll/{uuid}")
+    public String enroll(@PathVariable UUID uuid, RedirectAttributes redirectAttributes, Model model) throws EntityNotFoundException, EntityAlreadyExistsException {
+        try {
+            enrollmentService.enroll(uuid);
+            redirectAttributes.addFlashAttribute("successMessage", "Enrollment was successful.");
+            return "redirect:/course-offerings/view";
+        } catch (EntityNotFoundException | EntityAlreadyExistsException e) {
+            log.error(e.getMessage());
+            model.addAttribute("errorMessage", "Enrollment failed.");
+            return "course_offerings/course-offerings-view";
+        }
+    }
+
+    @GetMapping("/{courseOfferingUuid}/student-enroll")
+    public String getStudentEnrollmentForm(@PathVariable UUID courseOfferingUuid, Model model) {
+        model.addAttribute("courseOfferingUuid", courseOfferingUuid);
+        model.addAttribute("studentAM", "");
+        return "course_offerings/course-offering-student-enroll";
+    }
+
+    @PostMapping("/{courseOfferingUuid}/student-enroll")
+    public String enrollStudentByAdmin(@PathVariable UUID courseOfferingUuid,
+                                       @RequestParam @NotBlank @Pattern(regexp = "\\d{5}") String studentAM,
+                                       RedirectAttributes redirectAttributes, Model model)
+            throws EntityNotFoundException, EntityAlreadyExistsException {
+        try {
+            enrollmentService.enrollByAdmin(courseOfferingUuid, studentAM);
+            redirectAttributes.addFlashAttribute("successMessage", "Enrollment was successful.");
+            return "redirect:/course-offerings/view";
+        } catch (EntityNotFoundException | EntityAlreadyExistsException e) {
+            log.error(e.getMessage());
+            model.addAttribute("errorMessage", "Enrollment failed.");
+            return "course_offerings/course-offerings-view";
+        }
+    }
+
+    @PostMapping("/withdraw/{uuid}")
+    public String withdraw(@PathVariable UUID uuid, RedirectAttributes redirectAttributes, Model model) throws EntityNotFoundException {
+        try {
+            enrollmentService.withdraw(uuid);
+            redirectAttributes.addFlashAttribute("successMessage", "Withdrawal was successful.");
+            return "redirect:/course-offerings/view";
+        } catch (EntityNotFoundException e) {
+            log.error(e.getMessage());
+            model.addAttribute("errorMessage", "Withdrawal failed.");
+            return "course_offerings/course-offerings-view";
+        }
+    }
+
+    @GetMapping("/{courseOfferingUuid}/student-withdraw")
+    public String getStudentWithdrawalForm(@PathVariable UUID courseOfferingUuid, Model model) {
+        model.addAttribute("courseOfferingUuid", courseOfferingUuid);
+        model.addAttribute("studentAM", "");
+        return "course_offerings/course-offering-student-withdraw";
+    }
+
+    @PostMapping("/{courseOfferingUuid}/student-withdraw")
+    public String withdrawStudentByAdmin(@PathVariable UUID courseOfferingUuid,
+                                         @RequestParam @NotBlank @Pattern(regexp = "\\d{5}") String studentAM,
+                                         RedirectAttributes redirectAttributes, Model model)
+            throws EntityNotFoundException {
+        try {
+            enrollmentService.withdrawByAdmin(courseOfferingUuid, studentAM);
+            redirectAttributes.addFlashAttribute("successMessage", "Withdrawal was successful.");
+            return "redirect:/course-offerings/view";
+        } catch (EntityNotFoundException e) {
+            log.error(e.getMessage());
+            model.addAttribute("errorMessage", "Withdrawal failed.");
+            return "course_offerings/course-offerings-view";
+        }
     }
 
     @ModelAttribute("coursesList")

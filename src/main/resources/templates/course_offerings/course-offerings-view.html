@@ -1,5 +1,7 @@
 <!doctype html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/springsecurity">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -9,35 +11,85 @@
     <title>Document</title>
 </head>
 <body>
-    <a th:href="@{/course-offerings/create}" class="btn btn-light btn-lg px-4 btn-success-custom">
-        <i class="bi bi-person-plus me-2"></i>Add a new course offering
-    </a>
+    <div sec:authorize="hasRole('ADMIN')">
+        <a th:href="@{/course-offerings/create}" class="btn btn-light btn-lg px-4 btn-success-custom">
+            <i class="bi bi-person-plus me-2"></i>Add a new course offering
+        </a>
+    </div>
 
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Course</th>
-                <th>Teacher</th>
-                <th>Semester</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr th:each="courseOffering : ${courseOfferings}">
-                <td th:text="${courseOffering.courseReadOnlyDTO.code} + ' - ' + ${courseOffering.courseReadOnlyDTO.name}"></td>
-                <td th:text="${courseOffering.teacherReadOnlyDTO.teacherAM} + ' - ' + ${courseOffering.teacherReadOnlyDTO.firstname} + ' ' + ${courseOffering.teacherReadOnlyDTO.lastname}"></td>
-                <td th:text="${courseOffering.semesterReadOnlyDTO.name} + ' ' + ${courseOffering.semesterReadOnlyDTO.year}"></td>
-                <td>
-                    <a th:href="@{/course-offerings/edit/{uuid}(uuid=${courseOffering.uuid})}">
-                        <button class="btn btn-light">Edit</button>
-                    </a>
-                    <form method="post" th:action="@{/course-offerings/delete/{uuid}(uuid=${courseOffering.uuid})}">
-                        <button type="submit" class="btn btn-light">Delete</button>
-                    </form>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+
+    <div class="row">
+        <div th:each="courseOffering : ${courseOfferings}">
+            <div class="col-sm-4 mb-3 mb-sm-0">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title" th:text="${courseOffering.courseReadOnlyDTO.code} + ' - ' + ${courseOffering.courseReadOnlyDTO.name}"></h5>
+                        <p class="card-text" th:text="${courseOffering.teacherReadOnlyDTO.teacherAM} + ' - ' + ${courseOffering.teacherReadOnlyDTO.firstname} + ' ' + ${courseOffering.teacherReadOnlyDTO.lastname}"></p>
+                        <p class="card-text" th:text="${courseOffering.semesterReadOnlyDTO.name} + ' ' + ${courseOffering.semesterReadOnlyDTO.year}"></p>
+                        <div sec:authorize="hasRole('STUDENT')">
+                            <form method="post" th:action="@{/course-offerings/enroll/{uuid}(uuid=${courseOffering.uuid})}">
+                                <button type="submit" class="btn"
+                                        th:classappend="${courseOffering.isStudentEnrolled ? 'btn-secondary' : 'btn-primary'}"
+                                        th:disabled="${courseOffering.isStudentEnrolled}">Enroll
+                                </button>
+                            </form>
+                        </div>
+                        <div sec:authorize="hasRole('ADMIN')">
+                            <a th:href="@{/course-offerings/edit/{uuid}(uuid=${courseOffering.uuid})}">
+                                <button class="btn btn-light">Edit</button>
+                            </a>
+                            <form method="post" th:action="@{/course-offerings/delete/{uuid}(uuid=${courseOffering.uuid})}">
+                                <button type="submit" class="btn btn-light">Delete</button>
+                            </form>
+                            <a th:href="@{/course-offerings/{uuid}/student-enroll(uuid=${courseOffering.uuid})}">
+                                <button class="btn btn-primary">Enroll a student</button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+<!--    <table class="table table-striped">-->
+<!--        <thead>-->
+<!--            <tr>-->
+<!--                <th>Course</th>-->
+<!--                <th>Teacher</th>-->
+<!--                <th>Semester</th>-->
+<!--                <th>Actions</th>-->
+<!--                <th>Enroll</th>-->
+<!--            </tr>-->
+<!--        </thead>-->
+<!--        <tbody>-->
+<!--            <tr th:each="courseOffering : ${courseOfferings}">-->
+<!--                <td th:text="${courseOffering.courseReadOnlyDTO.code} + ' - ' + ${courseOffering.courseReadOnlyDTO.name}"></td>-->
+<!--                <td th:text="${courseOffering.teacherReadOnlyDTO.teacherAM} + ' - ' + ${courseOffering.teacherReadOnlyDTO.firstname} + ' ' + ${courseOffering.teacherReadOnlyDTO.lastname}"></td>-->
+<!--                <td th:text="${courseOffering.semesterReadOnlyDTO.name} + ' ' + ${courseOffering.semesterReadOnlyDTO.year}"></td>-->
+<!--                <td>-->
+<!--                    <a th:href="@{/course-offerings/edit/{uuid}(uuid=${courseOffering.uuid})}">-->
+<!--                        <button class="btn btn-light">Edit</button>-->
+<!--                    </a>-->
+<!--                    <form method="post" th:action="@{/course-offerings/delete/{uuid}(uuid=${courseOffering.uuid})}">-->
+<!--                        <button type="submit" class="btn btn-light">Delete</button>-->
+<!--                    </form>-->
+<!--                    <span sec:authorize="hasRole('STUDENT')">-->
+<!--                        <form method="post" th:action="@{/course-offerings/enroll/{uuid}(uuid=${courseOffering.uuid})}">-->
+<!--                        <button type="submit" class="btn btn-light">Enroll</button>-->
+<!--                        </form>-->
+<!--                    </span>-->
+<!--                    <span sec:authorize="hasRole('ADMIN')">-->
+<!--                        <a th:href="@{/course-offerings/edit/{uuid}(uuid=${courseOffering.uuid})}">-->
+<!--                        <button class="btn btn-light">Enroll a student</button>-->
+<!--                        </a>-->
+<!--                    </span>-->
+
+<!--                </td>-->
+<!--            </tr>-->
+<!--        </tbody>-->
+<!--    </table>-->
 
     <div class="pagination-controls">
         <div th:if="${page.first} AND ${!(page.hasContent)}">No course offerings found.</div>
