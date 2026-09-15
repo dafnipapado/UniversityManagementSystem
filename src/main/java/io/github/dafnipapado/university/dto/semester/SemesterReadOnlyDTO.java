@@ -6,6 +6,6 @@ public record SemesterReadOnlyDTO(
         String startsAt,
         String endsAt,
         String registrationDeadline,
-        boolean isActive
+        boolean active
 ) {
 }

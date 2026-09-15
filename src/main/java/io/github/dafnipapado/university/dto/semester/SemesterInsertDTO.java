@@ -29,7 +29,7 @@ public record SemesterInsertDTO(
         LocalDateTime registrationDeadline,
 
         @NotNull
-        boolean isActive
+        boolean active
 
 ) {
 

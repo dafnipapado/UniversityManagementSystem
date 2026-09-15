@@ -167,7 +167,7 @@ public class Mapper {
                 semesterInsertDTO.startsAt(),
                 semesterInsertDTO.endsAt(),
                 semesterInsertDTO.registrationDeadline(),
-                semesterInsertDTO.isActive(),
+                semesterInsertDTO.active(),
                 null
         );
     }

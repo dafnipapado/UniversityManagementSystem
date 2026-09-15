@@ -38,7 +38,7 @@ public class Semester {
     private LocalDateTime registrationDeadline;
 
     @Column(nullable = false, name = "is_active")
-    private boolean isActive;
+    private boolean active;
 
     @OneToMany(mappedBy = "semester")
     private Set<CourseOffering> offerings;
