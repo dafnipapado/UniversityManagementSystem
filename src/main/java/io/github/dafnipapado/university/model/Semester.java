@@ -28,7 +28,7 @@ public class Semester {
     @Column(nullable = false, columnDefinition = "YEAR")
     private Integer year;
 
-    @Column(nullable = false, columnDefinition = "DATE", name = "started_at")
+    @Column(nullable = false, columnDefinition = "DATE", name = "starts_at")
     private LocalDate startsAt;
 
     @Column(nullable = false, columnDefinition = "DATE", name = "ends_at")
