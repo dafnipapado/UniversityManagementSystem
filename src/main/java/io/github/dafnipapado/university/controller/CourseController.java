@@ -35,20 +35,20 @@ public class CourseController {
     @GetMapping("/create")
     public String getCreateCourse(Model model){
         model.addAttribute("courseInsertDTO", CourseInsertDTO.empty());
-        return "courses/course-create";
+        return "admin/course/create";
     }
 
     @PostMapping("/create")
     public String createCourse(@Valid @ModelAttribute("courseInsertDTO") CourseInsertDTO courseInsertDTO,
                                 BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
-            return "courses/course-create";
+            return "admin/course/create";
         }
         try{
             courseService.saveCourse(courseInsertDTO);
         } catch (Exception e) {
             log.error(e.getMessage());
-            return "courses/course-create";
+            return "admin/course/create";
         }
         return "redirect:/courses/success";
     }
@@ -67,21 +67,21 @@ public class CourseController {
         } catch (EntityNotFoundException e) {
             log.error(e.getMessage());
         }
-        return "courses/course-edit";
+        return "admin/course/edit";
     }
 
     @PostMapping("/edit")
     public String editCourse(@Valid @ModelAttribute CourseEditDTO courseEditDTO, BindingResult bindingResult, RedirectAttributes redirectAttributes, Model model)
             throws EntityAlreadyExistsException, EntityNotFoundException {
         if (bindingResult.hasErrors()) {
-            return "courses/course-edit";
+            return "admin/course/edit";
         }
         try {
             CourseReadOnlyDTO courseReadOnlyDTO = courseService.updateCourse(courseEditDTO);
             redirectAttributes.addFlashAttribute("courseReadOnlyDTO", courseReadOnlyDTO);
         } catch (EntityAlreadyExistsException | EntityNotFoundException e) {
             log.error(e.getMessage());
-            return "courses/course-edit";
+            return "admin/course/edit";
         }
         return "redirect:/courses/update-success";
     }
@@ -89,7 +89,7 @@ public class CourseController {
     @GetMapping("/update-success")
     public String updateSuccess(Model model) {
         model.addAttribute("successMessage", "Course has been updated successfully.");
-        return "admin/courses-view";
+        return "admin/course/view";
     }
 
     @PostMapping("/delete/{uuid}")
@@ -100,7 +100,7 @@ public class CourseController {
             return "redirect:/courses/view";
         } catch (EntityNotFoundException e) {
             log.error(e.getMessage());
-            return "admin/courses-view";
+            return "admin/course/view";
         }
     }
 
@@ -109,7 +109,7 @@ public class CourseController {
         Page<CourseReadOnlyDTO> coursesPaginated = courseService.getCoursesPaginated(pageable);
         model.addAttribute("courses", coursesPaginated.getContent());
         model.addAttribute("page", coursesPaginated);
-        return "admin/courses-view";
+        return "admin/course/view";
     }
 
     @ModelAttribute("departmentsReadOnlyDTO")

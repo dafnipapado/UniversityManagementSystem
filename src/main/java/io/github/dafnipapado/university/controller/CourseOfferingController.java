@@ -41,19 +41,19 @@ public class CourseOfferingController {
     @GetMapping("/create")
     public String getCreateCourseOffering(Model model){
         model.addAttribute("courseOfferingInsertDTO", CourseOfferingInsertDTO.empty());
-        return "course_offerings/course-offering-create";
+        return "admin/course_offering/create";
     }
 
     @PostMapping("/create")
     public String createCourseOffering(@Valid @ModelAttribute("courseOfferingInsertDTO") CourseOfferingInsertDTO courseOfferingInsertDTO,
                                 BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
-            return "course_offerings/course-offering-create";
+            return "admin/course_offering/create";
         }
         try{
             courseOfferingService.saveCourseOffering(courseOfferingInsertDTO);
         } catch (Exception e) {
-            return "course_offerings/course-offering-create";
+            return "admin/course_offering/create";
         }
         return "redirect:/course-offerings/view";
     }
@@ -66,21 +66,21 @@ public class CourseOfferingController {
         } catch (EntityNotFoundException e) {
             log.error(e.getMessage());
         }
-        return "course_offerings/course-offering-edit";
+        return "admin/course_offering/edit";
     }
 
     @PostMapping("/edit")
     public String editCourseOffering(@Valid @ModelAttribute CourseOfferingEditDTO courseOfferingEditDTO, BindingResult bindingResult, RedirectAttributes redirectAttributes, Model model)
             throws EntityAlreadyExistsException, EntityNotFoundException {
         if (bindingResult.hasErrors()) {
-            return "course_offerings/course-offering-edit";
+            return "admin/course_offering/edit";
         }
         try {
             CourseOfferingReadOnlyDTO courseOfferingReadOnlyDTO = courseOfferingService.updateCourseOffering(courseOfferingEditDTO);
             redirectAttributes.addFlashAttribute("courseOfferingReadOnlyDTO", courseOfferingReadOnlyDTO);
         } catch (EntityAlreadyExistsException | EntityNotFoundException e) {
             log.error(e.getMessage());
-            return "course_offerings/course-offering-edit";
+            return "admin/course_offering/edit";
         }
         return "redirect:/course-offerings/view";
     }
@@ -93,7 +93,7 @@ public class CourseOfferingController {
             return "redirect:/course-offerings/view";
         } catch (EntityNotFoundException e) {
             log.error(e.getMessage());
-            return "course_offerings/course-offerings-view";
+            return "shared/course_offering/view";
         }
     }
 
@@ -102,7 +102,7 @@ public class CourseOfferingController {
         Page<CourseOfferingReadOnlyDTO> courseOfferingsPaginated = courseOfferingService.getCourseOfferingsPaginated(pageable);
         model.addAttribute("courseOfferings", courseOfferingsPaginated.getContent());
         model.addAttribute("page", courseOfferingsPaginated);
-        return "course_offerings/course-offerings-view";
+        return "shared/course_offering/view";
     }
 
     @GetMapping("/view")
@@ -111,7 +111,7 @@ public class CourseOfferingController {
         Page<CourseOfferingReadOnlyDTO> courseOfferingsPaginated = courseOfferingService.getCourseOfferingsPaginatedDeletedFalse(pageable);
         model.addAttribute("courseOfferings", courseOfferingsPaginated.getContent());
         model.addAttribute("page", courseOfferingsPaginated);
-        return "course_offerings/course-offerings-view";
+        return "shared/course_offering/view";
     }
 
     @PostMapping("/enroll/{uuid}")
@@ -123,7 +123,7 @@ public class CourseOfferingController {
         } catch (EntityNotFoundException | EntityAlreadyExistsException e) {
             log.error(e.getMessage());
             model.addAttribute("errorMessage", "Enrollment failed.");
-            return "course_offerings/course-offerings-view";
+            return "shared/course_offering/view";
         }
     }
 
@@ -131,7 +131,7 @@ public class CourseOfferingController {
     public String getStudentEnrollmentForm(@PathVariable UUID courseOfferingUuid, Model model) {
         model.addAttribute("courseOfferingUuid", courseOfferingUuid);
         model.addAttribute("studentAM", "");
-        return "course_offerings/course-offering-student-enroll";
+        return "shared/course_offering/student-enroll";
     }
 
     @PostMapping("/{courseOfferingUuid}/student-enroll")
@@ -146,7 +146,7 @@ public class CourseOfferingController {
         } catch (EntityNotFoundException | EntityAlreadyExistsException e) {
             log.error(e.getMessage());
             model.addAttribute("errorMessage", "Enrollment failed.");
-            return "course_offerings/course-offerings-view";
+            return "shared/course_offering/view";
         }
     }
 
@@ -159,7 +159,7 @@ public class CourseOfferingController {
         } catch (EntityNotFoundException e) {
             log.error(e.getMessage());
             model.addAttribute("errorMessage", "Withdrawal failed.");
-            return "course_offerings/course-offerings-view";
+            return "shared/course_offering/view";
         }
     }
 
@@ -167,7 +167,7 @@ public class CourseOfferingController {
     public String getStudentWithdrawalForm(@PathVariable UUID courseOfferingUuid, Model model) {
         model.addAttribute("courseOfferingUuid", courseOfferingUuid);
         model.addAttribute("studentAM", "");
-        return "course_offerings/course-offering-student-withdraw";
+        return "shared/course_offering/student-withdraw";
     }
 
     @PostMapping("/{courseOfferingUuid}/student-withdraw")
@@ -182,7 +182,7 @@ public class CourseOfferingController {
         } catch (EntityNotFoundException e) {
             log.error(e.getMessage());
             model.addAttribute("errorMessage", "Withdrawal failed.");
-            return "course_offerings/course-offerings-view";
+            return "shared/course_offering/view";
         }
     }
 

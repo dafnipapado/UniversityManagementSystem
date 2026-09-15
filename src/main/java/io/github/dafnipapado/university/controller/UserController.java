@@ -36,13 +36,13 @@ public class UserController {
     public String getCreateUser(Model model) {
         model.addAttribute("userInsertDTO", UserInsertDTO.empty());
         model.addAttribute("roleReadOnlyDTO", roleService.getAllRoles());
-        return "/admin/user-create";
+        return "/admin/user/create";
     }
 
     @PostMapping("/create")
     public String createUser(@Valid @ModelAttribute("teacherInsertDTO") UserInsertDTO userInsertDTO, RedirectAttributes redirectAttributes, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
-            return "admin/user-create";
+            return "admin/user/create";
         }
 
         try{
@@ -50,7 +50,7 @@ public class UserController {
             redirectAttributes.addFlashAttribute("userReadOnlyDTO", userReadOnlyDTO);
             return "redirect:/users/success";
         } catch (EntityAlreadyExistsException | EntityNotFoundException e) {
-            return "/admin/user-create";
+            return "/admin/user/create";
         }
     }
 

@@ -42,26 +42,26 @@ public class TeacherController {
 //            e.getMessage();
             //return error page
         }
-        return "/teachers/index";
+        return "/teacher/index";
     }
 
     @GetMapping("/create")
     public String getCreateTeacher(Model model){
         model.addAttribute("teacherInsertDTO", TeacherInsertDTO.empty());
         model.addAttribute("regionReadOnlyDTO", regionService.getAllRegions());
-        return "teachers/teacher-create";
+        return "teacher/create";
     }
 
     @PostMapping("/create")
     public String createTeacher(@Valid @ModelAttribute("teacherInsertDTO") TeacherInsertDTO dto,
                               BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
-            return "teachers/teacher-create";
+            return "teacher/create";
         }
         try{
             teacherService.saveTeacher(dto);
         } catch (Exception e) {
-            return "teachers/teacher-create";
+            return "teacher/create";
         }
         return "redirect:/teachers/success";
     }
@@ -80,21 +80,21 @@ public class TeacherController {
         } catch (EntityNotFoundException e) {
             log.error(e.getMessage());
         }
-        return "teachers/teacher-edit";
+        return "teacher/edit";
     }
 
 
     @PostMapping("/edit")
     public String editTeacher(@Valid @ModelAttribute TeacherEditDTO teacherEditDTO, BindingResult bindingResult, RedirectAttributes redirectAttributes, Model model) throws EntityAlreadyExistsException, EntityNotFoundException {
         if (bindingResult.hasErrors()) {
-            return "teachers/teacher-edit";
+            return "teacher/edit";
         }
         try {
             TeacherReadOnlyDTO teacherReadOnlyDTO = teacherService.updateTeacher(teacherEditDTO);
             redirectAttributes.addFlashAttribute("teacherReadOnlyDTO", teacherReadOnlyDTO);
         } catch (EntityAlreadyExistsException | EntityNotFoundException e) {
             log.error(e.getMessage());
-            return "teachers/teacher-edit";
+            return "teacher/edit";
         }
         return "redirect:/teachers/update-success";
     }
@@ -102,7 +102,7 @@ public class TeacherController {
     @GetMapping("/update-success")
     public String updateSuccess(Model model) {
         model.addAttribute("successMessage", "Personal info has been updated successfully.");
-        return "teachers/index";
+        return "teacher/index";
     }
 
     @PostMapping("/delete/{uuid}")
@@ -113,7 +113,7 @@ public class TeacherController {
             return "redirect:/teachers/view";
         } catch (EntityNotFoundException e) {
             log.error(e.getMessage());
-            return "admin/teachers-view";
+            return "admin/teacher/view";
         }
 
     }
@@ -123,7 +123,7 @@ public class TeacherController {
         Page<TeacherReadOnlyDTO> teachersPaginated = teacherService.getTeachersPaginated(pageable);
         model.addAttribute("teachers", teachersPaginated.getContent());
         model.addAttribute("page", teachersPaginated);
-        return "admin/teachers-view";
+        return "admin/teacher/view";
     }
 
 

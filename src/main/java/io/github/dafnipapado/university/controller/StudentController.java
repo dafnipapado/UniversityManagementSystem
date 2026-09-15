@@ -41,26 +41,26 @@ public class StudentController {
 //            e.getMessage();
             //return error page
         }
-        return "/students/index";
+        return "/student/index";
     }
 
     @GetMapping("/create")
     public String getCreateStudent(Model model){
         model.addAttribute("studentInsertDTO", StudentInsertDTO.empty());
         model.addAttribute("regionReadOnlyDTO", regionService.getAllRegions());
-        return "students/student-create";
+        return "student/create";
     }
 
     @PostMapping("/create")
     public String createStudent(@Valid @ModelAttribute("studentInsertDTO") StudentInsertDTO dto,
                                 BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
-            return "students/student-create";
+            return "student/create";
         }
         try{
             studentService.saveStudent(dto);
         } catch (Exception e) {
-            return "students/student-create";
+            return "student/create";
         }
         return "redirect:/students/success";
     }
@@ -79,7 +79,7 @@ public class StudentController {
         } catch (EntityNotFoundException e) {
             log.error(e.getMessage());
         }
-        return "students/student-edit";
+        return "student/edit";
     }
 
 
@@ -87,14 +87,14 @@ public class StudentController {
     public String editStudent(@Valid @ModelAttribute StudentEditDTO studentEditDTO, BindingResult bindingResult, RedirectAttributes redirectAttributes, Model model)
             throws EntityAlreadyExistsException, EntityNotFoundException {
         if (bindingResult.hasErrors()) {
-            return "students/student-edit";
+            return "student/edit";
         }
         try {
             StudentReadOnlyDTO studentReadOnlyDTO = studentService.updateStudent(studentEditDTO);
             redirectAttributes.addFlashAttribute("studentReadOnlyDTO", studentReadOnlyDTO);
         } catch (EntityAlreadyExistsException | EntityNotFoundException e) {
             log.error(e.getMessage());
-            return "students/student-edit";
+            return "student/edit";
         }
         return "redirect:/students/update-success";
     }
@@ -102,7 +102,7 @@ public class StudentController {
     @GetMapping("/update-success")
     public String updateSuccess(Model model) {
         model.addAttribute("successMessage", "Personal info has been updated successfully.");
-        return "students/index";
+        return "student/index";
     }
 
     @PostMapping("/delete/{uuid}")
@@ -113,7 +113,7 @@ public class StudentController {
             return "redirect:/students/view";
         } catch (EntityNotFoundException e) {
             log.error(e.getMessage());
-            return "admin/students-view";
+            return "admin/student/view";
         }
     }
 
@@ -122,7 +122,7 @@ public class StudentController {
         Page<StudentReadOnlyDTO> studentsPaginated = studentService.getStudentsPaginated(pageable);
         model.addAttribute("students", studentsPaginated.getContent());
         model.addAttribute("page", studentsPaginated);
-        return "admin/students-view";
+        return "admin/student/view";
     }
 
 
