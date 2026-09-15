@@ -164,7 +164,22 @@ public class Mapper {
                 null,
                 semesterInsertDTO.name(),
                 semesterInsertDTO.year(),
+                semesterInsertDTO.startsAt(),
+                semesterInsertDTO.endsAt(),
+                semesterInsertDTO.registrationDeadline(),
+                semesterInsertDTO.isActive(),
                 null
+        );
+    }
+
+    public SemesterReadOnlyDTO mapToSemesterReadOnlyDTO(Semester semester) {
+        return new SemesterReadOnlyDTO(
+                semester.getName(),
+                semester.getYear(),
+                semester.getStartsAt().toString(),
+                semester.getEndsAt().toString(),
+                semester.getRegistrationDeadline().toString(),
+                semester.isActive()
         );
     }
 
@@ -173,7 +188,7 @@ public class Mapper {
                 courseOffering.getUuid().toString(),
                 mapToCourseReadOnlyDTO(courseOffering.getCourse()),
                 mapToTeacherReadOnlyDTO(courseOffering.getTeacher()),
-                new SemesterReadOnlyDTO(courseOffering.getSemester().getName(), courseOffering.getSemester().getYear()),
+                mapToSemesterReadOnlyDTO(courseOffering.getSemester()),
                 isEnrolled != null && isEnrolled
         );
     }

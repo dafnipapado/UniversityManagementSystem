@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 @Entity
@@ -25,6 +27,18 @@ public class Semester {
 
     @Column(nullable = false, columnDefinition = "YEAR")
     private Integer year;
+
+    @Column(nullable = false, columnDefinition = "DATE", name = "started_at")
+    private LocalDate startsAt;
+
+    @Column(nullable = false, columnDefinition = "DATE", name = "ends_at")
+    private LocalDate endsAt;
+
+    @Column(nullable = false, columnDefinition = "DATETIME", name = "registration_deadline")
+    private LocalDateTime registrationDeadline;
+
+    @Column(nullable = false, name = "is_active")
+    private boolean isActive;
 
     @OneToMany(mappedBy = "semester")
     private Set<CourseOffering> offerings;
