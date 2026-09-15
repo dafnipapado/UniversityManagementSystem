@@ -30,6 +30,28 @@
                 <p th:classappend="${#fields.hasErrors('year')} ? 'error'" th:errors="*{year}"></p>
             </div>
         </div>
+        <div class="mb-3">
+            <label th:for="startsAt" class="form-label">Starts At</label><br>
+            <input type="date" th:field="*{startsAt}" class="form-control" required>
+            <div th:if="${#fields.hasErrors('startsAt')}">
+                <p th:classappend="${#fields.hasErrors('startsAt')} ? 'error'" th:errors="*{startsAt}"></p>
+            </div>
+        </div>
+        <div class="mb-3">
+            <label th:for="endsAt" class="form-label">Ends At</label><br>
+            <input type="date" th:field="*{endsAt}" class="form-control" required>
+            <div th:if="${#fields.hasErrors('endsAt')}">
+                <p th:classappend="${#fields.hasErrors('endsAt')} ? 'error'" th:errors="*{endsAt}"></p>
+            </div>
+        </div>
+        <div class="mb-3">
+            <label th:for="registrationDeadline" class="form-label">Registration Deadline</label><br>
+            <input type="datetime-local" th:field="*{registrationDeadline}" class="form-control" required>
+            <div th:if="${#fields.hasErrors('registrationDeadline')}">
+                <p th:classappend="${#fields.hasErrors('registrationDeadline')} ? 'error'" th:errors="*{registrationDeadline}"></p>
+            </div>
+        </div>
+        <input type="hidden" th:field="*{active}" value="false"/>
         <div>
             <button type="submit" class="btn btn-outline-dark">Create semester</button>
         </div>
