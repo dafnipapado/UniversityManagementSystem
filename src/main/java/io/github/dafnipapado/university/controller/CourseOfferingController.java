@@ -4,10 +4,10 @@ import io.github.dafnipapado.university.dto.course.CourseReadOnlyDTO;
 import io.github.dafnipapado.university.dto.course_offering.CourseOfferingEditDTO;
 import io.github.dafnipapado.university.dto.course_offering.CourseOfferingInsertDTO;
 import io.github.dafnipapado.university.dto.course_offering.CourseOfferingReadOnlyDTO;
+import io.github.dafnipapado.university.dto.semester.SemesterReadOnlyDTO;
 import io.github.dafnipapado.university.dto.teacher.TeacherReadOnlyDTO;
 import io.github.dafnipapado.university.exception.EntityAlreadyExistsException;
 import io.github.dafnipapado.university.exception.EntityNotFoundException;
-import io.github.dafnipapado.university.model.Semester;
 import io.github.dafnipapado.university.service.*;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
@@ -197,7 +197,7 @@ public class CourseOfferingController {
     }
 
     @ModelAttribute("semestersList")
-    public List<Semester> semesters() {
+    public List<SemesterReadOnlyDTO> semesters() {
         return semesterService.getAllSemesters();
     }
 }

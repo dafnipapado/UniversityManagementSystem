@@ -1,6 +1,7 @@
 package io.github.dafnipapado.university.service;
 
 import io.github.dafnipapado.university.dto.semester.SemesterInsertDTO;
+import io.github.dafnipapado.university.dto.semester.SemesterReadOnlyDTO;
 import io.github.dafnipapado.university.mapper.Mapper;
 import io.github.dafnipapado.university.model.Semester;
 import io.github.dafnipapado.university.repository.SemesterRepository;
@@ -32,9 +33,10 @@ public class SemesterServiceImpl implements ISemesterService{
     }
 
     @Override
-    public List<Semester> getAllSemesters() {
+    public List<SemesterReadOnlyDTO> getAllSemesters() {
         return semesterRepository.findAllByOrderByYearAscNameAsc()
                 .stream()
+                .map(mapper::mapToSemesterReadOnlyDTO)
                 .toList();
     }
 }
