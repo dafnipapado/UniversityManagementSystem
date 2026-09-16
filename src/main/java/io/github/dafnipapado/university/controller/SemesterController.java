@@ -2,6 +2,7 @@ package io.github.dafnipapado.university.controller;
 
 import io.github.dafnipapado.university.dto.semester.SemesterInsertDTO;
 import io.github.dafnipapado.university.dto.semester.SemesterReadOnlyDTO;
+import io.github.dafnipapado.university.exception.EntityNotFoundException;
 import io.github.dafnipapado.university.service.ISemesterService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +15,8 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.util.UUID;
 
 @Controller
 @RequiredArgsConstructor
@@ -57,4 +60,11 @@ public class SemesterController {
         model.addAttribute("page", semestersPaginated);
         return "/admin/semester/view";
     }
+
+    @PostMapping("/{uuid}/activate")
+    public String activate(@PathVariable("uuid") UUID uuid) throws EntityNotFoundException {
+        semesterService.activateSemester(uuid);
+        return "redirect:/semesters/view";
+    }
+
 }

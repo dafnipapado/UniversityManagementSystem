@@ -18,6 +18,7 @@
         <th>Ends At</th>
         <th>Registration deadline</th>
         <th>Active</th>
+        <th>Activate</th>
     </tr>
     </thead>
     <tbody>
@@ -28,6 +29,11 @@
         <td th:text="${semester.endsAt}"></td>
         <td th:text="${semester.registrationDeadline.replace('T', ' ')}"></td>
         <td th:text="${semester.active}"></td>
+        <td>
+            <form method="post" th:action="@{/semesters/{uuid}/activate(uuid=${semester.uuid})}">
+                <button type="submit" class="btn btn-primary">Activate</button>
+            </form>
+        </td>
     </tr>
     </tbody>
 </table>
