@@ -162,6 +162,7 @@ public class Mapper {
     public Semester mapToSemesterEntity(SemesterInsertDTO semesterInsertDTO) {
         return new Semester(
                 null,
+                null,
                 semesterInsertDTO.name(),
                 semesterInsertDTO.year(),
                 semesterInsertDTO.startsAt(),
@@ -174,6 +175,7 @@ public class Mapper {
 
     public SemesterReadOnlyDTO mapToSemesterReadOnlyDTO(Semester semester) {
         return new SemesterReadOnlyDTO(
+                semester.getUuid(),
                 semester.getName(),
                 semester.getYear(),
                 semester.getStartsAt().toString(),

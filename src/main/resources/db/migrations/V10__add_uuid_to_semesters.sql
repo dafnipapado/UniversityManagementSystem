@@ -1,0 +1,2 @@
+ALTER TABLE semesters
+ADD COLUMN uuid BINARY(16) NOT NULL;

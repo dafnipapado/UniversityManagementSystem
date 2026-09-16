@@ -9,6 +9,7 @@ import lombok.Setter;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Set;
+import java.util.UUID;
 
 @Entity
 @Getter
@@ -21,6 +22,9 @@ public class Semester {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
+
+    @Column(nullable = false, updatable = false, unique = true, columnDefinition = "BINARY(16)")
+    private UUID uuid;
 
     @Column(nullable = false)
     private String name;
@@ -42,6 +46,11 @@ public class Semester {
 
     @OneToMany(mappedBy = "semester")
     private Set<CourseOffering> offerings;
+
+    @PrePersist
+    public void initializeUuid() {
+        this.uuid = UUID.randomUUID();
+    }
 
     public void addCourseOffering(CourseOffering courseOffering) {
         offerings.add(courseOffering);
