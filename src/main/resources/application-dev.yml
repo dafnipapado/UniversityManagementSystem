@@ -17,3 +17,8 @@ spring:
     enabled: true
     locations: classpath:db/migrations
     baseline-on-migrate: true
+
+app:
+  admin:
+    username: admin
+    password: 1234
