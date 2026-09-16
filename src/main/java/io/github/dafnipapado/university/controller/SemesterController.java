@@ -1,17 +1,18 @@
 package io.github.dafnipapado.university.controller;
 
 import io.github.dafnipapado.university.dto.semester.SemesterInsertDTO;
+import io.github.dafnipapado.university.dto.semester.SemesterReadOnlyDTO;
 import io.github.dafnipapado.university.service.ISemesterService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -47,5 +48,13 @@ public class SemesterController {
     public String successSave(RedirectAttributes redirectAttributes){
         redirectAttributes.addFlashAttribute("successMessage", "Semester was saved successfully");
         return "redirect:/admin/index";
+    }
+
+    @GetMapping("/view")
+    public String getSemestersPaginated(@PageableDefault(page = 0, size = 5, sort = "year") Pageable pageable, Model model) {
+        Page<SemesterReadOnlyDTO> semestersPaginated = semesterService.getSemestersPaginated(pageable);
+        model.addAttribute("semesters", semestersPaginated.getContent());
+        model.addAttribute("page", semestersPaginated);
+        return "/admin/semester/view";
     }
 }
