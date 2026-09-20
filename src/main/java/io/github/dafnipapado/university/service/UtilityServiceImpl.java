@@ -21,6 +21,7 @@ public class UtilityServiceImpl implements IUtilityService {
     private final StudentRepository studentRepository;
     private final CourseRepository courseRepository;
     private final CourseOfferingRepository courseOfferingRepository;
+    private final SemesterRepository semesterRepository;
     private final EnrollmentRepository enrollmentRepository;
 
     @Override
@@ -54,6 +55,12 @@ public class UtilityServiceImpl implements IUtilityService {
     public Course getCourseByUuid(UUID uuid) throws EntityNotFoundException {
         return courseRepository.findByUuidAndDeletedFalse(uuid)
                 .orElseThrow(() -> new EntityNotFoundException("Active course with uuid = " + uuid + " not found."));
+    }
+
+    @Override
+    public Semester getSemesterByUuid(UUID uuid) throws EntityNotFoundException {
+        return semesterRepository.findByUuid(uuid)
+                .orElseThrow(() -> new EntityNotFoundException("Semester with uuid = " + uuid + " not found."));
     }
 
     @Override

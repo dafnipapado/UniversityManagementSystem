@@ -10,6 +10,6 @@ import java.util.UUID;
 
 public interface CourseOfferingRepository extends JpaRepository<CourseOffering, Long> {
     Optional<CourseOffering> findByUuidAndDeletedFalse(UUID UUID);
-    boolean existsByCourseUuidAndTeacherUuidAndSemesterId(UUID courseUuid, UUID teacherUuid, Long semesterId);
+    boolean existsByCourseUuidAndTeacherUuidAndSemesterUuid(UUID courseUuid, UUID teacherUuid, UUID semesterUuid);
     Page<CourseOffering> findAllByDeletedFalse(Pageable pageable);
 }

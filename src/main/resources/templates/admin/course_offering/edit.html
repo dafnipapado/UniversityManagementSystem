@@ -46,17 +46,17 @@
                 </div>
             </div>
             <div class="col-lg-6 min-height-100">
-                <label th:for="semesterId" class="form-label">Semester</label>
-                <select th:field="*{semesterId}" id="semesterId" class="form-select" required>
+                <label th:for="semesterUuid" class="form-label">Semester</label>
+                <select th:field="*{semesterUuid}" id="semesterUuid" class="form-select" required>
                     <option value="" selected>Select Semester</option>
                     <option th:each="semester : ${semestersList}"
-                            th:value="${semester.id}"
+                            th:value="${semester.uuid}"
                             th:text="${semester.year} + ' ' + ${semester.name}"
-                            th:selected="${semester.id==courseOfferingEditDTO.semesterId}">
+                            th:selected="${semester.uuid==courseOfferingEditDTO.semesterUuid}">
                     </option>
                 </select>
-                <div th:if="${#fields.hasErrors('semesterId')}">
-                    <p th:classappend="${#fields.hasErrors('semesterId')} ? 'error'" th:errors="*{semesterId}"></p>
+                <div th:if="${#fields.hasErrors('semesterUuid')}">
+                    <p th:classappend="${#fields.hasErrors('semesterUuid')} ? 'error'" th:errors="*{semesterUuid}"></p>
                 </div>
             </div>
         </div>

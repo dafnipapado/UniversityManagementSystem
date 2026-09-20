@@ -37,11 +37,10 @@ public class CourseOfferingServiceImpl implements ICourseOfferingService{
 
             Course course = utilityService.getCourseByUuid(courseOfferingInsertDTO.courseUuid());
             Teacher teacher = utilityService.getTeacherByUuid(courseOfferingInsertDTO.teacherUuid());
-            Semester semester = semesterRepository.findById(courseOfferingInsertDTO.semesterId())
-                    .orElseThrow(() -> new EntityNotFoundException("Semester with id = " + courseOfferingInsertDTO.semesterId() + " not found."));
+            Semester semester = utilityService.getSemesterByUuid(courseOfferingInsertDTO.semesterUuid());
 
-            if(courseOfferingRepository.existsByCourseUuidAndTeacherUuidAndSemesterId(
-                    courseOfferingInsertDTO.courseUuid(), courseOfferingInsertDTO.teacherUuid(), courseOfferingInsertDTO.semesterId())) {
+            if(courseOfferingRepository.existsByCourseUuidAndTeacherUuidAndSemesterUuid(
+                    courseOfferingInsertDTO.courseUuid(), courseOfferingInsertDTO.teacherUuid(), courseOfferingInsertDTO.semesterUuid())) {
                 throw new EntityAlreadyExistsException("Course offering already exists.");
             }
 
@@ -77,17 +76,16 @@ public class CourseOfferingServiceImpl implements ICourseOfferingService{
 
             boolean isCourseUpdated = !Objects.equals(courseOfferingEditDTO.courseUuid(), courseOffering.getCourse().getUuid());
             boolean isTeacherUpdated = !Objects.equals(courseOfferingEditDTO.teacherUuid(), courseOffering.getTeacher().getUuid());
-            boolean isSemesterUpdated = !Objects.equals(courseOfferingEditDTO.semesterId(), courseOffering.getSemester().getId());
+            boolean isSemesterUpdated = !Objects.equals(courseOfferingEditDTO.semesterUuid(), courseOffering.getSemester().getUuid());
 
-            if ((isCourseUpdated || isTeacherUpdated || isSemesterUpdated) && courseOfferingRepository.existsByCourseUuidAndTeacherUuidAndSemesterId(
-                    courseOfferingEditDTO.courseUuid(), courseOfferingEditDTO.teacherUuid(), courseOfferingEditDTO.semesterId())) {
+            if ((isCourseUpdated || isTeacherUpdated || isSemesterUpdated) && courseOfferingRepository.existsByCourseUuidAndTeacherUuidAndSemesterUuid(
+                    courseOfferingEditDTO.courseUuid(), courseOfferingEditDTO.teacherUuid(), courseOfferingEditDTO.semesterUuid())) {
                 throw new EntityAlreadyExistsException("Course offering already exists.");
             }
 
             Course course = utilityService.getCourseByUuid(courseOfferingEditDTO.courseUuid());
             Teacher teacher = utilityService.getTeacherByUuid(courseOfferingEditDTO.teacherUuid());
-            Semester semester = semesterRepository.findById(courseOfferingEditDTO.semesterId())
-                    .orElseThrow(() -> new EntityNotFoundException("Semester with id = " + courseOfferingEditDTO.semesterId() + " not found."));
+            Semester semester = utilityService.getSemesterByUuid(courseOfferingEditDTO.semesterUuid());
 
             if (isCourseUpdated) {
                 courseOffering.getCourse().removeCourseOffering(courseOffering);

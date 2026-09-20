@@ -5,7 +5,7 @@ import java.util.UUID;
 public record CourseOfferingInsertDTO(
         UUID courseUuid,
         UUID teacherUuid,
-        Long semesterId
+        UUID semesterUuid
 ) {
 
     public static CourseOfferingInsertDTO empty() {

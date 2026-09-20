@@ -200,7 +200,7 @@ public class Mapper {
                 courseOffering.getUuid(),
                 courseOffering.getCourse().getUuid(),
                 courseOffering.getTeacher().getUuid(),
-                courseOffering.getSemester().getId()
+                courseOffering.getSemester().getUuid()
         );
     }
 

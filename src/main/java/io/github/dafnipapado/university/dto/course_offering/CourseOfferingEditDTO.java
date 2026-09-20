@@ -6,6 +6,6 @@ public record CourseOfferingEditDTO(
         UUID uuid,
         UUID courseUuid,
         UUID teacherUuid,
-        Long semesterId
+        UUID semesterUuid
 ) {
 }

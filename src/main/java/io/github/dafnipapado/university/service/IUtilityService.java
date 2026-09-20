@@ -12,6 +12,7 @@ public interface IUtilityService {
     Student getStudentByStudentAmAndDeletedFalse(String studentAM) throws EntityNotFoundException;
     Student getLoggedInStudent() throws EntityNotFoundException;
     Course getCourseByUuid(UUID uuid) throws EntityNotFoundException;
+    Semester getSemesterByUuid(UUID uuid) throws EntityNotFoundException;
     CourseOffering getCourseOfferingByUuidAndDeletedFalse(UUID uuid) throws EntityNotFoundException;
     Enrollment getByStudentIdCourseOfferingId(Long studentId, Long courseOfferingId) throws EntityNotFoundException;
     boolean isEnrollmentExists(Enrollment enrollment) throws EntityAlreadyExistsException;
