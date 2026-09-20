@@ -25,7 +25,7 @@
                         <div class="mb-3">
                             <label th:for="courseUuid" class="form-label">Course</label>
                             <select th:field="*{courseUuid}" class="form-select" id="courseUuid" required>
-                                <option value="" selected>Select Course</option>
+                                <option value="" selected disabled>Select Course</option>
                                 <option th:each="course : ${coursesList}" th:value="${course.uuid}" th:text="${course.code}"></option>
                             </select>
                             <div th:if="${#fields.hasErrors('courseUuid')}">
@@ -35,7 +35,7 @@
                         <div class="mb-3">
                             <label th:for="teacherUuid" class="form-label">Teacher</label>
                             <select th:field="*{teacherUuid}" class="form-select" id="teacherUuid" required>
-                                <option value="" selected>Select Teacher</option>
+                                <option value="" selected disabled>Select Teacher</option>
                                 <option th:each="teacher : ${teachersList}" th:value="${teacher.uuid}" th:text="${teacher.teacherAM}"></option>
                             </select>
                             <div th:if="${#fields.hasErrors('teacherUuid')}">
@@ -45,7 +45,7 @@
                         <div class="mb-3">
                             <label th:for="semesterUuid" class="form-label">Semester</label>
                             <select th:field="*{semesterUuid}" class="form-select" id="semesterUuid" required>
-                                <option value="" selected>Select Semester</option>
+                                <option value="" selected disabled>Select Semester</option>
                                 <option th:each="semester : ${semestersList}" th:value="${semester.uuid}" th:text="${semester.year} + ' ' + ${semester.name}"></option>
                             </select>
                             <div th:if="${#fields.hasErrors('semesterUuid')}">

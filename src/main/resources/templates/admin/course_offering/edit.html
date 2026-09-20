@@ -20,7 +20,7 @@
             <div class="col-lg-6 min-height-100">
                 <label th:for="courseUuid" class="form-label">Course</label>
                 <select th:field="*{courseUuid}" id="courseUuid" class="form-select" required>
-                    <option value="" selected>Select Course</option>
+                    <option value="" selected disabled>Select Course</option>
                     <option th:each="course : ${coursesList}"
                             th:value="${course.uuid}"
                             th:text="${course.code}"
@@ -34,7 +34,7 @@
             <div class="col-lg-6 min-height-100">
                 <label th:for="teacherUuid" class="form-label">Teacher</label>
                 <select th:field="*{teacherUuid}" id="teacherUuid" class="form-select" required>
-                    <option value="" selected>Select Teacher</option>
+                    <option value="" selected disabled>Select Teacher</option>
                     <option th:each="teacher : ${teachersList}"
                             th:value="${teacher.uuid}"
                             th:text="${teacher.teacherAM}"
@@ -48,7 +48,7 @@
             <div class="col-lg-6 min-height-100">
                 <label th:for="semesterUuid" class="form-label">Semester</label>
                 <select th:field="*{semesterUuid}" id="semesterUuid" class="form-select" required>
-                    <option value="" selected>Select Semester</option>
+                    <option value="" selected disabled>Select Semester</option>
                     <option th:each="semester : ${semestersList}"
                             th:value="${semester.uuid}"
                             th:text="${semester.year} + ' ' + ${semester.name}"
