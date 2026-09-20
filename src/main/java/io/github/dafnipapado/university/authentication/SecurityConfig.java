@@ -46,6 +46,7 @@ public class SecurityConfig {
                     .requestMatchers(HttpMethod.POST, "/courses/delete/{uuid}").hasAuthority("DELETE_COURSE")
                     .requestMatchers(HttpMethod.GET, "/courses/view").hasAuthority("ROLE_ADMIN")
                     .requestMatchers("/semesters/**").hasAuthority("ROLE_ADMIN")
+                    .requestMatchers("/images/**", "/css/**", "/js/**").permitAll()
                     .anyRequest().authenticated()
             )
             .formLogin((form) -> form
