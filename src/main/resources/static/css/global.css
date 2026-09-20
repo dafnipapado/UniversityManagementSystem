@@ -1,0 +1,25 @@
+:root {
+    --color-primary: #14532d;
+    --color-primary-dark: #1b4332;
+}
+
+.w-40 {
+    width: 45%;
+}
+
+.w-30 {
+    width: 30%;
+}
+
+.text-white {
+    color: white;
+}
+
+.submit-btn {
+    background-color: var(--color-primary);
+    border: 2px solid var(--color-primary-dark);
+}
+
+.submit-btn:hover {
+    background-color: var(--color-primary-dark);
+}

@@ -1,0 +1,9 @@
+.login-bg {
+    background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('../images/login-bg.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.login-form-bg {
+    background-color: rgba(0,0,0,0.4);
+}
