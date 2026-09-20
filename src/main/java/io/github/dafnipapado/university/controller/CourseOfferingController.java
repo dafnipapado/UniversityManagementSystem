@@ -55,7 +55,7 @@ public class CourseOfferingController {
         } catch (Exception e) {
             return "admin/course_offering/create";
         }
-        return "redirect:/course-offerings/view";
+        return "redirect:/course-offerings/admin-view";
     }
 
     @GetMapping("/edit/{uuid}")
@@ -82,7 +82,7 @@ public class CourseOfferingController {
             log.error(e.getMessage());
             return "admin/course_offering/edit";
         }
-        return "redirect:/course-offerings/view";
+        return "redirect:/course-offerings/admin-view";
     }
 
     @PostMapping("/delete/{uuid}")
@@ -90,7 +90,7 @@ public class CourseOfferingController {
         try{
             courseOfferingService.deleteCourseOffering(uuid);
             redirectAttributes.addFlashAttribute("successMessage", "Course offering deleted successfully");
-            return "redirect:/course-offerings/view";
+            return "redirect:/course-offerings/admin-view";
         } catch (EntityNotFoundException e) {
             log.error(e.getMessage());
             return "shared/course_offering/view";
@@ -142,7 +142,7 @@ public class CourseOfferingController {
         try {
             enrollmentService.enrollByAdmin(courseOfferingUuid, studentAM);
             redirectAttributes.addFlashAttribute("successMessage", "Enrollment was successful.");
-            return "redirect:/course-offerings/view";
+            return "redirect:/course-offerings/admin-view";
         } catch (EntityNotFoundException | EntityAlreadyExistsException e) {
             log.error(e.getMessage());
             model.addAttribute("errorMessage", "Enrollment failed.");
@@ -178,7 +178,7 @@ public class CourseOfferingController {
         try {
             enrollmentService.withdrawByAdmin(courseOfferingUuid, studentAM);
             redirectAttributes.addFlashAttribute("successMessage", "Withdrawal was successful.");
-            return "redirect:/course-offerings/view";
+            return "redirect:/course-offerings/admin-view";
         } catch (EntityNotFoundException e) {
             log.error(e.getMessage());
             model.addAttribute("errorMessage", "Withdrawal failed.");
