@@ -121,8 +121,8 @@ public class CourseServiceImpl implements ICourseService{
     }
 
     @Override
-    public List<CourseReadOnlyDTO> getAllCourses() {
-        return courseRepository.findAllByOrderByDepartment_NameAscCodeAsc()
+    public List<CourseReadOnlyDTO> getAllCoursesDeletedFalse() {
+        return courseRepository.findAllByDeletedFalseOrderByDepartment_NameAscCodeAsc()
                 .stream()
                 .map(mapper::mapToCourseReadOnlyDTO)
                 .toList();

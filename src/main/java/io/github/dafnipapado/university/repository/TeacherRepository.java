@@ -18,5 +18,5 @@ public interface TeacherRepository extends JpaRepository<Teacher, Long> {
     @EntityGraph(attributePaths = {"user", "user.userInfo"})
     Page<Teacher> findAll(Pageable pageable);
 
-    List<Teacher> findAllByOrderByTeacherAM();
+    List<Teacher> findAllByDeletedFalseOrderByTeacherAM();
 }

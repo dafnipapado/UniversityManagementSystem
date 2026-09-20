@@ -10,5 +10,5 @@ import java.util.UUID;
 public interface CourseRepository extends JpaRepository<Course, Long> {
     Optional<Course> findByCode(String code);
     Optional<Course> findByUuidAndDeletedFalse(UUID uuid);
-    List<Course> findAllByOrderByDepartment_NameAscCodeAsc();
+    List<Course> findAllByDeletedFalseOrderByDepartment_NameAscCodeAsc();
 }

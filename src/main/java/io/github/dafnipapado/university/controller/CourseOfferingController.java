@@ -188,12 +188,12 @@ public class CourseOfferingController {
 
     @ModelAttribute("coursesList")
     public List<CourseReadOnlyDTO> courses() {
-        return courseService.getAllCourses();
+        return courseService.getAllCoursesDeletedFalse();
     }
 
     @ModelAttribute("teachersList")
     public List<TeacherReadOnlyDTO> teachers() {
-        return teacherService.getAllTeachers();
+        return teacherService.getAllTeachersDeletedFalse();
     }
 
     @ModelAttribute("semestersList")

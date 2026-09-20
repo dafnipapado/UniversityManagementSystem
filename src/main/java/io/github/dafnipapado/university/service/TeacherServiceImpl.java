@@ -180,8 +180,8 @@ public class TeacherServiceImpl implements ITeacherService {
     }
 
     @Override
-    public List<TeacherReadOnlyDTO> getAllTeachers() {
-        return teacherRepository.findAllByOrderByTeacherAM()
+    public List<TeacherReadOnlyDTO> getAllTeachersDeletedFalse() {
+        return teacherRepository.findAllByDeletedFalseOrderByTeacherAM()
                 .stream()
                 .map(mapper::mapToTeacherReadOnlyDTO)
                 .toList();
