@@ -37,6 +37,10 @@
     background-color: var(--color-primary);
     border: 2px solid var(--color-primary-dark);
     cursor: pointer;
+    color: white;
+    border-radius: 6px;
+    font-weight: 400;
+    padding: 8px 24px 8px 24px;
 }
 
 .submit-btn:hover {
