@@ -1,14 +1,19 @@
 <header th:fragment="headerFragment"
         xmlns:th="http://www.thymeleaf.org"
-        xmlns:sec="http://www.thymeleaf.org/extras/springsecurity">
+        xmlns:sec="http://www.thymeleaf.org/extras/springsecurity"
+        class="header-bg d-flex justify-content-center">
 
-    <div class="login-name">
+    <div class="w-70 d-flex justify-content-between align-items-center">
+        <a th:href="@{/}" class="h-85 align-content-center">
+            <img th:src="@{/images/logo.png}" class="h-75">
+        </a>
+
         <form sec:authorize="isAuthenticated()"
               th:action="@{/logout}"
               method="post"
               style="display:inline"
         >
-            <button type="submit" class="log-out" style="background:none; border:none; padding:0; cursor:pointer">
+            <button type="submit" class="reverse-btn py-2 px-3 rounded-3 text-white">
                 Logout
             </button>
         </form>

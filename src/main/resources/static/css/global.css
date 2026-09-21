@@ -1,6 +1,24 @@
 :root {
     --color-primary: #14532d;
     --color-primary-dark: #1b4332;
+    --color-primary-darker: #0f261d;
+}
+
+.header-bg {
+    background-color: var(--color-primary);
+    height: 100px;
+}
+
+.h-85 {
+    height: 85%;
+}
+
+.h-10 {
+    height: 30vh;
+}
+
+.w-70 {
+    width: 70%;
 }
 
 .w-40 {
@@ -18,8 +36,23 @@
 .submit-btn {
     background-color: var(--color-primary);
     border: 2px solid var(--color-primary-dark);
+    cursor: pointer;
 }
 
 .submit-btn:hover {
     background-color: var(--color-primary-dark);
+    cursor: pointer;
+}
+
+.reverse-btn {
+    background-color: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    transition: background-color 0.2s ease, border-color 0.2s ease
+    cursor: pointer;
+}
+
+.reverse-btn:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+    border-color: white;
+    cursor: pointer;
 }
