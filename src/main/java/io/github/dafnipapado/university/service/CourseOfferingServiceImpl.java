@@ -153,4 +153,9 @@ public class CourseOfferingServiceImpl implements ICourseOfferingService{
         student.getEnrollments().forEach(enrollment -> courseOfferings.add(enrollment.getOffering()));
         return courseOfferings;
     }
+
+    @Override
+    public long getActiveCourseOfferingCount() {
+        return courseOfferingRepository.countByDeletedFalse();
+    }
 }

@@ -21,4 +21,5 @@ public interface ICourseOfferingService {
     Page<CourseOfferingReadOnlyDTO> getCourseOfferingsPaginatedDeletedFalse(Pageable pageable) throws EntityAlreadyExistsException, EntityNotFoundException;
     boolean isStudentEnrolled(CourseOffering courseOffering) throws EntityNotFoundException, EntityAlreadyExistsException;
     Set<CourseOffering> getCourseOfferingsByStudent() throws EntityNotFoundException;
+    long getActiveCourseOfferingCount();
 }

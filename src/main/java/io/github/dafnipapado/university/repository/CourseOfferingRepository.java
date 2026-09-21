@@ -12,4 +12,5 @@ public interface CourseOfferingRepository extends JpaRepository<CourseOffering, 
     Optional<CourseOffering> findByUuidAndDeletedFalse(UUID UUID);
     boolean existsByCourseUuidAndTeacherUuidAndSemesterUuid(UUID courseUuid, UUID teacherUuid, UUID semesterUuid);
     Page<CourseOffering> findAllByDeletedFalse(Pageable pageable);
+    long countByDeletedFalse();
 }
