@@ -21,6 +21,7 @@ public class AdminController {
     @GetMapping({"", "/", "/index"})
     public String index(Model model) {
         model.addAttribute("courseOfferingsCount", courseOfferingService.getActiveCourseOfferingCount());
+        model.addAttribute("latestCourseOffering", courseOfferingService.getLatestCourseOffering());
         return "admin/index";
     }
 

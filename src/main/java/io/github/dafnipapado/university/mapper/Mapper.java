@@ -6,6 +6,7 @@ import io.github.dafnipapado.university.dto.course.CourseInsertDTO;
 import io.github.dafnipapado.university.dto.course.CourseReadOnlyDTO;
 import io.github.dafnipapado.university.dto.course_offering.CourseOfferingEditDTO;
 import io.github.dafnipapado.university.dto.course_offering.CourseOfferingReadOnlyDTO;
+import io.github.dafnipapado.university.dto.course_offering.CourseOfferingReadOnlySummaryDTO;
 import io.github.dafnipapado.university.dto.semester.SemesterInsertDTO;
 import io.github.dafnipapado.university.dto.semester.SemesterReadOnlyDTO;
 import io.github.dafnipapado.university.dto.student.StudentEditDTO;
@@ -201,6 +202,15 @@ public class Mapper {
                 courseOffering.getCourse().getUuid(),
                 courseOffering.getTeacher().getUuid(),
                 courseOffering.getSemester().getUuid()
+        );
+    }
+
+    public CourseOfferingReadOnlySummaryDTO mapToCourseOfferingReadOnlySummaryDTO(CourseOffering courseOffering) {
+        return new CourseOfferingReadOnlySummaryDTO(
+                courseOffering.getCourse().getCode(),
+                courseOffering.getCourse().getName(),
+                courseOffering.getSemester().getName(),
+                courseOffering.getSemester().getYear().toString()
         );
     }
 

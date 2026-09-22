@@ -3,6 +3,7 @@ package io.github.dafnipapado.university.service;
 import io.github.dafnipapado.university.dto.course_offering.CourseOfferingEditDTO;
 import io.github.dafnipapado.university.dto.course_offering.CourseOfferingInsertDTO;
 import io.github.dafnipapado.university.dto.course_offering.CourseOfferingReadOnlyDTO;
+import io.github.dafnipapado.university.dto.course_offering.CourseOfferingReadOnlySummaryDTO;
 import io.github.dafnipapado.university.exception.EntityAlreadyExistsException;
 import io.github.dafnipapado.university.exception.EntityNotFoundException;
 import io.github.dafnipapado.university.model.CourseOffering;
@@ -22,4 +23,5 @@ public interface ICourseOfferingService {
     boolean isStudentEnrolled(CourseOffering courseOffering) throws EntityNotFoundException, EntityAlreadyExistsException;
     Set<CourseOffering> getCourseOfferingsByStudent() throws EntityNotFoundException;
     long getActiveCourseOfferingCount();
+    CourseOfferingReadOnlySummaryDTO getLatestCourseOffering();
 }

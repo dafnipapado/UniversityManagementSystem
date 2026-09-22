@@ -3,6 +3,7 @@ package io.github.dafnipapado.university.service;
 import io.github.dafnipapado.university.dto.course_offering.CourseOfferingEditDTO;
 import io.github.dafnipapado.university.dto.course_offering.CourseOfferingInsertDTO;
 import io.github.dafnipapado.university.dto.course_offering.CourseOfferingReadOnlyDTO;
+import io.github.dafnipapado.university.dto.course_offering.CourseOfferingReadOnlySummaryDTO;
 import io.github.dafnipapado.university.exception.EntityAlreadyExistsException;
 import io.github.dafnipapado.university.exception.EntityNotFoundException;
 import io.github.dafnipapado.university.mapper.Mapper;
@@ -157,5 +158,11 @@ public class CourseOfferingServiceImpl implements ICourseOfferingService{
     @Override
     public long getActiveCourseOfferingCount() {
         return courseOfferingRepository.countByDeletedFalse();
+    }
+
+    @Override
+    public CourseOfferingReadOnlySummaryDTO getLatestCourseOffering() {
+        Optional<CourseOffering> courseOffering = courseOfferingRepository.findTopByOrderByIdDesc();
+        return courseOffering.map(mapper::mapToCourseOfferingReadOnlySummaryDTO).orElse(null);
     }
 }

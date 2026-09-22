@@ -25,7 +25,12 @@
                         <div class="card-title fw-semibold fs-3">Course Offerings</div>
                         <div class="card-text d-flex flex-column mb-3">
                             <div>Active offerings: <span th:text="${courseOfferingsCount}"></span></div>
-                            <div>Last added: </div>
+                            <div th:if="${latestCourseOffering != null}">Last added:
+                                <span th:text="${latestCourseOffering.courseCode}"></span> -
+                                <span th:text="${latestCourseOffering.courseName}"></span>
+                                (<span th:text="${latestCourseOffering.semesterName}"></span>
+                                <span th:text="${latestCourseOffering.semesterYear}"></span>)
+                            </div>
                         </div>
                         <a th:href="@{/course-offerings/admin-view}" class="submit-btn text-decoration-none">
                             Manage course offerings
