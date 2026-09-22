@@ -18,4 +18,6 @@ public interface ICourseService {
     void deleteCourse(UUID uuid) throws EntityNotFoundException;
     Page<CourseReadOnlyDTO> getCoursesPaginated(Pageable pageable);
     List<CourseReadOnlyDTO> getAllCoursesDeletedFalse();
+    long countCoursesDeletedFalse();
+    CourseReadOnlyDTO getLatestCourse();
 }

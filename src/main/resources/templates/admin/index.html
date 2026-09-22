@@ -41,10 +41,16 @@
             <div class="col-6">
                 <div class="card">
                     <img th:src="@{/images/courses.png}" class="card-img-top h-30" alt="courses picture">
-                    <div class="card-body">
-                        <h5 class="card-title">Courses</h5>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card’s content.</p>
-                        <a th:href="@{/courses/view}" class="btn btn-light">
+                    <div class="card-body text-center">
+                        <div class="card-title fw-semibold fs-3">Courses</div>
+                        <div class="card-text d-flex flex-column mb-3">
+                            <div>Courses: <span th:text="${courses}"></span></div>
+                            <div th:if="${latestCourse != null}">Last added:
+                                <span th:text="${latestCourse.courseCode}"></span> -
+                                <span th:text="${latestCourse.courseName}"></span>
+                            </div>
+                        </div>
+                        <a th:href="@{/courses/view}" class="submit-btn text-decoration-none">
                             Manage courses
                         </a>
                     </div>

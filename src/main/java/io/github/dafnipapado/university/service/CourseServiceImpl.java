@@ -20,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -126,5 +127,16 @@ public class CourseServiceImpl implements ICourseService{
                 .stream()
                 .map(mapper::mapToCourseReadOnlyDTO)
                 .toList();
+    }
+
+    @Override
+    public long countCoursesDeletedFalse() {
+        return courseRepository.countByDeletedFalse();
+    }
+
+    @Override
+    public CourseReadOnlyDTO getLatestCourse() {
+        Optional<Course> course = courseRepository.findTopByOrderByIdDesc();
+        return course.map(mapper::mapToCourseReadOnlyDTO).orElse(null);
     }
 }

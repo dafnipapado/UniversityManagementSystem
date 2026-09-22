@@ -11,4 +11,6 @@ public interface CourseRepository extends JpaRepository<Course, Long> {
     Optional<Course> findByCode(String code);
     Optional<Course> findByUuidAndDeletedFalse(UUID uuid);
     List<Course> findAllByDeletedFalseOrderByDepartment_NameAscCodeAsc();
+    long countByDeletedFalse();
+    Optional<Course> findTopByOrderByIdDesc();
 }
