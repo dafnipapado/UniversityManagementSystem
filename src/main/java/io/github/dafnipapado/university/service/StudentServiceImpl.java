@@ -25,6 +25,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Objects;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -177,5 +178,16 @@ public class StudentServiceImpl implements IStudentService{
         Page<Student> studentPage = studentRepository.findAll(pageable);
         log.info("Paginated students fetched successfully with page = {} and size = {}", studentPage.getNumber(), studentPage.getSize());
         return studentPage.map(mapper::mapToStudentReadOnlyDTO);
+    }
+
+    @Override
+    public long countStudentsDeletedFalse() {
+        return studentRepository.countByDeletedFalse();
+    }
+
+    @Override
+    public StudentReadOnlyDTO getLatestStudent() {
+        Optional<Student> student = studentRepository.findTopByOrderByIdDesc();
+        return student.map(mapper::mapToStudentReadOnlyDTO).orElse(null);
     }
 }

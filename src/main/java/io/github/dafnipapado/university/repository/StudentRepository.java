@@ -11,4 +11,6 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
     Optional<Student> findByUuid(UUID uuid);
     Optional<Student> findByUuidAndDeletedFalse(UUID uuid);
     Optional<Student> findByStudentAMAndDeletedFalse(String studentAM);
+    long countByDeletedFalse();
+    Optional<Student> findTopByOrderByIdDesc();
 }
