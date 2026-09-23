@@ -19,4 +19,6 @@ public interface TeacherRepository extends JpaRepository<Teacher, Long> {
     Page<Teacher> findAll(Pageable pageable);
 
     List<Teacher> findAllByDeletedFalseOrderByTeacherAM();
+    long countByDeletedFalse();
+    Optional<Teacher> findTopByOrderByIdDesc();
 }

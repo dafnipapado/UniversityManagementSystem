@@ -23,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -185,5 +186,16 @@ public class TeacherServiceImpl implements ITeacherService {
                 .stream()
                 .map(mapper::mapToTeacherReadOnlyDTO)
                 .toList();
+    }
+
+    @Override
+    public long countTeachersDeletedFalse() {
+        return teacherRepository.countByDeletedFalse();
+    }
+
+    @Override
+    public TeacherReadOnlyDTO getLatestTeacher() {
+        Optional<Teacher> teacher = teacherRepository.findTopByOrderByIdDesc();
+        return teacher.map(mapper::mapToTeacherReadOnlyDTO).orElse(null);
     }
 }
