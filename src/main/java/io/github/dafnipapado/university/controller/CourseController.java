@@ -89,7 +89,7 @@ public class CourseController {
     @GetMapping("/update-success")
     public String updateSuccess(Model model) {
         model.addAttribute("successMessage", "Course has been updated successfully.");
-        return "admin/course/view";
+        return "redirect:/courses/view";
     }
 
     @PostMapping("/delete/{uuid}")
