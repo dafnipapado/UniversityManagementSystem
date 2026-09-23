@@ -14,4 +14,5 @@ public interface ISemesterService {
     List<SemesterReadOnlyDTO> getAllSemesters();
     Page<SemesterReadOnlyDTO> getSemestersPaginated(Pageable pageable);
     void activateSemester(UUID uuid) throws EntityNotFoundException;
+    SemesterReadOnlyDTO getActiveSemester();
 }

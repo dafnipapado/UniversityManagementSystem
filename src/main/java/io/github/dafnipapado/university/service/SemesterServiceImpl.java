@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -64,5 +65,11 @@ public class SemesterServiceImpl implements ISemesterService{
         //activate the new semester
         semester.setActive(true);
         log.error(String.valueOf(semester.isActive()));
+    }
+
+    @Override
+    public SemesterReadOnlyDTO getActiveSemester() {
+        Optional<Semester> semester = semesterRepository.findByActiveTrue();
+        return semester.map(mapper::mapToSemesterReadOnlyDTO).orElse(null);
     }
 }
