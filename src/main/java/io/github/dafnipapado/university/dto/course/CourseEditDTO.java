@@ -1,9 +1,6 @@
 package io.github.dafnipapado.university.dto.course;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 
 import java.util.UUID;
 
@@ -24,7 +21,8 @@ public record CourseEditDTO(
         String description,
 
         @NotNull
-        @Size(min = 1, max = 10)
+        @Min(1)
+        @Max(10)
         Integer ects,
 
         @NotNull
