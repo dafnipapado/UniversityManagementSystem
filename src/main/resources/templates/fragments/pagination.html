@@ -1,19 +1,22 @@
-<div th:fragment="paginationFragment(page, baseUrl, emptyMessage)" xmlns:th="http://www.thymeleaf.org">
-    <div class="pagination-controls">
+<div th:fragment="paginationFragment(page, baseUrl, emptyMessage)" xmlns:th="http://www.thymeleaf.org"
+    class=" mt-4 d-flex justify-content-center gap-3 align-items-center">
         <div th:if="${page.first} and ${!(page.hasContent)}" th:text="${emptyMessage}"></div>
 
-        <a th:if="${!page.first}" th:href="@{${baseUrl}(page=0, size=${page.size})}">&laquo;</a>
-        <span th:if="${page.first}" class="disabled">&laquo;</span>
+        <a th:if="${!page.first}" th:href="@{${baseUrl}(page=0, size=${page.size})}"
+           class="pagination-controls">&laquo;</a>
+        <span th:if="${page.first}" class="disabled pagination-controls-disabled">&laquo;</span>
 
-        <a th:if="${!page.first}" th:href="@{${baseUrl}(page=${page.number - 1}, size=${page.size})}">&lsaquo;</a>
-        <span th:if="${page.first}" class="disabled">&lsaquo;</span>
+        <a th:if="${!page.first}" th:href="@{${baseUrl}(page=${page.number - 1}, size=${page.size})}"
+           class="pagination-controls">&lsaquo;</a>
+        <span th:if="${page.first}" class="disabled pagination-controls-disabled">&lsaquo;</span>
 
-        <span th:text="${page.number + 1}"></span>
+        <span class="fs-6 fw-bold text-primary-green" th:text="${page.number + 1}"></span>
 
-        <a th:if="${!page.last}" th:href="@{${baseUrl}(page=${page.number + 1}, size=${page.size})}">&rsaquo;</a>
-        <span th:if="${page.last}" class="disabled">&rsaquo;</span>
+        <a th:if="${!page.last}" th:href="@{${baseUrl}(page=${page.number + 1}, size=${page.size})}"
+           class="pagination-controls">&rsaquo;</a>
+        <span th:if="${page.last}" class="disabled pagination-controls-disabled">&rsaquo;</span>
 
-        <a th:if="${!page.last}" th:href="@{${baseUrl}(page=${page.totalPages - 1}, size=${page.size})}">&raquo;</a>
-        <span th:if="${page.last}" class="disabled">&raquo;</span>
-    </div>
+        <a th:if="${!page.last}" th:href="@{${baseUrl}(page=${page.totalPages - 1}, size=${page.size})}"
+           class="pagination-controls">&raquo;</a>
+        <span th:if="${page.last}" class="disabled pagination-controls-disabled">&raquo;</span>
 </div>
