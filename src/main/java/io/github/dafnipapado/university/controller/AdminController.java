@@ -1,8 +1,6 @@
 package io.github.dafnipapado.university.controller;
 
-import io.github.dafnipapado.university.service.ICourseOfferingService;
-import io.github.dafnipapado.university.service.ICourseService;
-import io.github.dafnipapado.university.service.ITeacherService;
+import io.github.dafnipapado.university.service.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -19,6 +17,8 @@ public class AdminController {
     private final ITeacherService teacherService;
     private final ICourseOfferingService courseOfferingService;
     private final ICourseService courseService;
+    private final ISemesterService semesterService;
+    private final IStudentService studentService;
 
     @GetMapping({"", "/", "/index"})
     public String index(Model model) {
@@ -26,6 +26,11 @@ public class AdminController {
         model.addAttribute("latestCourseOffering", courseOfferingService.getLatestCourseOffering());
         model.addAttribute("coursesCount", courseService.countCoursesDeletedFalse());
         model.addAttribute("latestCourse", courseService.getLatestCourse());
+        model.addAttribute("activeSemester", semesterService.getActiveSemester());
+        model.addAttribute("teachersCount", teacherService.countTeachersDeletedFalse());
+        model.addAttribute("latestTeacher", teacherService.getLatestTeacher());
+        model.addAttribute("studentsCount", studentService.countStudentsDeletedFalse());
+        model.addAttribute("latestStudent", studentService.getLatestStudent());
         return "admin/index";
     }
 
