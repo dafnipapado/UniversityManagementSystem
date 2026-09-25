@@ -188,7 +188,7 @@ public class Mapper {
 
     public CourseOfferingReadOnlyDTO mapToCourseOfferingReadOnlyDTO(CourseOffering courseOffering, Boolean isEnrolled) {
         return new CourseOfferingReadOnlyDTO(
-                courseOffering.getUuid().toString(),
+                courseOffering.getUuid(),
                 mapToCourseReadOnlyDTO(courseOffering.getCourse()),
                 mapToTeacherReadOnlyDTO(courseOffering.getTeacher()),
                 mapToSemesterReadOnlyDTO(courseOffering.getSemester()),
