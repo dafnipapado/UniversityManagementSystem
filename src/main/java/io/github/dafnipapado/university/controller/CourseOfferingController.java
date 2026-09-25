@@ -102,7 +102,7 @@ public class CourseOfferingController {
         Page<CourseOfferingReadOnlyDTO> courseOfferingsPaginated = courseOfferingService.getCourseOfferingsPaginated(pageable);
         model.addAttribute("courseOfferings", courseOfferingsPaginated.getContent());
         model.addAttribute("page", courseOfferingsPaginated);
-        return "shared/course_offering/view";
+        return "admin/course_offering/view";
     }
 
     @GetMapping("/view")
