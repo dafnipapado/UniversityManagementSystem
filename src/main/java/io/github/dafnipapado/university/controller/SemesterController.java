@@ -58,7 +58,7 @@ public class SemesterController {
         Page<SemesterReadOnlyDTO> semestersPaginated = semesterService.getSemestersPaginated(pageable);
         model.addAttribute("semesters", semestersPaginated.getContent());
         model.addAttribute("page", semestersPaginated);
-        return "/admin/semester/view";
+        return "admin/semester/view";
     }
 
     @PostMapping("/{uuid}/activate")
