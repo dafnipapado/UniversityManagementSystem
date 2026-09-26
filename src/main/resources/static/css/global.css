@@ -3,6 +3,7 @@
     --color-primary-dark: #1b4332;
     --color-primary-darker: #0f261d;
     --color-disabled: #6c757d;
+    --color-disabled-secondary: #5a6268;
 }
 
 .header-bg {
@@ -99,6 +100,15 @@
 .reverse-btn:hover {
     background-color: rgba(255, 255, 255, 0.6);
     transition: background-color 0.2s ease, border-color 0.2s ease
+}
+
+.disable-btn {
+    background-color: var(--color-disabled);
+    border: 1px solid var(--color-disabled-secondary);
+    color: white;
+    border-radius: 6px;
+    font-weight: 400;
+    padding: 8px 24px 8px 24px;
 }
 
 thead{
