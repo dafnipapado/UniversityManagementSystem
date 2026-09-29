@@ -51,7 +51,9 @@ public class Mapper {
                 teacher.getUuid(),
                 teacher.getUser().getUserInfo().getFirstname(),
                 teacher.getUser().getUserInfo().getLastname(),
-                teacher.getTeacherAM());
+                teacher.getTeacherAM(),
+                teacher.isDeleted()
+        );
     }
 
     public TeacherEditDTO mapToTeacherEditDTO(Teacher teacher) {

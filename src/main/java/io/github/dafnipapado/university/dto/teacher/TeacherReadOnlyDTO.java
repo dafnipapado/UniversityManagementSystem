@@ -6,5 +6,7 @@ public record TeacherReadOnlyDTO (
         UUID uuid,
         String firstname,
         String lastname,
-        String teacherAM) {
+        String teacherAM,
+        boolean deleted
+) {
 }
