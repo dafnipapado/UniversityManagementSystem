@@ -145,7 +145,8 @@ public class Mapper {
                 course.getName(),
                 course.getDescription(),
                 course.getEcts(),
-                course.getDepartment().getName()
+                course.getDepartment().getName(),
+                course.isDeleted()
         );
     }
 
