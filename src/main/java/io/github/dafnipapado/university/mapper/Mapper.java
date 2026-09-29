@@ -97,7 +97,9 @@ public class Mapper {
                 student.getUuid().toString(),
                 student.getUser().getUserInfo().getFirstname(),
                 student.getUser().getUserInfo().getLastname(),
-                student.getStudentAM());
+                student.getStudentAM(),
+                student.isDeleted()
+        );
     }
 
     public Student mapToStudentEntity(StudentInsertDTO studentInsertDTO) {

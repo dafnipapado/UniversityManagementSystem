@@ -29,7 +29,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr class="h-93px" th:each="student : ${students}">
+                <tr class="h-93px" th:classappend="${student.deleted} ? 'deleted-row' : ''" th:each="student : ${students}">
                     <td th:text="${student.firstname}"></td>
                     <td th:text="${student.lastname}"></td>
                     <td th:text="${student.studentAM}"></td>
