@@ -5,6 +5,7 @@
     --color-disabled: #6c757d;
     --color-disabled-secondary: #5a6268;
     --color-background-light: #f8f9fa;
+    --color-deleted-row: #cfcfcf;
 }
 
 body {
@@ -62,6 +63,10 @@ body {
 
 .text-primary-green {
     color: var(--color-primary);
+}
+
+.deleted-row {
+    --bs-table-bg: var(--color-deleted-row);
 }
 
 .submit-btn {
