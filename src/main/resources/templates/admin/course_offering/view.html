@@ -23,21 +23,23 @@
     <table class="table mt-5 align-middle">
         <thead>
             <tr>
-                <th>Course Code</th>
-                <th>Course Name</th>
-                <th>Teacher Firstname</th>
-                <th>Teacher Lastname</th>
+                <th>Course code</th>
+                <th>Course name</th>
+                <th>Teacher firstname</th>
+                <th>Teacher lastname</th>
                 <th>Season</th>
                 <th>Year</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
             <tr class="h-93px" th:each="courseOffering : ${courseOfferings}">
-                <td class="w-8" th:text="${courseOffering.courseReadOnlyDTO.code}"></td>
+                <td class="w-15" th:text="${courseOffering.courseReadOnlyDTO.code}"></td>
                 <td class="w-20" th:text="${courseOffering.courseReadOnlyDTO.name}"></td>
-                <td class="w-41" th:text="${courseOffering.teacherReadOnlyDTO.firstname}"></td>
-                <td class="w-8 ps-3" th:text="${courseOffering.semesterReadOnlyDTO.name}"></td>
-                <td class="w-15" th:text="${courseOffering.semesterReadOnlyDTO.year}"></td>
+                <td class="w-20" th:text="${courseOffering.teacherReadOnlyDTO.firstname}"></td>
+                <td class="w-20" th:text="${courseOffering.teacherReadOnlyDTO.lastname}"></td>
+                <td class="w-8" th:text="${courseOffering.semesterReadOnlyDTO.name}"></td>
+                <td class="w-8" th:text="${courseOffering.semesterReadOnlyDTO.year}"></td>
                 <td class="w-8">
                     <a th:href="@{/course-offerings/edit/{uuid}(uuid=${courseOffering.uuid})}" class="text-decoration-none">
                         <span class="fa-regular fa-pen-to-square submit-btn px-2"></span>
