@@ -11,6 +11,7 @@ public record CourseOfferingReadOnlyDTO(
         CourseReadOnlyDTO courseReadOnlyDTO,
         TeacherReadOnlyDTO teacherReadOnlyDTO,
         SemesterReadOnlyDTO semesterReadOnlyDTO,
-        Boolean isStudentEnrolled
+        Boolean isStudentEnrolled,
+        boolean deleted
 ) {
 }

@@ -192,7 +192,8 @@ public class Mapper {
                 mapToCourseReadOnlyDTO(courseOffering.getCourse()),
                 mapToTeacherReadOnlyDTO(courseOffering.getTeacher()),
                 mapToSemesterReadOnlyDTO(courseOffering.getSemester()),
-                isEnrolled != null && isEnrolled
+                isEnrolled != null && isEnrolled,
+                courseOffering.isDeleted()
         );
     }
 

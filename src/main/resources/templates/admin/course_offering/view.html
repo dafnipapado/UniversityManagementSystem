@@ -33,7 +33,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr class="h-93px" th:each="courseOffering : ${courseOfferings}">
+            <tr class="h-93px" th:classappend="${courseOffering.deleted} ? 'deleted-row' : ''"  th:each="courseOffering : ${courseOfferings}">
                 <td class="w-15" th:text="${courseOffering.courseReadOnlyDTO.code}"></td>
                 <td class="w-20" th:text="${courseOffering.courseReadOnlyDTO.name}"></td>
                 <td class="w-20" th:text="${courseOffering.teacherReadOnlyDTO.firstname}"></td>
