@@ -11,6 +11,30 @@
     <title>Manage Users - CatBridge</title>
 </head>
 <body>
+<div th:replace="~{fragments/header :: headerFragment}"></div>
+
+<div class="container w-70 mt-5">
+    <a th:href="@{/users/create}" class="reverse-btn text-decoration-none">
+        <span class="fa-solid fa-user-plus"></span> Add a new user
+    </a>
+
+    <table class="table mt-5 align-middle">
+        <thead>
+        <tr>
+            <th>Username</th>
+            <th>Role</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="h-93px" th:each="user : ${users}">
+            <td th:text="${user.username}"></td>
+            <td th:text="${user.role}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<div th:replace="~{fragments/pagination :: paginationFragment(page=${page}, baseUrl='/users/view', emptyMessage='No users found.')}"></div>
 
 </body>
 </html>
