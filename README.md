@@ -69,7 +69,7 @@ CREATE USER 'username'@'%' IDENTIFIED WITH caching_sha2_password BY 'password';
 GRANT ALL PRIVILEGES ON database_name.* TO 'username'@'%';
 FLUSH PRIVILEGES;
 ```
-Make sure the database name, username and password used above match the values configured in `application-dev.yml`.
+Make sure the database name, username and password used above match the values configured in `application-dev.yml`.<br>
 5. Start the application:
 ```
 ./gradlew bootRun
