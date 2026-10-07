@@ -38,7 +38,14 @@
                     <td th:text="${semester.startsAt}"></td>
                     <td th:text="${semester.endsAt}"></td>
                     <td th:text="${semester.registrationDeadline.replace('T', ' ')}"></td>
-                    <td th:text="${semester.active}"></td>
+                    <td>
+                        <div th:if="${semester.active}" class="text-success">
+                            <span class="fa-regular fa-circle-check"></span>
+                        </div>
+                        <div th:unless="${semester.active}" class="text-danger">
+                            <span class="fa-regular fa-circle-xmark"></span>
+                        </div>
+                    </td>
                     <td>
                         <div th:if="${semester.active}">
                             <button class="disable-btn" disabled>Activated</button>
