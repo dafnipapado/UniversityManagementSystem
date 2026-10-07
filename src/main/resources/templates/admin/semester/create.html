@@ -5,56 +5,75 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" th:href="@{/css/global.css}">
+    <title>Create Semester - CatBridge</title>
 </head>
 <body>
-    <div th:replace="~{fragments/header :: headerFragment}"></div>
 
-    <form
-        method="post"
-        th:action="@{/semesters/create}"
-        th:object="${semesterInsertDTO}"
-    >
-        <div class="mb-3">
-            <label th:for="name" class="form-label">Name</label><br>
-            <input type="text" th:field="*{name}" class="form-control" required>
-            <div th:if="${#fields.hasErrors('name')}">
-                <p th:classappend="${#fields.hasErrors('name')} ? 'error'" th:errors="*{name}"></p>
+<div th:replace="~{fragments/header :: headerFragment}"></div>
+
+<div class="container mt-5 main-content">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary-green text-white">
+                    <div class="card-title fs-3 mb-0">Create a semester</div>
+                </div>
+                <div class="card-body">
+                    <form
+                            method="post"
+                            th:action="@{/semesters/create}"
+                            th:object="${semesterInsertDTO}"
+                    >
+                        <div class="mb-3">
+                            <label th:for="name" class="form-label">Name</label><br>
+                            <input type="text" th:field="*{name}" class="form-control" required>
+                            <div th:if="${#fields.hasErrors('name')}">
+                                <p th:classappend="${#fields.hasErrors('name')} ? 'error'" th:errors="*{name}"></p>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label th:for="year" class="form-label">Year</label><br>
+                            <input type="number" th:field="*{year}" class="form-control" required>
+                            <div th:if="${#fields.hasErrors('year')}">
+                                <p th:classappend="${#fields.hasErrors('year')} ? 'error'" th:errors="*{year}"></p>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label th:for="startsAt" class="form-label">Starts At</label><br>
+                            <input type="date" th:field="*{startsAt}" class="form-control" required>
+                            <div th:if="${#fields.hasErrors('startsAt')}">
+                                <p th:classappend="${#fields.hasErrors('startsAt')} ? 'error'"
+                                   th:errors="*{startsAt}"></p>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label th:for="endsAt" class="form-label">Ends At</label><br>
+                            <input type="date" th:field="*{endsAt}" class="form-control" required>
+                            <div th:if="${#fields.hasErrors('endsAt')}">
+                                <p th:classappend="${#fields.hasErrors('endsAt')} ? 'error'" th:errors="*{endsAt}"></p>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label th:for="registrationDeadline" class="form-label">Registration Deadline</label><br>
+                            <input type="datetime-local" th:field="*{registrationDeadline}" class="form-control"
+                                   required>
+                            <div th:if="${#fields.hasErrors('registrationDeadline')}">
+                                <p th:classappend="${#fields.hasErrors('registrationDeadline')} ? 'error'"
+                                   th:errors="*{registrationDeadline}"></p>
+                            </div>
+                        </div>
+                        <input type="hidden" th:field="*{active}" value="false"/>
+                        <div class="d-grid">
+                            <button type="submit" class="submit-btn">Save</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
-        <div class="mb-3">
-            <label th:for="year" class="form-label">Year</label><br>
-            <input type="number" th:field="*{year}" class="form-control" required>
-            <div th:if="${#fields.hasErrors('year')}">
-                <p th:classappend="${#fields.hasErrors('year')} ? 'error'" th:errors="*{year}"></p>
-            </div>
-        </div>
-        <div class="mb-3">
-            <label th:for="startsAt" class="form-label">Starts At</label><br>
-            <input type="date" th:field="*{startsAt}" class="form-control" required>
-            <div th:if="${#fields.hasErrors('startsAt')}">
-                <p th:classappend="${#fields.hasErrors('startsAt')} ? 'error'" th:errors="*{startsAt}"></p>
-            </div>
-        </div>
-        <div class="mb-3">
-            <label th:for="endsAt" class="form-label">Ends At</label><br>
-            <input type="date" th:field="*{endsAt}" class="form-control" required>
-            <div th:if="${#fields.hasErrors('endsAt')}">
-                <p th:classappend="${#fields.hasErrors('endsAt')} ? 'error'" th:errors="*{endsAt}"></p>
-            </div>
-        </div>
-        <div class="mb-3">
-            <label th:for="registrationDeadline" class="form-label">Registration Deadline</label><br>
-            <input type="datetime-local" th:field="*{registrationDeadline}" class="form-control" required>
-            <div th:if="${#fields.hasErrors('registrationDeadline')}">
-                <p th:classappend="${#fields.hasErrors('registrationDeadline')} ? 'error'" th:errors="*{registrationDeadline}"></p>
-            </div>
-        </div>
-        <input type="hidden" th:field="*{active}" value="false"/>
-        <div>
-            <button type="submit" class="btn btn-outline-dark">Create semester</button>
-        </div>
-    </form>
+    </div>
+</div>
 </body>
 </html>

@@ -1,18 +1,14 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Create New Student</title>
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Bootstrap Icons -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-    <!-- Custom CSS -->
-    <!--    <link rel="stylesheet" th:href="@{/css/header.css}">-->
-    <!--    <link rel="stylesheet" th:href="@{/css/footer.css}">-->
-    <!--    <link rel="stylesheet" th:href="@{/css/main.css}">-->
-    <!--    <link rel="stylesheet" th:href="@{/css/userinsert.css}">-->
-    <!-- Responsive meta tag -->
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" th:href=@{/css/global.css}>
+    <title>Create Student - CatBridge</title>
 </head>
 <body>
 
@@ -22,7 +18,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8 col-lg-6">
             <div class="card shadow-sm">
-                <div class="card-header bg-primary text-white">
+                <div class="card-header bg-primary-green text-white">
                     <h2 class="card-title mb-0">Sign up</h2>
                 </div>
 
@@ -31,13 +27,14 @@
                 </div>
 
                 <div class="card-body">
-                    <form method="post" th:object="${studentInsertDTO}" th:action="@{/students/create}" >
+                    <form method="post" th:object="${studentInsertDTO}" th:action="@{/students/create}">
                         <!-- First name -->
                         <div class="mb-3">
                             <label class="form-label">First name</label>
                             <input type="text" class="form-control" th:field="*{userInfoInsertDTO.firstname}" required>
                             <div th:if="${#fields.hasErrors('userInfoInsertDTO.firstname')}">
-                                <p th:classappend="${#fields.hasErrors('userInfoInsertDTO.firstname')} ? 'error'" th:errors="*{userInfoInsertDTO.firstname}"></p>
+                                <p th:classappend="${#fields.hasErrors('userInfoInsertDTO.firstname')} ? 'error'"
+                                   th:errors="*{userInfoInsertDTO.firstname}"></p>
                             </div>
                         </div>
                         <!-- Last name -->
@@ -45,7 +42,8 @@
                             <label class="form-label">Last name</label>
                             <input type="text" class="form-control" th:field="*{userInfoInsertDTO.lastname}" required>
                             <div th:if="${#fields.hasErrors('userInfoInsertDTO.lastname')}">
-                                <p th:classappend="${#fields.hasErrors('userInfoInsertDTO.lastname')} ? 'error'" th:errors="*{userInfoInsertDTO.lastname}"></p>
+                                <p th:classappend="${#fields.hasErrors('userInfoInsertDTO.lastname')} ? 'error'"
+                                   th:errors="*{userInfoInsertDTO.lastname}"></p>
                             </div>
                         </div>
                         <!-- email -->
@@ -53,7 +51,8 @@
                             <label class="form-label">Email</label>
                             <input type="text" class="form-control" th:field="*{userInfoInsertDTO.email}" required>
                             <div th:if="${#fields.hasErrors('userInfoInsertDTO.email')}">
-                                <p th:classappend="${#fields.hasErrors('userInfoInsertDTO.email')} ? 'error'" th:errors="*{userInfoInsertDTO.email}"></p>
+                                <p th:classappend="${#fields.hasErrors('userInfoInsertDTO.email')} ? 'error'"
+                                   th:errors="*{userInfoInsertDTO.email}"></p>
                             </div>
                         </div>
                         <!-- student am -->
@@ -61,7 +60,8 @@
                             <label class="form-label">Student AM</label>
                             <input type="text" class="form-control" th:field="*{studentAM}" required>
                             <div th:if="${#fields.hasErrors('studentAM')}">
-                                <p th:classappend="${#fields.hasErrors('studentAM')} ? 'error'" th:errors="*{studentAM}"></p>
+                                <p th:classappend="${#fields.hasErrors('studentAM')} ? 'error'"
+                                   th:errors="*{studentAM}"></p>
                             </div>
                         </div>
                         <!-- afm -->
@@ -69,7 +69,8 @@
                             <label class="form-label">Afm</label>
                             <input type="text" class="form-control" th:field="*{userInfoInsertDTO.afm}" required>
                             <div th:if="${#fields.hasErrors('userInfoInsertDTO.afm')}">
-                                <p th:classappend="${#fields.hasErrors('userInfoInsertDTO.afm')} ? 'error'" th:errors="*{userInfoInsertDTO.afm}"></p>
+                                <p th:classappend="${#fields.hasErrors('userInfoInsertDTO.afm')} ? 'error'"
+                                   th:errors="*{userInfoInsertDTO.afm}"></p>
                             </div>
                         </div>
                         <!-- telephone -->
@@ -77,7 +78,8 @@
                             <label class="form-label">telephone number</label>
                             <input type="text" class="form-control" th:field="*{userInfoInsertDTO.telephone}" required>
                             <div th:if="${#fields.hasErrors('userInfoInsertDTO.telephone')}">
-                                <p th:classappend="${#fields.hasErrors('userInfoInsertDTO.telephone')} ? 'error'" th:errors="*{userInfoInsertDTO.telephone}"></p>
+                                <p th:classappend="${#fields.hasErrors('userInfoInsertDTO.telephone')} ? 'error'"
+                                   th:errors="*{userInfoInsertDTO.telephone}"></p>
                             </div>
                         </div>
                         <!-- Zip Code -->
@@ -85,7 +87,8 @@
                             <label class="form-label">Zip Code</label>
                             <input type="text" class="form-control" th:field="*{userInfoInsertDTO.zipCode}" required>
                             <div th:if="${#fields.hasErrors('userInfoInsertDTO.zipCode')}">
-                                <p th:classappend="${#fields.hasErrors('userInfoInsertDTO.zipCode')} ? 'error'" th:errors="*{userInfoInsertDTO.zipCode}"></p>
+                                <p th:classappend="${#fields.hasErrors('userInfoInsertDTO.zipCode')} ? 'error'"
+                                   th:errors="*{userInfoInsertDTO.zipCode}"></p>
                             </div>
                         </div>
                         <!-- Region -->
@@ -93,14 +96,16 @@
                             <label th:for="region" class="form-label">Region</label>
                             <select th:field="*{userInfoInsertDTO.regionId}" class="form-select" id="region" required>
                                 <option value="" selected>Select Region</option>
-                                <option th:each="region : ${regionsReadOnlyDTO}" th:value="${region.id}" th:text="${region.name}"></option>
+                                <option th:each="region : ${regionsReadOnlyDTO}" th:value="${region.id}"
+                                        th:text="${region.name}"></option>
                             </select>
                             <div th:if="${#fields.hasErrors('userInfoInsertDTO.regionId')}">
-                                <p th:classappend="${#fields.hasErrors('userInfoInsertDTO.regionId')} ? 'error'" th:errors="*{userInfoInsertDTO.regionId}"></p>
+                                <p th:classappend="${#fields.hasErrors('userInfoInsertDTO.regionId')} ? 'error'"
+                                   th:errors="*{userInfoInsertDTO.regionId}"></p>
                             </div>
                         </div>
-                        <div class="d-grid gap-2">
-                            <button type="submit" class="btn btn-primary btn-lg">Save</button>
+                        <div class="d-grid">
+                            <button type="submit" class="submit-btn">Save</button>
                         </div>
                     </form>
                 </div>
@@ -108,10 +113,5 @@
         </div>
     </div>
 </div>
-
-
-<!-- Bootstrap JS Bundle with Popper -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
 </body>
 </html>
