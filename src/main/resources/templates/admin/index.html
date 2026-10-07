@@ -25,9 +25,9 @@
             <div class="col-6">
                 <div class="card">
                     <img th:src="@{/images/course-offerings.png}" class="card-img-top h-30" alt="course offerings picture">
-                    <div class="card-body text-center mx-5">
-                        <div class="card-title  fs-3 text-primary-green">Course Offerings</div>
-                        <div class="card-text d-flex flex-column mb-3 text-start">
+                    <div class="card-body text-center">
+                        <div class="card-title fs-3 fw-semibold text-primary-green mb-3">Course Offerings</div>
+                        <div class="card-text d-flex flex-column align-items-start gap-1 mb-3 mx-auto">
                             <div><span class="fw-semibold">Active offerings: </span><span th:text="${courseOfferingsCount}"></span></div>
                             <div th:if="${latestCourseOffering != null}"><span class="fw-semibold">Last added:</span>
                                 <span th:text="${latestCourseOffering.courseCode}"></span> -
@@ -36,7 +36,7 @@
                                 <span th:text="${latestCourseOffering.semesterYear}"></span>)
                             </div>
                         </div>
-                        <a th:href="@{/course-offerings/admin-view}" class="submit-btn text-decoration-none">
+                        <a th:href="@{/course-offerings/admin-view}" class="submit-btn text-decoration-none d-block">
                             Manage course offerings
                         </a>
                     </div>
@@ -46,15 +46,15 @@
                 <div class="card">
                     <img th:src="@{/images/courses.png}" class="card-img-top h-30" alt="courses picture">
                     <div class="card-body text-center">
-                        <div class="card-title fw-semibold fs-3">Courses</div>
-                        <div class="card-text d-flex flex-column mb-3">
-                            <div>Courses: <span th:text="${coursesCount}"></span></div>
-                            <div th:if="${latestCourse != null}">Last added:
+                        <div class="card-title fs-3 fw-semibold text-primary-green mb-3">Courses</div>
+                        <div class="card-text d-flex flex-column align-items-start gap-1 mb-3 mx-auto">
+                            <div><span class="fw-semibold">Courses: </span><span th:text="${coursesCount}"></span></div>
+                            <div th:if="${latestCourse != null}"><span class="fw-semibold">Last added:</span>
                                 <span th:text="${latestCourse.code}"></span> -
                                 <span th:text="${latestCourse.name}"></span>
                             </div>
                         </div>
-                        <a th:href="@{/courses/view}" class="submit-btn text-decoration-none">
+                        <a th:href="@{/courses/view}" class="submit-btn text-decoration-none d-block">
                             Manage courses
                         </a>
                     </div>
@@ -66,15 +66,30 @@
                 <div class="card">
                     <img th:src="@{/images/semesters.jpg}" class="card-img-top h-30" alt="semesters picture">
                     <div class="card-body text-center">
-                        <div class="card-title fw-semibold fs-3">Semesters</div>
-                        <div class="card-text d-flex flex-column mb-3">
-                            <div th:if="${activeSemester != null}">Active semester:
+                        <div class="card-title fs-3 fw-semibold text-primary-green mb-3">Semesters</div>
+                        <div class="card-text d-flex flex-column align-items-start gap-1 mb-3 mx-auto">
+                            <div th:if="${activeSemester != null}"><span class="fw-semibold">Active semester:</span>
                                 <span th:text="${activeSemester.name}"></span>
                                 <span th:text="${activeSemester.year}"></span>
                             </div>
                         </div>
-                        <a th:href="@{/semesters/view}" class="submit-btn text-decoration-none">
+                        <a th:href="@{/semesters/view}" class="submit-btn text-decoration-none d-block">
                             Manage semesters
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="card">
+                    <img th:src="@{/images/users.jpg}" class="card-img-top h-30" alt="users picture">
+                    <div class="card-body text-center">
+                        <div class="card-title fs-3 fw-semibold text-primary-green mb-3">Users</div>
+                        <div class="card-text d-flex flex-column align-items-start gap-1 mb-3 mx-auto">
+                            <div th:if="${activeSemester != null}"><span class="fw-semibold">Users:</span>
+                            </div>
+                        </div>
+                        <a th:href="@{/users/view}" class="submit-btn text-decoration-none d-block">
+                            Manage users
                         </a>
                     </div>
                 </div>
@@ -85,15 +100,15 @@
                 <div class="card">
                     <img th:src="@{/images/teachers.jpg}" class="card-img-top h-30" alt="teachers picture">
                     <div class="card-body text-center">
-                        <div class="card-title fw-semibold fs-3">Teachers</div>
-                        <div class="card-text d-flex flex-column mb-3">
-                            <div>Teachers: <span th:text="${teachersCount}"></span></div>
-                            <div th:if="${latestTeacher != null}">Last added:
+                        <div class="card-title fs-3 fw-semibold text-primary-green mb-3">Teachers</div>
+                        <div class="card-text d-flex flex-column align-items-start gap-1 mb-3 mx-auto">
+                            <div><span class="fw-semibold">Teachers: </span><span th:text="${teachersCount}"></span></div>
+                            <div th:if="${latestTeacher != null}"><span class="fw-semibold">Last added:</span>
                                 <span th:text="${latestTeacher.firstname}"></span>
                                 <span th:text="${latestTeacher.lastname}"></span>
                             </div>
                         </div>
-                        <a th:href="@{/teachers/view}" class="submit-btn text-decoration-none">
+                        <a th:href="@{/teachers/view}" class="submit-btn text-decoration-none d-block">
                             Manage teachers
                         </a>
                     </div>
@@ -103,15 +118,15 @@
                 <div class="card">
                     <img th:src="@{/images/students.jpg}" class="card-img-top" alt="students picture">
                     <div class="card-body text-center">
-                        <div class="card-title fw-semibold fs-3">Students</div>
-                        <div class="card-text d-flex flex-column mb-3">
-                            <div>Students: <span th:text="${studentsCount}"></span></div>
-                            <div th:if="${latestStudent != null}">Last added:
+                        <div class="card-title fs-3 fw-semibold text-primary-green mb-3">Students</div>
+                        <div class="card-text d-flex flex-column align-items-start gap-1 mb-3 mx-auto">
+                            <div><span class="fw-semibold">Students: </span><span th:text="${studentsCount}"></span></div>
+                            <div th:if="${latestStudent != null}"><span class="fw-semibold">Last added:</span>
                                 <span th:text="${latestStudent.firstname}"></span>
                                 <span th:text="${latestStudent.lastname}"></span>
                             </div>
                         </div>
-                        <a th:href="@{/students/view}" class="submit-btn text-decoration-none">
+                        <a th:href="@{/students/view}" class="submit-btn text-decoration-none d-block">
                             Manage students
                         </a>
                     </div>
