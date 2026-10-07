@@ -1,6 +1,5 @@
 # University Management System
 
-##
 ### 📋 Project Overview
 University Management System is a university portal offering role-based access to various university operations. 
 This server-side application is built with Java/Spring Boot, using Thymeleaf templates for rendering and MySQL (managed via 
