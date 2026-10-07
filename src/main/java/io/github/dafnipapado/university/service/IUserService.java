@@ -4,8 +4,10 @@ import io.github.dafnipapado.university.dto.user.UserInsertDTO;
 import io.github.dafnipapado.university.dto.user.UserReadOnlyDTO;
 import io.github.dafnipapado.university.exception.EntityAlreadyExistsException;
 import io.github.dafnipapado.university.exception.EntityNotFoundException;
-import io.github.dafnipapado.university.model.User;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 public interface IUserService {
     UserReadOnlyDTO save(UserInsertDTO userInsertDTO) throws EntityAlreadyExistsException, EntityNotFoundException;
+    Page<UserReadOnlyDTO> getUsersPaginated(Pageable pageable);
 }

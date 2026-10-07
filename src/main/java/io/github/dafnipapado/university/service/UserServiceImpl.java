@@ -11,6 +11,8 @@ import io.github.dafnipapado.university.repository.RoleRepository;
 import io.github.dafnipapado.university.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -50,5 +52,13 @@ public class UserServiceImpl implements IUserService{
             log.error("Failed to save user with username = {}", userInsertDTO.username());
             throw e;
         }
+    }
+
+    @Override
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    public Page<UserReadOnlyDTO> getUsersPaginated(Pageable pageable) {
+        Page<User> userPage = userRepository.findAll(pageable);
+        log.info("Paginated users fetched successfully with page = {} and size = {}", userPage.getNumber(), userPage.getSize());
+        return userPage.map(mapper::mapToUserReadOnlyDTO);
     }
 }
