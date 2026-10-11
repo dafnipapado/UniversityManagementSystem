@@ -4,6 +4,7 @@ import io.github.dafnipapado.university.dto.course_offering.CourseOfferingEditDT
 import io.github.dafnipapado.university.dto.course_offering.CourseOfferingInsertDTO;
 import io.github.dafnipapado.university.dto.course_offering.CourseOfferingReadOnlyDTO;
 import io.github.dafnipapado.university.dto.course_offering.CourseOfferingReadOnlySummaryDTO;
+import io.github.dafnipapado.university.dto.semester.SemesterReadOnlyDTO;
 import io.github.dafnipapado.university.exception.EntityAlreadyExistsException;
 import io.github.dafnipapado.university.exception.EntityNotFoundException;
 import io.github.dafnipapado.university.mapper.Mapper;
@@ -164,5 +165,16 @@ public class CourseOfferingServiceImpl implements ICourseOfferingService{
     public CourseOfferingReadOnlySummaryDTO getLatestCourseOffering() {
         Optional<CourseOffering> courseOffering = courseOfferingRepository.findTopByOrderByIdDesc();
         return courseOffering.map(mapper::mapToCourseOfferingReadOnlySummaryDTO).orElse(null);
+    }
+
+    @Override
+    public List<CourseOfferingReadOnlyDTO> getOfferingsTaught() throws EntityNotFoundException {
+        Teacher teacher = utilityService.getLoggedInTeacher();
+        SemesterReadOnlyDTO semesterReadOnlyDTO = semesterService.getActiveSemester();
+        if (semesterReadOnlyDTO == null) return List.of();
+        return courseOfferingRepository
+                .findByTeacherUuidAndSemesterUuidAndDeletedFalse(teacher.getUuid(), semesterReadOnlyDTO.uuid())
+                .stream().map(courseOffering -> mapper.mapToCourseOfferingReadOnlyDTO(courseOffering, null))
+                .toList();
     }
 }

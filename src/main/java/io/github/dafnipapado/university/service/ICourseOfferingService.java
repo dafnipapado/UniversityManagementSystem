@@ -10,6 +10,7 @@ import io.github.dafnipapado.university.model.CourseOffering;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -24,4 +25,5 @@ public interface ICourseOfferingService {
     Set<CourseOffering> getCourseOfferingsByStudent() throws EntityNotFoundException;
     long getActiveCourseOfferingCount();
     CourseOfferingReadOnlySummaryDTO getLatestCourseOffering();
+    List<CourseOfferingReadOnlyDTO> getOfferingsTaught() throws EntityNotFoundException;
 }

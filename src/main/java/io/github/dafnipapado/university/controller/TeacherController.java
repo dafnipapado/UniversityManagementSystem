@@ -7,6 +7,7 @@ import io.github.dafnipapado.university.dto.teacher.TeacherReadOnlyDTO;
 import io.github.dafnipapado.university.dto.userInfo.UserInfoInsertDTO;
 import io.github.dafnipapado.university.exception.EntityAlreadyExistsException;
 import io.github.dafnipapado.university.exception.EntityNotFoundException;
+import io.github.dafnipapado.university.service.ICourseOfferingService;
 import io.github.dafnipapado.university.service.IRegionService;
 import io.github.dafnipapado.university.service.ITeacherService;
 import jakarta.validation.Valid;
@@ -32,12 +33,14 @@ public class TeacherController {
 
     private final ITeacherService teacherService;
     private final IRegionService regionService;
+    private final ICourseOfferingService courseOfferingService;
 
     @GetMapping({"", "/", "/index"})
     public String index(Model model){
         try{
             TeacherReadOnlyDTO teacherReadOnlyDTO = teacherService.getIndex();
             model.addAttribute("teacherReadOnlyDTO", teacherReadOnlyDTO);
+            model.addAttribute("courseOfferings", courseOfferingService.getOfferingsTaught());
         } catch(EntityNotFoundException e) {
 //            e.getMessage();
             //return error page
