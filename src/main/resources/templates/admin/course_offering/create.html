@@ -30,7 +30,9 @@
                             <label th:for="courseUuid" class="form-label">Course</label>
                             <select th:field="*{courseUuid}" class="form-select" id="courseUuid" required>
                                 <option value="" selected>Select Course</option>
-                                <option th:each="course : ${coursesList}" th:value="${course.uuid}" th:text="${course.code}"></option>
+                                <option th:each="course : ${coursesList}" th:value="${course.uuid}">
+                                    <span th:text="${course.code}"></span> - <span th:text="${course.name}"></span>
+                                </option>
                             </select>
                             <div th:if="${#fields.hasErrors('courseUuid')}">
                                 <p th:classappend="${#fields.hasErrors('courseUuid')} ? 'error'" th:errors="*{courseUuid}"></p>
@@ -40,7 +42,9 @@
                             <label th:for="teacherUuid" class="form-label">Teacher</label>
                             <select th:field="*{teacherUuid}" class="form-select" id="teacherUuid" required>
                                 <option value="" selected>Select Teacher</option>
-                                <option th:each="teacher : ${teachersList}" th:value="${teacher.uuid}" th:text="${teacher.teacherAM}"></option>
+                                <option th:each="teacher : ${teachersList}" th:value="${teacher.uuid}">
+                                    <span th:text="${teacher.teacherAM}"></span> - <span th:text="${teacher.lastname}"></span> <span th:text="${teacher.firstname}"></span>
+                                </option>
                             </select>
                             <div th:if="${#fields.hasErrors('teacherUuid')}">
                                 <p th:classappend="${#fields.hasErrors('teacherUuid')} ? 'error'" th:errors="*{teacherUuid}"></p>
