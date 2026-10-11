@@ -52,6 +52,15 @@ public class UtilityServiceImpl implements IUtilityService {
     }
 
     @Override
+    public Teacher getLoggedInTeacher() throws EntityNotFoundException {
+        User user = getUserByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+        if (user.getTeacher() == null || user.getTeacher().isDeleted()) {
+            throw new EntityNotFoundException("Active teacher with username = " + user.getUsername() + " not found.");
+        }
+        return user.getTeacher();
+    }
+
+    @Override
     public Course getCourseByUuid(UUID uuid) throws EntityNotFoundException {
         return courseRepository.findByUuidAndDeletedFalse(uuid)
                 .orElseThrow(() -> new EntityNotFoundException("Active course with uuid = " + uuid + " not found."));
