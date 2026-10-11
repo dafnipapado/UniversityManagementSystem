@@ -28,6 +28,7 @@ public class CourseOfferingServiceImpl implements ICourseOfferingService{
     private final CourseOfferingRepository courseOfferingRepository;
     private final SemesterRepository semesterRepository;
     private final IUtilityService utilityService;
+    private final ISemesterService semesterService;
     private final Mapper mapper;
 
     @Override
@@ -165,6 +166,14 @@ public class CourseOfferingServiceImpl implements ICourseOfferingService{
     public CourseOfferingReadOnlySummaryDTO getLatestCourseOffering() {
         Optional<CourseOffering> courseOffering = courseOfferingRepository.findTopByOrderByIdDesc();
         return courseOffering.map(mapper::mapToCourseOfferingReadOnlySummaryDTO).orElse(null);
+    }
+
+    @Override
+    public CourseOfferingReadOnlyDTO getLatestCourseOfferingByLoggedInTeacher() throws EntityNotFoundException {
+        Teacher teacher = utilityService.getLoggedInTeacher();
+        return courseOfferingRepository.findTopByTeacherUuidAndDeletedFalseOrderByIdDesc(teacher.getUuid())
+                .map(courseOffering -> mapper.mapToCourseOfferingReadOnlyDTO(courseOffering, null))
+                .orElse(null);
     }
 
     @Override

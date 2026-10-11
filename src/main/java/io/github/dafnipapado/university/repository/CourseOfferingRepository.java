@@ -16,4 +16,5 @@ public interface CourseOfferingRepository extends JpaRepository<CourseOffering, 
     long countByDeletedFalse();
     Optional<CourseOffering> findTopByOrderByIdDesc();
     List<CourseOffering> findByTeacherUuidAndSemesterUuidAndDeletedFalse(UUID teacherUuid, UUID semesterUuid);
+    Optional<CourseOffering> findTopByTeacherUuidAndDeletedFalseOrderByIdDesc(UUID uuid);
 }
