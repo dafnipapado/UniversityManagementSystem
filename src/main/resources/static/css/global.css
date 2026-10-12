@@ -25,6 +25,10 @@ body {
     height: 93px;
 }
 
+.h-250px {
+    height: 250px;
+}
+
 .w-8 {
     width: 8%;
 }
