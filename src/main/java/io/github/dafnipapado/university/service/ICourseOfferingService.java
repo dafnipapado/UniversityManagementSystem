@@ -27,4 +27,5 @@ public interface ICourseOfferingService {
     CourseOfferingReadOnlySummaryDTO getLatestCourseOffering();
     CourseOfferingReadOnlyDTO getLatestCourseOfferingByLoggedInTeacher() throws EntityNotFoundException;
     List<CourseOfferingReadOnlyDTO> getOfferingsTaught() throws EntityNotFoundException;
+    long getOfferingsTaughtCount() throws EntityNotFoundException;
 }

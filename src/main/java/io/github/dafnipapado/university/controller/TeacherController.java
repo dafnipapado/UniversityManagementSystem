@@ -42,6 +42,7 @@ public class TeacherController {
             model.addAttribute("teacherReadOnlyDTO", teacherReadOnlyDTO);
             model.addAttribute("courseOfferings", courseOfferingService.getOfferingsTaught());
             model.addAttribute("latestCourseOffering", courseOfferingService.getLatestCourseOfferingByLoggedInTeacher());
+            model.addAttribute("courseOfferingsCount", courseOfferingService.getOfferingsTaughtCount());
         } catch(EntityNotFoundException e) {
 //            e.getMessage();
             //return error page

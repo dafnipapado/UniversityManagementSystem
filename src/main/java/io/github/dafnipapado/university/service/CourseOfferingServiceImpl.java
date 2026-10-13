@@ -186,4 +186,9 @@ public class CourseOfferingServiceImpl implements ICourseOfferingService{
                 .stream().map(courseOffering -> mapper.mapToCourseOfferingReadOnlyDTO(courseOffering, null))
                 .toList();
     }
+
+    @Override
+    public long getOfferingsTaughtCount() throws EntityNotFoundException {
+        return getOfferingsTaught().size();
+    }
 }
