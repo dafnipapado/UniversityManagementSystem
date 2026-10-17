@@ -11,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
@@ -28,4 +29,5 @@ public interface ICourseOfferingService {
     CourseOfferingReadOnlyDTO getLatestCourseOfferingByLoggedInTeacher() throws EntityNotFoundException;
     List<CourseOfferingReadOnlyDTO> getOfferingsTaught() throws EntityNotFoundException;
     long getOfferingsTaughtCount() throws EntityNotFoundException;
+    Map<UUID, Long> countStudentsPerOffering() throws EntityNotFoundException;
 }

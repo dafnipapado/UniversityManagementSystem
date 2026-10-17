@@ -27,6 +27,7 @@ public class CourseOfferingServiceImpl implements ICourseOfferingService{
 
     private final CourseOfferingRepository courseOfferingRepository;
     private final SemesterRepository semesterRepository;
+    private final EnrollmentRepository enrollmentRepository;
     private final IUtilityService utilityService;
     private final ISemesterService semesterService;
     private final Mapper mapper;
@@ -190,5 +191,14 @@ public class CourseOfferingServiceImpl implements ICourseOfferingService{
     @Override
     public long getOfferingsTaughtCount() throws EntityNotFoundException {
         return getOfferingsTaught().size();
+    }
+
+    @Override
+    public Map<UUID, Long> countStudentsPerOffering() throws EntityNotFoundException {
+        Map<UUID, Long> enrollmentCount = new HashMap<>();
+        getOfferingsTaught()
+                .forEach(c ->
+                        enrollmentCount.put(c.uuid(), enrollmentRepository.countByOfferingUuid(c.uuid())));
+        return enrollmentCount;
     }
 }

@@ -7,9 +7,7 @@ import io.github.dafnipapado.university.dto.teacher.TeacherReadOnlyDTO;
 import io.github.dafnipapado.university.dto.userInfo.UserInfoInsertDTO;
 import io.github.dafnipapado.university.exception.EntityAlreadyExistsException;
 import io.github.dafnipapado.university.exception.EntityNotFoundException;
-import io.github.dafnipapado.university.service.ICourseOfferingService;
-import io.github.dafnipapado.university.service.IRegionService;
-import io.github.dafnipapado.university.service.ITeacherService;
+import io.github.dafnipapado.university.service.*;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -43,6 +41,7 @@ public class TeacherController {
             model.addAttribute("courseOfferings", courseOfferingService.getOfferingsTaught());
             model.addAttribute("latestCourseOffering", courseOfferingService.getLatestCourseOfferingByLoggedInTeacher());
             model.addAttribute("courseOfferingsCount", courseOfferingService.getOfferingsTaughtCount());
+            model.addAttribute("studentsEnrolled", courseOfferingService.countStudentsPerOffering());
         } catch(EntityNotFoundException e) {
 //            e.getMessage();
             //return error page
