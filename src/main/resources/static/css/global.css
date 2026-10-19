@@ -2,6 +2,8 @@
     --color-primary: #14532d;
     --color-primary-dark: #1b4332;
     --color-primary-darker: #0f261d;
+    --color-secondary: #8fb996;
+    --color-accent: #c9a227;
     --color-disabled: #6c757d;
     --color-disabled-secondary: #5a6268;
     --color-background-light: #f8f9fa;
@@ -75,6 +77,14 @@ body {
 
 .bg-primary-green-hover {
     background-color: var(--color-primary-dark);
+}
+
+.text-secondary {
+    color: var(--color-secondary);
+}
+
+.text-accent {
+    color: var(--color-accent);
 }
 
 .deleted-row {
