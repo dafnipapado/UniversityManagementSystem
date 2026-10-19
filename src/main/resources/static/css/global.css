@@ -176,3 +176,12 @@ thead{
     padding: 3px 12px 6px 12px;
     text-decoration: none;
 }
+
+.glow-card {
+    background: radial-gradient(circle at top left, #d6e0db, #ffffff 70%);
+    border-color: #d6e0db;
+}
+
+.glow-card-link:hover {
+   color: var(--color-secondary);
+}
