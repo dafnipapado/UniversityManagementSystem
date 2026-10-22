@@ -80,7 +80,7 @@ body {
 }
 
 .text-secondary {
-    color: var(--color-secondary);
+    color: var(--color-secondary) !important;
 }
 
 .text-accent {
@@ -177,11 +177,14 @@ thead{
     text-decoration: none;
 }
 
-.glow-card {
-    background: radial-gradient(circle at top left, #d6e0db, #ffffff 70%);
-    border-color: #d6e0db;
+.course-card {
+    background-color: white;
+    border-left: 4px solid var(--color-primary);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
 }
 
-.glow-card-link:hover {
-   color: var(--color-secondary);
+.course-card:hover {
+   transform: translateY(-4px);
+   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
 }
