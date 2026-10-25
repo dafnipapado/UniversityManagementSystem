@@ -205,8 +205,10 @@ public class CourseOfferingServiceImpl implements ICourseOfferingService{
     @Override
     @PreAuthorize("hasAuthority('ROLE_STUDENT')")
     public List<CourseOfferingReadOnlyDTO> getCourseOfferingsEnrolled() throws EntityNotFoundException {
+        SemesterReadOnlyDTO semesterReadOnlyDTO = semesterService.getActiveSemester();
+        if (semesterReadOnlyDTO == null) return List.of();
         return enrollmentRepository
-                .findByStudentUuidAndOfferingSemesterUuidAndOfferingDeletedFalse(utilityService.getLoggedInStudent().getUuid(), semesterService.getActiveSemester().uuid())
+                .findByStudentUuidAndOfferingSemesterUuidAndOfferingDeletedFalse(utilityService.getLoggedInStudent().getUuid(), semesterReadOnlyDTO.uuid())
                 .stream()
                 .map(Enrollment::getOffering)
                 .map(offering -> mapper.mapToCourseOfferingReadOnlyDTO(offering, null))
