@@ -201,4 +201,15 @@ public class CourseOfferingServiceImpl implements ICourseOfferingService{
                         enrollmentCount.put(c.uuid(), enrollmentRepository.countByOfferingUuid(c.uuid())));
         return enrollmentCount;
     }
+
+    @Override
+    @PreAuthorize("hasAuthority('ROLE_STUDENT')")
+    public List<CourseOfferingReadOnlyDTO> getCourseOfferingsEnrolled() throws EntityNotFoundException {
+        return enrollmentRepository
+                .findByStudentUuidAndOfferingSemesterUuidAndOfferingDeletedFalse(utilityService.getLoggedInStudent().getUuid(), semesterService.getActiveSemester().uuid())
+                .stream()
+                .map(Enrollment::getOffering)
+                .map(offering -> mapper.mapToCourseOfferingReadOnlyDTO(offering, null))
+                .toList();
+    }
 }

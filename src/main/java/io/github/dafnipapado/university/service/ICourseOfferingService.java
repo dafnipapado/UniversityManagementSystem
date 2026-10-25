@@ -30,4 +30,5 @@ public interface ICourseOfferingService {
     List<CourseOfferingReadOnlyDTO> getOfferingsTaught() throws EntityNotFoundException;
     long getOfferingsTaughtCount() throws EntityNotFoundException;
     Map<UUID, Long> countStudentsPerOffering() throws EntityNotFoundException;
+    List<CourseOfferingReadOnlyDTO> getCourseOfferingsEnrolled() throws EntityNotFoundException;
 }
