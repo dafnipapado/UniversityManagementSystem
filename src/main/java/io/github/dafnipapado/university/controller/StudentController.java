@@ -40,6 +40,7 @@ public class StudentController {
             StudentReadOnlyDTO studentReadOnlyDTO = studentService.getIndex();
             model.addAttribute("studentReadOnlyDTO", studentReadOnlyDTO);
             model.addAttribute("courseOfferingsEnrolled", courseOfferingService.getCourseOfferingsEnrolled());
+            model.addAttribute("courseOfferingsCount", courseOfferingService.getCourseOfferingsEnrolledCount());
         } catch(EntityNotFoundException e) {
 //            e.getMessage();
             //return error page

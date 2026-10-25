@@ -212,4 +212,10 @@ public class CourseOfferingServiceImpl implements ICourseOfferingService{
                 .map(offering -> mapper.mapToCourseOfferingReadOnlyDTO(offering, null))
                 .toList();
     }
+
+    @Override
+    @PreAuthorize("hasAuthority('ROLE_STUDENT')")
+    public long getCourseOfferingsEnrolledCount() throws EntityNotFoundException {
+        return getCourseOfferingsEnrolled().size();
+    }
 }
