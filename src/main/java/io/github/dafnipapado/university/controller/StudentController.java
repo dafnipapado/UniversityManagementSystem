@@ -8,6 +8,7 @@ import io.github.dafnipapado.university.exception.EntityAlreadyExistsException;
 import io.github.dafnipapado.university.exception.EntityNotFoundException;
 import io.github.dafnipapado.university.service.ICourseOfferingService;
 import io.github.dafnipapado.university.service.IRegionService;
+import io.github.dafnipapado.university.service.ISemesterService;
 import io.github.dafnipapado.university.service.IStudentService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -33,6 +34,7 @@ public class StudentController {
     private final IStudentService studentService;
     private final IRegionService regionService;
     private final ICourseOfferingService courseOfferingService;
+    private final ISemesterService semesterService;
 
     @GetMapping({"", "/", "/index"})
     public String index(Model model){
@@ -41,6 +43,7 @@ public class StudentController {
             model.addAttribute("studentReadOnlyDTO", studentReadOnlyDTO);
             model.addAttribute("courseOfferingsEnrolled", courseOfferingService.getCourseOfferingsEnrolled());
             model.addAttribute("courseOfferingsCount", courseOfferingService.getCourseOfferingsEnrolledCount());
+            model.addAttribute("currentSemester", semesterService.getActiveSemester());
         } catch(EntityNotFoundException e) {
 //            e.getMessage();
             //return error page
