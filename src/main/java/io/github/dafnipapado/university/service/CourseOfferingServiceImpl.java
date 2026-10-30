@@ -155,14 +155,6 @@ public class CourseOfferingServiceImpl implements ICourseOfferingService{
     }
 
     @Override
-    public Set<CourseOffering> getCourseOfferingsByStudent() throws EntityNotFoundException {
-        Set<CourseOffering> courseOfferings = new HashSet<>();
-        Student student = utilityService.getLoggedInStudent();
-        student.getEnrollments().forEach(enrollment -> courseOfferings.add(enrollment.getOffering()));
-        return courseOfferings;
-    }
-
-    @Override
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public long getActiveCourseOfferingCount() {
         return courseOfferingRepository.countByDeletedFalse();
