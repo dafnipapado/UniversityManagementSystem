@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -138,10 +139,11 @@ public class CourseOfferingServiceImpl implements ICourseOfferingService{
     public Page<CourseOfferingReadOnlyDTO> getCourseOfferingsPaginatedDeletedFalse(Pageable pageable) throws EntityAlreadyExistsException, EntityNotFoundException {
         Page<CourseOffering> courseOfferingPage = courseOfferingRepository.findAllByDeletedFalse(pageable);
         //get all courseOfferings logged-in student is enrolled into
-        Set<CourseOffering> studentCourseOfferings = getCourseOfferingsByStudent();
-        Map<CourseOffering, Boolean> courseOfferingsMap = new HashMap<>();
-        courseOfferingPage.forEach(courseOffering -> courseOfferingsMap.put(courseOffering, studentCourseOfferings.contains(courseOffering)));
-        return courseOfferingPage.map(courseOffering -> mapper.mapToCourseOfferingReadOnlyDTO(courseOffering, courseOfferingsMap.get(courseOffering)));
+        Set<UUID> enrolledUuids = getCourseOfferingsEnrolled()
+                .stream()
+                .map(CourseOfferingReadOnlyDTO::uuid)
+                .collect(Collectors.toSet());
+        return courseOfferingPage.map(courseOffering -> mapper.mapToCourseOfferingReadOnlyDTO(courseOffering, enrolledUuids.contains(courseOffering.getUuid())));
     }
 
     @Override
