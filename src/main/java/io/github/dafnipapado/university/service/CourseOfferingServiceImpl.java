@@ -134,6 +134,7 @@ public class CourseOfferingServiceImpl implements ICourseOfferingService{
     }
 
     @Override
+    @PreAuthorize("hasAuthority('VIEW_COURSE_OFFERING')")
     public Page<CourseOfferingReadOnlyDTO> getCourseOfferingsPaginatedDeletedFalse(Pageable pageable) throws EntityAlreadyExistsException, EntityNotFoundException {
         Page<CourseOffering> courseOfferingPage = courseOfferingRepository.findAllByDeletedFalse(pageable);
         //get all courseOfferings logged-in student is enrolled into
@@ -144,6 +145,7 @@ public class CourseOfferingServiceImpl implements ICourseOfferingService{
     }
 
     @Override
+    @PreAuthorize("hasAuthority('ROLE_STUDENT')")
     public boolean isStudentEnrolled(CourseOffering courseOffering) throws EntityNotFoundException, EntityAlreadyExistsException {
         Student student = utilityService.getLoggedInStudent();
         Enrollment enrollment = utilityService.getByStudentIdCourseOfferingId(student.getId(), courseOffering.getId());
@@ -159,17 +161,20 @@ public class CourseOfferingServiceImpl implements ICourseOfferingService{
     }
 
     @Override
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public long getActiveCourseOfferingCount() {
         return courseOfferingRepository.countByDeletedFalse();
     }
 
     @Override
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public CourseOfferingReadOnlySummaryDTO getLatestCourseOffering() {
         Optional<CourseOffering> courseOffering = courseOfferingRepository.findTopByOrderByIdDesc();
         return courseOffering.map(mapper::mapToCourseOfferingReadOnlySummaryDTO).orElse(null);
     }
 
     @Override
+    @PreAuthorize("hasAuthority('ROLE_TEACHER')")
     public CourseOfferingReadOnlyDTO getLatestCourseOfferingByLoggedInTeacher() throws EntityNotFoundException {
         Teacher teacher = utilityService.getLoggedInTeacher();
         return courseOfferingRepository.findTopByTeacherUuidAndDeletedFalseOrderByIdDesc(teacher.getUuid())
@@ -178,6 +183,7 @@ public class CourseOfferingServiceImpl implements ICourseOfferingService{
     }
 
     @Override
+    @PreAuthorize("hasAuthority('ROLE_TEACHER')")
     public List<CourseOfferingReadOnlyDTO> getOfferingsTaught() throws EntityNotFoundException {
         Teacher teacher = utilityService.getLoggedInTeacher();
         SemesterReadOnlyDTO semesterReadOnlyDTO = semesterService.getActiveSemester();
@@ -189,11 +195,13 @@ public class CourseOfferingServiceImpl implements ICourseOfferingService{
     }
 
     @Override
+    @PreAuthorize("hasAuthority('ROLE_TEACHER')")
     public long getOfferingsTaughtCount() throws EntityNotFoundException {
         return getOfferingsTaught().size();
     }
 
     @Override
+    @PreAuthorize("hasAuthority('ROLE_TEACHER')")
     public Map<UUID, Long> countStudentsPerOffering() throws EntityNotFoundException {
         Map<UUID, Long> enrollmentCount = new HashMap<>();
         getOfferingsTaught()
