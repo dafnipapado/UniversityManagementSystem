@@ -18,6 +18,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -60,5 +62,18 @@ public class UserServiceImpl implements IUserService{
         Page<User> userPage = userRepository.findAll(pageable);
         log.info("Paginated users fetched successfully with page = {} and size = {}", userPage.getNumber(), userPage.getSize());
         return userPage.map(mapper::mapToUserReadOnlyDTO);
+    }
+
+    @Override
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    public long countUsersDeletedFalse() {
+        return userRepository.countByDeletedFalse();
+    }
+
+    @Override
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    public UserReadOnlyDTO getLatestUser() {
+        Optional<User> user = userRepository.findTopByOrderByIdDesc();
+        return user.map(mapper::mapToUserReadOnlyDTO).orElse(null);
     }
 }

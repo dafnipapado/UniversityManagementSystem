@@ -10,6 +10,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     @EntityGraph(attributePaths = {"role", "role.capabilities"})
     Optional<User> findByUsername(String username);
-
     Optional<User> findByRoleId(Long id);
+    long countByDeletedFalse();
+    Optional<User> findTopByOrderByIdDesc();
 }

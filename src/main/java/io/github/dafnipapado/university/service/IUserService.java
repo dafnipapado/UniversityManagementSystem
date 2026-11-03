@@ -10,4 +10,6 @@ import org.springframework.data.domain.Pageable;
 public interface IUserService {
     UserReadOnlyDTO save(UserInsertDTO userInsertDTO) throws EntityAlreadyExistsException, EntityNotFoundException;
     Page<UserReadOnlyDTO> getUsersPaginated(Pageable pageable);
+    public long countUsersDeletedFalse();
+    UserReadOnlyDTO getLatestUser();
 }

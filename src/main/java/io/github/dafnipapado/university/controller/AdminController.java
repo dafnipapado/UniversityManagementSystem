@@ -19,6 +19,7 @@ public class AdminController {
     private final ICourseService courseService;
     private final ISemesterService semesterService;
     private final IStudentService studentService;
+    private final IUserService userService;
 
     @GetMapping({"", "/", "/index"})
     public String index(Model model) {
@@ -31,6 +32,8 @@ public class AdminController {
         model.addAttribute("latestTeacher", teacherService.getLatestTeacher());
         model.addAttribute("studentsCount", studentService.countStudentsDeletedFalse());
         model.addAttribute("latestStudent", studentService.getLatestStudent());
+        model.addAttribute("usersCount", userService.countUsersDeletedFalse());
+        model.addAttribute("latestUser", userService.getLatestUser());
         return "admin/index";
     }
 
