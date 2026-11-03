@@ -1,0 +1,2 @@
+ALTER TABLE courses
+MODIFY COLUMN hours_per_week INTEGER NOT NULL;

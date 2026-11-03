@@ -80,6 +80,7 @@ public class CourseServiceImpl implements ICourseService{
             course.setName(courseEditDTO.name());
             course.setDescription(courseEditDTO.description());
             course.setEcts(courseEditDTO.ects());
+            course.setHoursPerWeek(courseEditDTO.hoursPerWeek());
 
             //get new department, if changed
             if (!Objects.equals(courseEditDTO.departmentId(), course.getDepartment().getId())) {

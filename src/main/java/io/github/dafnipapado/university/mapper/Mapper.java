@@ -134,6 +134,7 @@ public class Mapper {
                 courseInsertDTO.name(),
                 courseInsertDTO.description(),
                 courseInsertDTO.ects(),
+                courseInsertDTO.hoursPerWeek(),
                 null,
                 null);
     }
@@ -145,6 +146,7 @@ public class Mapper {
                 course.getName(),
                 course.getDescription(),
                 course.getEcts(),
+                course.getHoursPerWeek(),
                 course.getDepartment().getName(),
                 course.isDeleted()
         );
@@ -157,6 +159,7 @@ public class Mapper {
                 course.getName(),
                 course.getDescription(),
                 course.getEcts(),
+                course.getHoursPerWeek(),
                 course.getDepartment().getId()
         );
     }

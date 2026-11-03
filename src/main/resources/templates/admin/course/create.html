@@ -55,6 +55,13 @@
                             </div>
                         </div>
                         <div class="mb-3">
+                            <label class="form-label">Hours per Week</label>
+                            <input type="number" class="form-control" th:field="*{hoursPerWeek}" required>
+                            <div th:if="${#fields.hasErrors('hoursPerWeek')}">
+                                <p th:classappend="${#fields.hasErrors('hoursPerWeek')} ? 'error'" th:errors="*{hoursPerWeek}"></p>
+                            </div>
+                        </div>
+                        <div class="mb-3">
                             <label th:for="departmentId" class="form-label">Department</label>
                             <select th:field="*{departmentId}" class="form-select" id="departmentId" required>
                                 <option value="" selected>Select Department</option>

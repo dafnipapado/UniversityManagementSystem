@@ -37,6 +37,9 @@ public class Course extends AbstractEntity{
     @Column(nullable = false)
     private int ects;
 
+    @Column(name = "hours_per_week", nullable = false)
+    private int hoursPerWeek;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "department_id", nullable = false)
     private Department department;

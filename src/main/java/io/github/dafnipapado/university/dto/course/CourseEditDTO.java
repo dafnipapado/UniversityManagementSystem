@@ -26,6 +26,11 @@ public record CourseEditDTO(
         Integer ects,
 
         @NotNull
+        @Min(1)
+        @Max(10)
+        Integer hoursPerWeek,
+
+        @NotNull
         Long departmentId
 ) {
 }

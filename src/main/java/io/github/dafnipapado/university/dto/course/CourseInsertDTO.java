@@ -21,10 +21,15 @@ public record CourseInsertDTO(
         Integer ects,
 
         @NotNull
+        @Min(1)
+        @Max(10)
+        Integer hoursPerWeek,
+
+        @NotNull
         Long departmentId
 ) {
 
     public static CourseInsertDTO empty() {
-        return new CourseInsertDTO("", "", "", null, 0L);
+        return new CourseInsertDTO("", "", "", null, null, 0L);
     }
 }

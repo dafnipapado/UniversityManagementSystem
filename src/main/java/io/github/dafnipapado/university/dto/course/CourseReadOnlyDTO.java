@@ -8,6 +8,7 @@ public record CourseReadOnlyDTO(
         String name,
         String description,
         Integer ects,
+        Integer hoursPerWeek,
         String departmentName,
         boolean deleted
 ) {
