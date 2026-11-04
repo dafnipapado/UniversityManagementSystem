@@ -211,6 +211,12 @@ public class CourseOfferingServiceImpl implements ICourseOfferingService{
     }
 
     @Override
+    @PreAuthorize("hasAuthority('ROLE_TEACHER')")
+    public long getTotalHoursPerTeacher() throws EntityNotFoundException {
+        return courseOfferingRepository.sumTotalHours(utilityService.getLoggedInTeacher().getUuid());
+    }
+
+    @Override
     @PreAuthorize("hasAuthority('ROLE_STUDENT')")
     public List<CourseOfferingReadOnlyDTO> getCourseOfferingsEnrolled() throws EntityNotFoundException {
         SemesterReadOnlyDTO semesterReadOnlyDTO = semesterService.getActiveSemester();
