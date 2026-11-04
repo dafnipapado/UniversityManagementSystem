@@ -24,16 +24,24 @@ body {
     height: 85%;
 }
 
+.h-48px {
+    height: 48px;
+}
+
+.h-65px {
+    height: 65px;
+}
+
 .h-93px {
     height: 93px;
 }
 
-.h-250px {
-    height: 250px;
+.h-120px {
+    height: 120px;
 }
 
-.h-48px {
-    height: 48px;
+.h-250px {
+    height: 250px;
 }
 
 .w-8 {
@@ -70,6 +78,14 @@ body {
 
 .w-48px {
     width: 48px;
+}
+
+.w-65px {
+    width: 65px;
+}
+
+.mt-neg-0_5 {
+    margin-top: -0.5rem;
 }
 
 .text-white {
@@ -192,6 +208,10 @@ thead{
     font-weight: 400;
     padding: 3px 12px 6px 12px;
     text-decoration: none;
+}
+
+.card-shadow {
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
 }
 
 .course-card {
