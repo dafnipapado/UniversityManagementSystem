@@ -44,6 +44,7 @@ public class TeacherController {
             model.addAttribute("courseOfferingsCount", courseOfferingService.getOfferingsTaughtCount());
             model.addAttribute("currentSemester", semesterService.getActiveSemester());
             model.addAttribute("studentsEnrolled", courseOfferingService.countStudentsPerOffering());
+            model.addAttribute("totalStudents", courseOfferingService.getIndividualStudentsPerTeacher());
         } catch(EntityNotFoundException e) {
 //            e.getMessage();
             //return error page
