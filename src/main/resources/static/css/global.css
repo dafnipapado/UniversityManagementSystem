@@ -44,6 +44,18 @@ body {
     height: 250px;
 }
 
+.h-4rem {
+    height: 4rem;
+}
+
+.h-10rem {
+    height: 10rem;
+}
+
+.lh-3rem {
+    line-height: 3rem;
+}
+
 .w-8 {
     width: 8%;
 }
@@ -88,6 +100,10 @@ body {
     margin-top: -0.5rem;
 }
 
+.mt-0_1rem {
+    margin-top: 0.1rem;
+}
+
 .text-white {
     color: white;
 }
@@ -114,6 +130,14 @@ body {
 
 .text-accent {
     color: var(--color-accent);
+}
+
+.text-size-1_05rem {
+    font-size: 1.05rem;
+}
+
+.text-size-1_2rem {
+    font-size: 1.2rem;
 }
 
 .border-grey {
@@ -176,6 +200,23 @@ body {
     padding: 8px 24px 8px 24px;
 }
 
+.view-course-btn {
+    border: 1px solid var(--color-primary);
+    background-color: white;
+    color: var(--color-primary);
+    border-radius: 6px;
+    font-weight: 400;
+    padding: 0.4rem 0.55rem;
+    cursor:pointer;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.view-course-btn:hover {
+    background-color: var(--color-primary);;
+    color: white;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
 thead{
     --bs-table-bg: var(--color-primary);
     --bs-table-color: white !important;
@@ -216,7 +257,6 @@ thead{
 
 .course-card {
     background-color: white;
-    border-left: 4px solid var(--color-primary);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
     transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
 }
@@ -224,4 +264,9 @@ thead{
 .course-card:hover {
    transform: translateY(-4px);
    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.course-title-card {
+    border-top-left-radius: 0.3rem;
+    border-top-right-radius: 0.3rem;
 }
