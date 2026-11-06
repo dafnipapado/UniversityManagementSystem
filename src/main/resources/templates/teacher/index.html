@@ -33,35 +33,15 @@
 
     <div class="row p-4 mb-3">
         <div class="col-12 col-md-4">
-            <div class="d-flex align-items-center gap-4 bg-white border border-grey rounded-4 h-120px p-4 card-shadow">
-                <span class="bi bi-journals fs-4 bg-secondary h-65px w-65px rounded-circle d-flex justify-content-center align-items-center text-white"></span>
-                <div class="d-flex flex-column">
-                    <span class="text-secondary small">Classes</span>
-                    <span class="display-5 mt-neg-0_5 fw-semibold text-primary-green"
-                          th:text="${courseOfferingsCount}"></span>
-                </div>
-            </div>
+            <div th:replace="~{fragments/stat :: statFragment('journals', 'Classes', ${courseOfferingsCount})}"></div>
         </div>
         <div class="col-12 col-md-4">
-            <div class="d-flex align-items-center gap-4 bg-white border border-grey rounded-4 h-120px p-4 card-shadow">
-                <span class="bi bi-mortarboard fs-4 bg-secondary h-65px w-65px rounded-circle d-flex justify-content-center align-items-center text-white"></span>
-                <div class="d-flex flex-column">
-                    <span class="text-secondary small">Students</span>
-                    <span class="display-5 mt-neg-0_5 fw-semibold text-primary-green" th:text="${totalStudents}"></span>
-                </div>
-            </div>
+            <div th:replace="~{fragments/stat :: statFragment('mortarboard', 'Students', ${totalStudents})}"></div>
         </div>
         <div class="col-12 col-md-4">
-            <div class="d-flex align-items-center gap-4 bg-white border border-grey rounded-4 h-120px p-4 card-shadow">
-                <span class="bi bi-calendar-week fs-4 bg-secondary h-65px w-65px rounded-circle d-flex justify-content-center align-items-center text-white"></span>
-                <div class="d-flex flex-column">
-                    <span class="text-secondary small">Total Hours/Week</span>
-                    <span class="display-5 mt-neg-0_5 fw-semibold text-primary-green" th:text="${totalHours}"></span>
-                </div>
-            </div>
+            <div th:replace="~{fragments/stat :: statFragment('calendar-week', 'Total Hours/Week', ${totalHours})}"></div>
         </div>
     </div>
-
 
     <div class="accordion pt-5 pb-5">
         <details class="accordion-item" name="accordionExample" open>

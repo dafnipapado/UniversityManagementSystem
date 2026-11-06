@@ -1,0 +1,10 @@
+<div th:fragment="statFragment(icon, label, value)" xmlns:th="http://www.thymeleaf.org">
+    <div class="d-flex align-items-center gap-4 bg-white border border-grey rounded-4 h-120px p-4 card-shadow">
+        <span class="fs-4 bg-secondary h-65px w-65px rounded-circle d-flex justify-content-center align-items-center text-white bi "
+              th:classappend="'bi-' + ${icon}"></span>
+        <div class="d-flex flex-column">
+            <span class="text-secondary small" th:text="${label}"></span>
+            <span class="display-5 mt-neg-0_5 fw-semibold text-primary-green" th:text="${value}"></span>
+        </div>
+    </div>
+</div>
