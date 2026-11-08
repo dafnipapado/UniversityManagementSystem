@@ -213,7 +213,7 @@ public class CourseOfferingServiceImpl implements ICourseOfferingService{
     @Override
     @PreAuthorize("hasAuthority('ROLE_TEACHER')")
     public long getTotalHoursPerTeacher() throws EntityNotFoundException {
-        return courseOfferingRepository.sumTotalHoursPerTeacher(utilityService.getLoggedInTeacher().getUuid());
+        return courseOfferingRepository.sumTotalHoursPerTeacher(utilityService.getLoggedInTeacher().getUuid(), semesterService.getActiveSemester().uuid());
     }
 
     @Override

@@ -30,7 +30,9 @@ public interface CourseOfferingRepository extends JpaRepository<CourseOffering, 
     @Query(value = """
             SELECT SUM(co.course.hoursPerWeek)
             FROM CourseOffering co
-            WHERE co.teacher.uuid = :teacherUuid AND co.course.deleted = false
+            WHERE co.teacher.uuid = :teacherUuid
+             AND co.course.deleted = false
+             AND co.semester.uuid = :semesterUuid
             """)
-    long sumTotalHoursPerTeacher(UUID teacherUuid);
+    long sumTotalHoursPerTeacher(UUID teacherUuid, UUID semesterUuid);
 }
