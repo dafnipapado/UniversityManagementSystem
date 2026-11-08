@@ -32,5 +32,5 @@ public interface CourseOfferingRepository extends JpaRepository<CourseOffering, 
             FROM CourseOffering co
             WHERE co.teacher.uuid = :teacherUuid AND co.course.deleted = false
             """)
-    long sumTotalHours(UUID teacherUuid);
+    long sumTotalHoursPerTeacher(UUID teacherUuid);
 }
