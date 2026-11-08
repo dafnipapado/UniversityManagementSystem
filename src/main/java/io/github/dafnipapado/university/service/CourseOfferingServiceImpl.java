@@ -234,4 +234,10 @@ public class CourseOfferingServiceImpl implements ICourseOfferingService{
     public long getCourseOfferingsEnrolledCount() throws EntityNotFoundException {
         return getCourseOfferingsEnrolled().size();
     }
+
+    @Override
+    @PreAuthorize("hasAuthority('ROLE_STUDENT')")
+    public long getTotalEcts() throws EntityNotFoundException {
+        return courseOfferingRepository.sumTotalEcts(utilityService.getLoggedInStudent().getUuid(), semesterService.getActiveSemester().uuid());
+    }
 }
