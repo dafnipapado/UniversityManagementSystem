@@ -240,4 +240,10 @@ public class CourseOfferingServiceImpl implements ICourseOfferingService{
     public long getTotalEcts() throws EntityNotFoundException {
         return courseOfferingRepository.sumTotalEcts(utilityService.getLoggedInStudent().getUuid(), semesterService.getActiveSemester().uuid());
     }
+
+    @Override
+    @PreAuthorize("hasAuthority('ROLE_STUDENT')")
+    public long getTotalHoursPerStudent() throws EntityNotFoundException {
+        return courseOfferingRepository.sumTotalHoursPerStudent(utilityService.getLoggedInStudent().getUuid(), semesterService.getActiveSemester().uuid());
+    }
 }

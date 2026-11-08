@@ -45,6 +45,7 @@ public class StudentController {
             model.addAttribute("courseOfferingsCount", courseOfferingService.getCourseOfferingsEnrolledCount());
             model.addAttribute("currentSemester", semesterService.getActiveSemester());
             model.addAttribute("totalEcts", courseOfferingService.getTotalEcts());
+            model.addAttribute("totalHours", courseOfferingService.getTotalHoursPerStudent());
         } catch(EntityNotFoundException e) {
 //            e.getMessage();
             //return error page

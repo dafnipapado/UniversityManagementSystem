@@ -34,4 +34,5 @@ public interface ICourseOfferingService {
     List<CourseOfferingReadOnlyDTO> getCourseOfferingsEnrolled() throws EntityNotFoundException;
     long getCourseOfferingsEnrolledCount() throws EntityNotFoundException;
     long getTotalEcts() throws EntityNotFoundException;
+    long getTotalHoursPerStudent() throws EntityNotFoundException;
 }
