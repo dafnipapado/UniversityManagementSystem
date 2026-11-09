@@ -19,7 +19,7 @@ public interface CourseOfferingRepository extends JpaRepository<CourseOffering, 
     List<CourseOffering> findByTeacherUuidAndSemesterUuidAndDeletedFalse(UUID teacherUuid, UUID semesterUuid);
     Optional<CourseOffering> findTopByTeacherUuidAndDeletedFalseOrderByIdDesc(UUID uuid);
 
-    @Query(value = """
+    @Query("""
         SELECT COUNT(DISTINCT e.student)
         FROM Enrollment e
         WHERE e.offering.teacher.uuid = :teacherUuid
@@ -27,12 +27,13 @@ public interface CourseOfferingRepository extends JpaRepository<CourseOffering, 
         """)
     long countIndividualStudents(UUID teacherUuid, UUID semesterUuid);
 
-    @Query(value = """
+    @Query("""
             SELECT SUM(co.course.hoursPerWeek)
             FROM CourseOffering co
             WHERE co.teacher.uuid = :teacherUuid
-             AND co.course.deleted = false
              AND co.semester.uuid = :semesterUuid
+             AND co.course.deleted = false
+             AND co.deleted = false
             """)
     long sumTotalHoursPerTeacher(UUID teacherUuid, UUID semesterUuid);
 
