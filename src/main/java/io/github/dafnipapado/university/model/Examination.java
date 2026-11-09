@@ -28,8 +28,8 @@ public class Examination extends AbstractEntity{
     @Column(nullable = false, columnDefinition = "DATE")
     private Date examination_date;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "examination_id")
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "course_offering_id")
     private CourseOffering courseOffering;
 
     @OneToMany(mappedBy = "examination")

@@ -1,0 +1,2 @@
+ALTER TABLE examinations
+ADD CONSTRAINT uk_examinations_course_offering_id UNIQUE (course_offering_id);

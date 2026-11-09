@@ -36,8 +36,8 @@ public class CourseOffering extends AbstractEntity{
     @JoinColumn(name = "semester_id")
     private Semester semester;
 
-    @OneToMany(mappedBy = "courseOffering")
-    private Set<Examination> examinations;
+    @OneToOne(mappedBy = "courseOffering")
+    private Examination examination;
 
     @OneToMany(mappedBy = "offering")
     private Set<Enrollment> enrollments;
