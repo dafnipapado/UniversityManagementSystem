@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Set;
 import java.util.UUID;
 
@@ -27,6 +28,15 @@ public class Examination extends AbstractEntity{
 
     @Column(nullable = false, columnDefinition = "DATE", name = "examination_date")
     private LocalDate examinationDate;
+
+    @Column(columnDefinition = "TIME", name = "start_time")
+    private LocalTime startTime;
+
+    @Column(nullable = false)
+    private Integer duration;
+
+    @Column(nullable = false, name = "passing_grade")
+    private Integer passingGrade;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "course_offering_id")
