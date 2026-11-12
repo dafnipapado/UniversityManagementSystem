@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.Set;
 import java.util.UUID;
 
@@ -25,8 +25,8 @@ public class Examination extends AbstractEntity{
     @Column(nullable = false, unique = true, updatable = false, columnDefinition = "BINARY(16)")
     private UUID uuid;
 
-    @Column(nullable = false, columnDefinition = "DATE")
-    private Date examination_date;
+    @Column(nullable = false, columnDefinition = "DATE", name = "examination_date")
+    private LocalDate examinationDate;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "course_offering_id")
