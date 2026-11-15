@@ -17,4 +17,5 @@ public interface IUtilityService {
     CourseOffering getCourseOfferingByUuidAndDeletedFalse(UUID uuid) throws EntityNotFoundException;
     Enrollment getByStudentIdCourseOfferingId(Long studentId, Long courseOfferingId) throws EntityNotFoundException;
     boolean isEnrollmentExists(Enrollment enrollment) throws EntityAlreadyExistsException;
+    boolean hasAuthority(String authority);
 }

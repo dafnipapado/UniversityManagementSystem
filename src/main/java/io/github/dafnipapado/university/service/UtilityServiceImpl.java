@@ -89,4 +89,11 @@ public class UtilityServiceImpl implements IUtilityService {
     public boolean isEnrollmentExists(Enrollment enrollment) throws EntityAlreadyExistsException {
         return enrollmentRepository.findByStudentIdAndOfferingId(enrollment.getStudent().getId(), enrollment.getOffering().getId()).isPresent();
     }
+
+    @Override
+    public boolean hasAuthority(String authority) {
+        return SecurityContextHolder.getContext().getAuthentication()
+                .getAuthorities().stream()
+                .anyMatch(a -> a.getAuthority().equals(authority));
+    }
 }
