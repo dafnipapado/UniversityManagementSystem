@@ -6,6 +6,7 @@ import io.github.dafnipapado.university.model.*;
 import io.github.dafnipapado.university.repository.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -95,5 +96,14 @@ public class UtilityServiceImpl implements IUtilityService {
         return SecurityContextHolder.getContext().getAuthentication()
                 .getAuthorities().stream()
                 .anyMatch(a -> a.getAuthority().equals(authority));
+    }
+
+    @Override
+    public String getTemplateByRole() throws AccessDeniedException {
+        if (hasAuthority("ROLE_ADMIN")) return "redirect:/course-offerings/admin-view";
+        else if (hasAuthority("ROLE_TEACHER")) return "redirect:/teachers/index";
+        else {
+            throw new AccessDeniedException("This page is restricted.");
+        }
     }
 }

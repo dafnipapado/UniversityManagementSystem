@@ -3,6 +3,7 @@ package io.github.dafnipapado.university.service;
 import io.github.dafnipapado.university.exception.EntityAlreadyExistsException;
 import io.github.dafnipapado.university.exception.EntityNotFoundException;
 import io.github.dafnipapado.university.model.*;
+import org.springframework.security.access.AccessDeniedException;
 
 import java.util.UUID;
 
@@ -18,4 +19,5 @@ public interface IUtilityService {
     Enrollment getByStudentIdCourseOfferingId(Long studentId, Long courseOfferingId) throws EntityNotFoundException;
     boolean isEnrollmentExists(Enrollment enrollment) throws EntityAlreadyExistsException;
     boolean hasAuthority(String authority);
+    String getTemplateByRole() throws AccessDeniedException;
 }
