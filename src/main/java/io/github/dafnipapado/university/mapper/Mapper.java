@@ -7,6 +7,7 @@ import io.github.dafnipapado.university.dto.course.CourseReadOnlyDTO;
 import io.github.dafnipapado.university.dto.course_offering.CourseOfferingEditDTO;
 import io.github.dafnipapado.university.dto.course_offering.CourseOfferingReadOnlyDTO;
 import io.github.dafnipapado.university.dto.course_offering.CourseOfferingReadOnlySummaryDTO;
+import io.github.dafnipapado.university.dto.examination.ExaminationInsertDTO;
 import io.github.dafnipapado.university.dto.semester.SemesterInsertDTO;
 import io.github.dafnipapado.university.dto.semester.SemesterReadOnlyDTO;
 import io.github.dafnipapado.university.dto.student.StudentEditDTO;
@@ -223,4 +224,16 @@ public class Mapper {
         );
     }
 
+    public Examination mapToExaminationEntity(ExaminationInsertDTO examinationInsertDTO) {
+        return new Examination(
+                null,
+                null,
+                examinationInsertDTO.examinationDate(),
+                examinationInsertDTO.startTime(),
+                examinationInsertDTO.duration(),
+                examinationInsertDTO.passingGrade(),
+                null,
+                null
+        );
+    }
 }
