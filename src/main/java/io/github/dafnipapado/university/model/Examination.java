@@ -38,7 +38,7 @@ public class Examination extends AbstractEntity{
     @Column(nullable = false, name = "passing_grade")
     private Integer passingGrade;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne
     @JoinColumn(name = "course_offering_id")
     private CourseOffering courseOffering;
 
