@@ -28,7 +28,7 @@ public class ExaminationServiceImpl implements IExaminationService {
         try {
             Examination examination = mapper.mapToExaminationEntity(examinationInsertDTO);
             CourseOffering courseOffering = utilityService.getCourseOfferingByUuidAndDeletedFalse(examinationInsertDTO.courseOfferingUuid());
-            examination.setCourseOffering(courseOffering);
+            examination.addCourseOffering(courseOffering);
             examinationRepository.save(examination);
         } catch (EntityNotFoundException e) {
             log.error("Failed to save examination.");

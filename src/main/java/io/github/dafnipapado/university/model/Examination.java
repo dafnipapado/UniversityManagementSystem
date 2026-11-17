@@ -49,4 +49,9 @@ public class Examination extends AbstractEntity{
     public void initializeUuid() {
         this.uuid = UUID.randomUUID();
     }
+
+    public void addCourseOffering(CourseOffering courseOffering) {
+        this.setCourseOffering(courseOffering);
+        courseOffering.setExamination(this);
+    }
 }
