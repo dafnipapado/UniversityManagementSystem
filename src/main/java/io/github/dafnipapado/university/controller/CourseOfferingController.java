@@ -37,6 +37,7 @@ public class CourseOfferingController {
     private final ITeacherService teacherService;
     private final ISemesterService semesterService;
     private final IEnrollmentService enrollmentService;
+    private final IExaminationService examinationService;
 
     @GetMapping("/create")
     public String getCreateCourseOffering(Model model){
@@ -102,6 +103,7 @@ public class CourseOfferingController {
         Page<CourseOfferingReadOnlyDTO> courseOfferingsPaginated = courseOfferingService.getCourseOfferingsPaginated(pageable);
         model.addAttribute("courseOfferings", courseOfferingsPaginated.getContent());
         model.addAttribute("page", courseOfferingsPaginated);
+        model.addAttribute("examDatesByOffering", examinationService.getExamDatesByOffering());
         return "admin/course_offering/view";
     }
 

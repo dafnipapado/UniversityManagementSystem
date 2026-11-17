@@ -12,6 +12,11 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -34,5 +39,13 @@ public class ExaminationServiceImpl implements IExaminationService {
             log.error("Failed to save examination.");
             throw e;
         }
+    }
+
+    @Override
+    @PreAuthorize("hasAuthority('VIEW_EXAMINATION')")
+    public Map<UUID, LocalDate> getExamDatesByOffering() {
+        Map<UUID, LocalDate> examDatesByOffering = new HashMap<>();
+        examinationRepository.findAll().forEach(e -> examDatesByOffering.put(e.getCourseOffering().getUuid(), e.getExaminationDate()));
+        return examDatesByOffering;
     }
 }
