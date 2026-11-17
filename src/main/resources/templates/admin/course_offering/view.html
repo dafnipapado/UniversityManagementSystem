@@ -29,17 +29,28 @@
                 <th>Teacher lastname</th>
                 <th>Season</th>
                 <th>Year</th>
+                <th>Examination</th>
                 <th>Actions</th>
             </tr>
         </thead>
         <tbody>
             <tr class="h-93px" th:classappend="${courseOffering.deleted} ? 'deleted-row' : ''"  th:each="courseOffering : ${courseOfferings}">
-                <td class="w-15" th:text="${courseOffering.courseReadOnlyDTO.code}"></td>
+                <td class="w-8" th:text="${courseOffering.courseReadOnlyDTO.code}"></td>
                 <td class="w-20" th:text="${courseOffering.courseReadOnlyDTO.name}"></td>
-                <td class="w-20" th:text="${courseOffering.teacherReadOnlyDTO.firstname}"></td>
-                <td class="w-20" th:text="${courseOffering.teacherReadOnlyDTO.lastname}"></td>
+                <td class="w-15" th:text="${courseOffering.teacherReadOnlyDTO.firstname}"></td>
+                <td class="w-15" th:text="${courseOffering.teacherReadOnlyDTO.lastname}"></td>
                 <td class="w-8" th:text="${courseOffering.semesterReadOnlyDTO.name}"></td>
                 <td class="w-8" th:text="${courseOffering.semesterReadOnlyDTO.year}"></td>
+                <td class="w-15">
+                    <div th:if="${examDatesByOffering.containsKey(courseOffering.uuid)}">
+                        <span th:text="${examDatesByOffering[courseOffering.uuid]}"></span>
+                    </div>
+                    <div th:unless="${examDatesByOffering.containsKey(courseOffering.uuid)}">
+                        <a th:href="@{/examinations/create/{courseOfferingUuid}(courseOfferingUuid=${courseOffering.uuid})}">
+                            Add examination
+                        </a>
+                    </div>
+                </td>
                 <td class="w-8">
                     <a th:href="@{/course-offerings/edit/{uuid}(uuid=${courseOffering.uuid})}" class="text-decoration-none">
                         <span class="fa-regular fa-pen-to-square submit-btn px-2"></span>
