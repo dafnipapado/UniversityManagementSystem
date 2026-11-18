@@ -15,7 +15,8 @@ import java.util.UUID;
 
 @Controller
 @RequiredArgsConstructor
-@Slf4j@RequestMapping("/examinations")
+@Slf4j
+@RequestMapping("/examinations")
 public class ExaminationController {
 
     private final IExaminationService examinationService;
