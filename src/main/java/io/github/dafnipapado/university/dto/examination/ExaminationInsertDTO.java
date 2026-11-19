@@ -1,9 +1,7 @@
 package io.github.dafnipapado.university.dto.examination;
 
-import io.github.dafnipapado.university.model.CourseOffering;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
