@@ -1,5 +1,6 @@
 package io.github.dafnipapado.university.service;
 
+import io.github.dafnipapado.university.dto.examination.ExaminationEditDTO;
 import io.github.dafnipapado.university.dto.examination.ExaminationInsertDTO;
 import io.github.dafnipapado.university.exception.EntityAlreadyExistsException;
 import io.github.dafnipapado.university.exception.EntityInvalidArgumentException;
@@ -62,6 +63,44 @@ public class ExaminationServiceImpl implements IExaminationService {
         } catch (EntityInvalidArgumentException e) {
             log.error("Invalid examination datetime");
             throw e;
+        }
+    }
+
+    @Override
+    @PreAuthorize("hasAuthority('EDIT_EXAMINATION')")
+    public ExaminationEditDTO getExaminationEditDTO(UUID courseOfferingUuid) throws EntityNotFoundException {
+        Examination examination = examinationRepository.findByCourseOfferingUuid(courseOfferingUuid)
+                .orElseThrow(() -> new EntityNotFoundException("Examination was not found."));
+        return mapper.mapToExaminationEditDTO(examination);
+    }
+
+    @Override
+    @PreAuthorize("hasAuthority('EDIT_EXAMINATION')")
+    @Transactional(rollbackFor = {EntityNotFoundException.class, EntityInvalidArgumentException.class})
+    public void updateExamination(ExaminationEditDTO examinationEditDTO) throws EntityNotFoundException, EntityInvalidArgumentException {
+        try {
+            Examination examination = examinationRepository.findByUuid(examinationEditDTO.uuid())
+                    .orElseThrow(() -> new EntityNotFoundException("Examination was not found"));
+
+            if (!Objects.equals(examination.getExaminationDate(), examinationEditDTO.examinationDate())) {
+                LocalDateTime now = LocalDateTime.now();
+                LocalDate date = examinationEditDTO.examinationDate();
+                LocalTime time = examinationEditDTO.startTime();
+                if (date.isBefore(now.toLocalDate())) {
+                    throw new EntityInvalidArgumentException("Examination date has passed.");
+                }
+                if (date.isEqual(now.toLocalDate()) && time != null && time.isBefore(now.toLocalTime())) {
+                    throw new EntityInvalidArgumentException("Examination time has passed.");
+                }
+                examination.setExaminationDate(date);
+                examination.setStartTime(time);
+            }
+            examination.setDuration(examinationEditDTO.duration());
+            examination.setPassingGrade(examinationEditDTO.passingGrade());
+
+            log.info("Examination with uuid = {} was updated successfully.", examination.getUuid());
+        } catch (EntityNotFoundException | EntityInvalidArgumentException e) {
+            log.error("Failed to update examination with uuid = {}.", examinationEditDTO.uuid());
         }
     }
 

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" th:href="@{/css/global.css}">
+    <title>Edit Examination - CatBridge</title>
+</head>
+<body>
+
+<div th:replace="~{fragments/header :: headerFragment}"></div>
+
+<div class="container mt-5 main-content">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary-green text-white">
+                    <div class="card-title fs-3 mb-0">Edit examination</div>
+                </div>
+                <div class="card-body">
+                    <form
+                            method="post"
+                            th:action="@{/examinations/edit}"
+                            th:object="${examinationEditDTO}"
+                    >
+                        <input type="hidden" th:field="*{uuid}"/>
+                        <div class="mb-3">
+                            <label th:for="examinationDate" class="form-label">Examination Date</label><br>
+                            <input type="date" th:field="*{examinationDate}" class="form-control" required>
+                            <div th:if="${#fields.hasErrors('examinationDate')}">
+                                <p th:classappend="${#fields.hasErrors('examinationDate')} ? 'error'" th:errors="*{examinationDate}"></p>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label th:for="startTime" class="form-label">Starting Time</label><br>
+                            <input type="time" th:field="*{startTime}" class="form-control" required>
+                            <div th:if="${#fields.hasErrors('startTime')}">
+                                <p th:classappend="${#fields.hasErrors('startTime')} ? 'error'" th:errors="*{startTime}"></p>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label th:for="duration" class="form-label">Duration (minutes)</label><br>
+                            <input type="number" th:field="*{duration}" class="form-control" required>
+                            <div th:if="${#fields.hasErrors('duration')}">
+                                <p th:classappend="${#fields.hasErrors('duration')} ? 'error'"
+                                   th:errors="*{duration}"></p>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label th:for="passingGrade" class="form-label">Passing Grade</label><br>
+                            <input type="number" th:field="*{passingGrade}" class="form-control" required>
+                            <div th:if="${#fields.hasErrors('passingGrade')}">
+                                <p th:classappend="${#fields.hasErrors('passingGrade')} ? 'error'" th:errors="*{passingGrade}"></p>
+                            </div>
+                        </div>
+                        <input type="hidden" th:field="*{courseOfferingUuid}" />
+                        <div class="d-grid">
+                            <button type="submit" class="submit-btn">Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

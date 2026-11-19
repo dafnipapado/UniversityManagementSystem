@@ -1,6 +1,9 @@
 package io.github.dafnipapado.university.controller;
 
+import io.github.dafnipapado.university.dto.examination.ExaminationEditDTO;
 import io.github.dafnipapado.university.dto.examination.ExaminationInsertDTO;
+import io.github.dafnipapado.university.exception.EntityInvalidArgumentException;
+import io.github.dafnipapado.university.exception.EntityNotFoundException;
 import io.github.dafnipapado.university.service.IExaminationService;
 import io.github.dafnipapado.university.service.IUtilityService;
 import jakarta.validation.Valid;
@@ -41,4 +44,29 @@ public class ExaminationController {
         }
         return utilityService.getTemplateByRole();
     }
+
+    @GetMapping("/edit/{courseOfferingUuid}")
+    public String getEditExamination(@PathVariable UUID courseOfferingUuid, Model model) {
+        try {
+            ExaminationEditDTO examinationEditDTO = examinationService.getExaminationEditDTO(courseOfferingUuid);
+            model.addAttribute("examinationEditDTO", examinationEditDTO);
+        } catch (EntityNotFoundException e) {
+            log.error(e.getMessage());
+        }
+        return "shared/examination/edit";
+    }
+
+    @PostMapping("/edit")
+    public String editExamination(@Valid @ModelAttribute ExaminationEditDTO examinationEditDTO, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return utilityService.getTemplateByRole();
+        }
+        try {
+            examinationService.updateExamination(examinationEditDTO);
+        } catch (EntityNotFoundException | EntityInvalidArgumentException e) {
+            log.error(e.getMessage());
+            return utilityService.getTemplateByRole();
+        }
+        return utilityService.getTemplateByRole();
+     }
 }
