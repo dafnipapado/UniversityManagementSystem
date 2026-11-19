@@ -42,8 +42,11 @@
                 <td class="w-8" th:text="${courseOffering.semesterReadOnlyDTO.name}"></td>
                 <td class="w-8" th:text="${courseOffering.semesterReadOnlyDTO.year}"></td>
                 <td class="w-15">
-                    <div th:if="${examDatesByOffering.containsKey(courseOffering.uuid)}">
+                    <div th:if="${examDatesByOffering.containsKey(courseOffering.uuid)}" class="d-flex align-items-center gap-2">
                         <span th:text="${examDatesByOffering[courseOffering.uuid]}"></span>
+                        <a th:href="@{/examinations/edit/{courseOfferingUuid}(courseOfferingUuid=${courseOffering.uuid})}">
+                            <span class="fa-solid fa-pencil fa-sm text-primary-green cursor-pointer"></span>
+                        </a>
                     </div>
                     <div th:unless="${examDatesByOffering.containsKey(courseOffering.uuid)}">
                         <a th:href="@{/examinations/create/{courseOfferingUuid}(courseOfferingUuid=${courseOffering.uuid})}">
