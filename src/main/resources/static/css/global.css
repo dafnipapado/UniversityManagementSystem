@@ -144,6 +144,10 @@ body {
     border-color: var(--color-border);
 }
 
+.cursor-pointer {
+    cursor: pointer;
+}
+
 .deleted-row {
     --bs-table-bg: var(--color-deleted-row);
 }
