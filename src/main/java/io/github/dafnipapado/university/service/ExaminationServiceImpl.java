@@ -2,6 +2,7 @@ package io.github.dafnipapado.university.service;
 
 import io.github.dafnipapado.university.dto.examination.ExaminationEditDTO;
 import io.github.dafnipapado.university.dto.examination.ExaminationInsertDTO;
+import io.github.dafnipapado.university.dto.examination.ExaminationReadOnlyDTO;
 import io.github.dafnipapado.university.exception.EntityAlreadyExistsException;
 import io.github.dafnipapado.university.exception.EntityInvalidArgumentException;
 import io.github.dafnipapado.university.exception.EntityNotFoundException;
@@ -106,9 +107,9 @@ public class ExaminationServiceImpl implements IExaminationService {
 
     @Override
     @PreAuthorize("hasAuthority('VIEW_EXAMINATION')")
-    public Map<UUID, LocalDate> getExamDatesByOffering() {
-        Map<UUID, LocalDate> examDatesByOffering = new HashMap<>();
-        examinationRepository.findAll().forEach(e -> examDatesByOffering.put(e.getCourseOffering().getUuid(), e.getExaminationDate()));
-        return examDatesByOffering;
+    public Map<UUID, ExaminationReadOnlyDTO> getExaminationsByOffering() {
+        Map<UUID, ExaminationReadOnlyDTO> examinationsByOffering = new HashMap<>();
+        examinationRepository.findAll().forEach(e -> examinationsByOffering.put(e.getCourseOffering().getUuid(), mapper.mapToExaminationReadOnlyDTO(e)));
+        return examinationsByOffering;
     }
 }

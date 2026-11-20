@@ -103,7 +103,7 @@ public class CourseOfferingController {
         Page<CourseOfferingReadOnlyDTO> courseOfferingsPaginated = courseOfferingService.getCourseOfferingsPaginated(pageable);
         model.addAttribute("courseOfferings", courseOfferingsPaginated.getContent());
         model.addAttribute("page", courseOfferingsPaginated);
-        model.addAttribute("examDatesByOffering", examinationService.getExamDatesByOffering());
+        model.addAttribute("examinationsByOffering", examinationService.getExaminationsByOffering());
         return "admin/course_offering/view";
     }
 
