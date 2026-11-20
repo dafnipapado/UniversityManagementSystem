@@ -52,6 +52,10 @@ body {
     height: 10rem;
 }
 
+.h-12rem {
+    height: 12rem;
+}
+
 .lh-3rem {
     line-height: 3rem;
 }
@@ -96,6 +100,10 @@ body {
     width: 65px;
 }
 
+.max-w-22 {
+    max-width: 22%;
+}
+
 .mt-neg-0_5 {
     margin-top: -0.5rem;
 }
@@ -134,6 +142,10 @@ body {
 
 .text-size-1_05rem {
     font-size: 1.05rem;
+}
+
+.text-size-1_125rem {
+    font-size: 1.125rem;
 }
 
 .text-size-1_2rem {
