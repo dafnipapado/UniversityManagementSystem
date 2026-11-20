@@ -34,7 +34,7 @@
                         </div>
                         <div class="mb-3">
                             <label th:for="startTime" class="form-label">Starting Time</label><br>
-                            <input type="time" th:field="*{startTime}" class="form-control" required>
+                            <input type="time" th:field="*{startTime}" class="form-control">
                             <div th:if="${#fields.hasErrors('startTime')}">
                                 <p th:classappend="${#fields.hasErrors('startTime')} ? 'error'" th:errors="*{startTime}"></p>
                             </div>
