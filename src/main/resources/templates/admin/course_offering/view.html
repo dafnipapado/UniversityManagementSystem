@@ -7,6 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <link rel="stylesheet" th:href="@{/css/global.css}">
     <title>Manage Course offerings - CatBridge</title>
 </head>
@@ -42,13 +43,46 @@
                 <td class="w-8" th:text="${courseOffering.semesterReadOnlyDTO.name}"></td>
                 <td class="w-8" th:text="${courseOffering.semesterReadOnlyDTO.year}"></td>
                 <td class="w-15">
-                    <div th:if="${examDatesByOffering.containsKey(courseOffering.uuid)}" class="d-flex align-items-center gap-2">
-                        <span th:text="${examDatesByOffering[courseOffering.uuid]}"></span>
+                    <div th:if="${examinationsByOffering.containsKey(courseOffering.uuid)}" class="d-flex align-items-center gap-2">
+                        <span th:text="${examinationsByOffering[courseOffering.uuid].examinationDate}"></span>
+                        <!--examination info button-->
+                        <a class="text-primary-green cursor-pointer" data-bs-toggle="modal" th:data-bs-target="'#modal-' + ${courseOffering.uuid}">
+                            <span class="bi bi-info-circle"></span>
+                        </a>
+                        <div class="modal fade" th:id="'modal-' + ${courseOffering.uuid}" tabindex="-1" th:aria-labelledby="'modal-label-' + ${courseOffering.uuid}" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered max-w-22">
+                                <div class="modal-content">
+                                    <div class="modal-header bg-primary-green text-white">
+                                        <h1 class="modal-title fs-5" id="staticBackdropLabel">Examination Details</h1>
+                                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body h-12rem d-flex flex-column justify-content-around text-size-1_125rem">
+                                        <div class="d-flex justify-content-between border-bottom border-grey py-1">
+                                            <span class="fw-semibold">Examination Date</span>
+                                            <span th:text="${examinationsByOffering[courseOffering.uuid].examinationDate}"></span>
+                                        </div>
+                                        <div class="d-flex justify-content-between border-bottom border-grey py-1">
+                                            <span class="fw-semibold">Start Time</span>
+                                            <span th:text="${examinationsByOffering[courseOffering.uuid].startTime} ?: 'No time set'"></span>
+                                        </div>
+                                        <div class="d-flex justify-content-between border-bottom border-grey py-1">
+                                            <span class="fw-semibold">Duration (minutes)</span>
+                                            <span th:text="${examinationsByOffering[courseOffering.uuid].duration}"></span>
+                                        </div>
+                                        <div class="d-flex justify-content-between py-1">
+                                            <span class="fw-semibold">Passing Grade</span>
+                                            <span th:text="${examinationsByOffering[courseOffering.uuid].passingGrade}"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--examination edit button-->
                         <a th:href="@{/examinations/edit/{courseOfferingUuid}(courseOfferingUuid=${courseOffering.uuid})}">
                             <span class="fa-solid fa-pencil fa-sm text-primary-green cursor-pointer"></span>
                         </a>
                     </div>
-                    <div th:unless="${examDatesByOffering.containsKey(courseOffering.uuid)}">
+                    <div th:unless="${examinationsByOffering.containsKey(courseOffering.uuid)}">
                         <a th:href="@{/examinations/create/{courseOfferingUuid}(courseOfferingUuid=${courseOffering.uuid})}">
                             Add examination
                         </a>
@@ -70,5 +104,6 @@
 </div>
 
 <div th:replace="~{fragments/pagination :: paginationFragment(page=${page}, baseUrl='/course-offerings/admin-view', emptyMessage='No course offerings found.')}"></div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.min.js"></script>
 </body>
 </html>
