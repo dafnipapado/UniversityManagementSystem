@@ -33,6 +33,7 @@ public class TeacherController {
     private final IRegionService regionService;
     private final ICourseOfferingService courseOfferingService;
     private final ISemesterService semesterService;
+    private final IExaminationService examinationService;
 
     @GetMapping({"", "/", "/index"})
     public String index(Model model){
@@ -46,6 +47,7 @@ public class TeacherController {
             model.addAttribute("studentsEnrolled", courseOfferingService.countStudentsPerOffering());
             model.addAttribute("totalStudents", courseOfferingService.getIndividualStudentsPerTeacher());
             model.addAttribute("totalHours", courseOfferingService.getTotalHoursPerTeacher());
+            model.addAttribute("teacherExaminations", examinationService.getExaminationsByTeacher());
         } catch(EntityNotFoundException e) {
 //            e.getMessage();
             //return error page

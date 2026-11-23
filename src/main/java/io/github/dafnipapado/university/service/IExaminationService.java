@@ -7,6 +7,7 @@ import io.github.dafnipapado.university.exception.EntityAlreadyExistsException;
 import io.github.dafnipapado.university.exception.EntityInvalidArgumentException;
 import io.github.dafnipapado.university.exception.EntityNotFoundException;
 
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -15,4 +16,5 @@ public interface IExaminationService {
     ExaminationEditDTO getExaminationEditDTO(UUID courseOfferingUuid) throws EntityNotFoundException;
     void updateExamination(ExaminationEditDTO examinationEditDTO) throws EntityNotFoundException, EntityInvalidArgumentException;
     Map<UUID, ExaminationReadOnlyDTO> getExaminationsByOffering();
+    List<ExaminationReadOnlyDTO> getExaminationsByTeacher() throws EntityNotFoundException;
 }

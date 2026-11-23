@@ -3,12 +3,12 @@ package io.github.dafnipapado.university.service;
 import io.github.dafnipapado.university.dto.examination.ExaminationEditDTO;
 import io.github.dafnipapado.university.dto.examination.ExaminationInsertDTO;
 import io.github.dafnipapado.university.dto.examination.ExaminationReadOnlyDTO;
+import io.github.dafnipapado.university.dto.semester.SemesterReadOnlyDTO;
 import io.github.dafnipapado.university.exception.EntityAlreadyExistsException;
 import io.github.dafnipapado.university.exception.EntityInvalidArgumentException;
 import io.github.dafnipapado.university.exception.EntityNotFoundException;
 import io.github.dafnipapado.university.mapper.Mapper;
-import io.github.dafnipapado.university.model.CourseOffering;
-import io.github.dafnipapado.university.model.Examination;
+import io.github.dafnipapado.university.model.*;
 import io.github.dafnipapado.university.repository.ExaminationRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -111,5 +111,15 @@ public class ExaminationServiceImpl implements IExaminationService {
         Map<UUID, ExaminationReadOnlyDTO> examinationsByOffering = new HashMap<>();
         examinationRepository.findAll().forEach(e -> examinationsByOffering.put(e.getCourseOffering().getUuid(), mapper.mapToExaminationReadOnlyDTO(e)));
         return examinationsByOffering;
+    }
+
+    @Override
+    @PreAuthorize("hasAuthority('ROLE_TEACHER')")
+    public List<ExaminationReadOnlyDTO> getExaminationsByTeacher() throws EntityNotFoundException {
+        Teacher teacher = utilityService.getLoggedInTeacher();
+        SemesterReadOnlyDTO semesterReadOnlyDTO = semesterService.getActiveSemester();
+        if (semesterReadOnlyDTO == null) return List.of();
+        return examinationRepository.findByCourseOfferingTeacherUuidAndCourseOfferingSemesterUuidAndCourseOfferingDeletedFalseOrderByExaminationDateAscStartTimeAsc(teacher.getUuid(), semesterReadOnlyDTO.uuid())
+                .stream().map(mapper::mapToExaminationReadOnlyDTO).toList();
     }
 }
