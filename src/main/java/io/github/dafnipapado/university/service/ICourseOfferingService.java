@@ -30,9 +30,9 @@ public interface ICourseOfferingService {
     long getOfferingsTaughtCount() throws EntityNotFoundException;
     Map<UUID, Long> countStudentsPerOffering() throws EntityNotFoundException;
     long getIndividualStudentsPerTeacher() throws EntityNotFoundException;
-    long getTotalHoursPerTeacher() throws EntityNotFoundException;
+    Long getTotalHoursPerTeacher() throws EntityNotFoundException;
     List<CourseOfferingReadOnlyDTO> getCourseOfferingsEnrolled() throws EntityNotFoundException;
     long getCourseOfferingsEnrolledCount() throws EntityNotFoundException;
-    long getTotalEcts() throws EntityNotFoundException;
-    long getTotalHoursPerStudent() throws EntityNotFoundException;
+    Long getTotalEcts() throws EntityNotFoundException;
+    Long getTotalHoursPerStudent() throws EntityNotFoundException;
 }

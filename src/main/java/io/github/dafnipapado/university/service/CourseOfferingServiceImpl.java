@@ -212,7 +212,7 @@ public class CourseOfferingServiceImpl implements ICourseOfferingService{
 
     @Override
     @PreAuthorize("hasAuthority('ROLE_TEACHER')")
-    public long getTotalHoursPerTeacher() throws EntityNotFoundException {
+    public Long getTotalHoursPerTeacher() throws EntityNotFoundException {
         return courseOfferingRepository.sumTotalHoursPerTeacher(utilityService.getLoggedInTeacher().getUuid(), semesterService.getActiveSemester().uuid());
     }
 
@@ -237,13 +237,13 @@ public class CourseOfferingServiceImpl implements ICourseOfferingService{
 
     @Override
     @PreAuthorize("hasAuthority('ROLE_STUDENT')")
-    public long getTotalEcts() throws EntityNotFoundException {
+    public Long getTotalEcts() throws EntityNotFoundException {
         return courseOfferingRepository.sumTotalEcts(utilityService.getLoggedInStudent().getUuid(), semesterService.getActiveSemester().uuid());
     }
 
     @Override
     @PreAuthorize("hasAuthority('ROLE_STUDENT')")
-    public long getTotalHoursPerStudent() throws EntityNotFoundException {
+    public Long getTotalHoursPerStudent() throws EntityNotFoundException {
         return courseOfferingRepository.sumTotalHoursPerStudent(utilityService.getLoggedInStudent().getUuid(), semesterService.getActiveSemester().uuid());
     }
 }

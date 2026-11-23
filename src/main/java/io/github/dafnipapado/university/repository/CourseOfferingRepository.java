@@ -35,7 +35,7 @@ public interface CourseOfferingRepository extends JpaRepository<CourseOffering, 
              AND co.course.deleted = false
              AND co.deleted = false
             """)
-    long sumTotalHoursPerTeacher(UUID teacherUuid, UUID semesterUuid);
+    Long sumTotalHoursPerTeacher(UUID teacherUuid, UUID semesterUuid);
 
     @Query("""
             SELECT SUM(e.offering.course.ects)
@@ -45,7 +45,7 @@ public interface CourseOfferingRepository extends JpaRepository<CourseOffering, 
              AND e.offering.course.deleted = false
              AND e.offering.deleted = false
             """)
-    long sumTotalEcts(UUID studentUuid, UUID semesterUuid);
+    Long sumTotalEcts(UUID studentUuid, UUID semesterUuid);
 
     @Query("""
             SELECT SUM(e.offering.course.hoursPerWeek)
@@ -55,5 +55,5 @@ public interface CourseOfferingRepository extends JpaRepository<CourseOffering, 
              AND e.offering.course.deleted = false
              AND e.offering.deleted = false
             """)
-    long sumTotalHoursPerStudent(UUID studentUuid, UUID semesterUuid);
+    Long sumTotalHoursPerStudent(UUID studentUuid, UUID semesterUuid);
 }
