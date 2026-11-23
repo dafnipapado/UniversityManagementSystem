@@ -7,6 +7,8 @@ public record ExaminationReadOnlyDTO(
         LocalDate examinationDate,
         LocalTime startTime,
         Integer duration,
-        Integer passingGrade
+        Integer passingGrade,
+        String courseName,
+        String courseCode
 ) {
 }
