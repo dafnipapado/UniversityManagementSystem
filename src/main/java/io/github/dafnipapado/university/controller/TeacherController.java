@@ -51,7 +51,7 @@ public class TeacherController {
 //            e.getMessage();
             //return error page
         }
-        return "/teacher/index";
+        return "teacher/index";
     }
 
     @GetMapping("/create")
