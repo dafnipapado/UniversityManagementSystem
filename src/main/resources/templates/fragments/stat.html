@@ -4,7 +4,7 @@
               th:classappend="'bi-' + ${icon}"></span>
         <div class="d-flex flex-column">
             <span class="text-secondary small" th:text="${label}"></span>
-            <span class="display-5 mt-neg-0_5 fw-semibold text-primary-green" th:text="${value}"></span>
+            <span class="display-5 mt-neg-0_5 fw-semibold text-primary-green" th:text="${value ?: 0}"></span>
         </div>
     </div>
 </div>
