@@ -256,6 +256,7 @@ public class Mapper {
                 examination.getStartTime(),
                 examination.getDuration(),
                 examination.getPassingGrade(),
+                examination.getExaminationDate().getMonth().toString(),
                 examination.getCourseOffering().getCourse().getName(),
                 examination.getCourseOffering().getCourse().getCode()
         );
