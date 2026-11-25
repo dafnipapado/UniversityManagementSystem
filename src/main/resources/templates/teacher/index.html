@@ -166,7 +166,7 @@
                                     <div class="col-5 d-flex flex-column justify-content-center align-items-center">
                                         <a th:href="@{/}" class="d-flex justify-content-center align-items-center gap-2 rounded-pill pill-link">
                                             <span class="fa-regular fa-user fa-md"></span>
-                                            <div th:text="${'47'}" class=""></div>
+                                            <div th:text="${studentsEnrolled[examination.courseOfferingUuid] ?: 0}" class=""></div>
                                         </a>
                                     </div>
                                     <div class="col-2 d-flex justify-content-center align-items-center">
