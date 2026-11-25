@@ -108,6 +108,81 @@
             </div>
         </details>
     </div>
+
+    <div class="accordion pt-5 pb-5">
+        <details class="accordion-item" name="accordionExaminations" open>
+            <summary
+                    class="accordion-header h-4rem d-flex justify-content-between align-items-center border-bottom border-grey ps-4 pe-4 mb-3"
+                    style="list-style:none;">
+                <div class="d-flex fw-semibold gap-3">
+                    <div class="fs-4 text-primary-green">My Examinations</div>
+                    <div class="fs-5 text-secondary mt-1">
+                        (<span th:text="${currentSemester.name}"></span>
+                        <span th:text="${currentSemester.year}"></span>)
+                    </div>
+                </div>
+                <svg class="accordion-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16"
+                     height="16" color="silver" fill="none" stroke="currentColor" stroke-width="1.5"
+                     stroke-linecap="round" stroke-linejoin="round">
+                    <path d="m2 5 6 6 6-6"/>
+                </svg>
+            </summary>
+            <div class="accordion-body">
+                <div class="row g-3">
+                    <div th:if="${#lists.isEmpty(teacherExaminations)}">
+                        <span>No available examinations for this semester.</span>
+                    </div>
+                    <div class="col-12 ps-4 pe-4" th:unless="${#lists.isEmpty(teacherExaminations)}"
+                         th:each="examination : ${teacherExaminations}">
+                        <div class="h-5rem d-flex mb-3 border border-grey custom-card card-shadow">
+                            <div class="col-2 d-flex">
+                                <div class="col-9 bg-secondary text-white d-flex align-items-center justify-content-center">
+                                    <div class="d-flex flex-column align-items-center">
+                                        <div class="fw-bold text-size-2_5rem lh-2_2rem"
+                                             th:text="${examination.examinationDate.toString.substring(8,10)}"></div>
+                                        <div class="fw-bold " th:text="${examination.examMonth.substring(0,3)}"></div>
+                                    </div>
+                                </div>
+                                <div class="col-3"></div>
+                            </div>
+                            <div class="col-10 d-flex">
+                                <div class="col-7 d-flex flex-column justify-content-center">
+                                    <div class="fw-semibold fs-5" th:text="${examination.courseName}"></div>
+                                    <div class="fw-semibold text-accent" th:text="${examination.courseCode}"></div>
+                                </div>
+                                <div class="col-5 d-flex">
+                                    <div class="col-5 d-flex flex-column justify-content-center fw-semibold">
+                                        <div class="d-flex gap-2 align-items-center">
+                                            <span class="fa-solid fa-clock text-secondary"></span>
+                                            <div th:text="${examination.startTime}"></div>
+                                            <span>·</span>
+                                            <div th:text="${examination.duration + ' min'}"></div>
+                                        </div>
+                                        <div class="d-flex gap-2 align-items-center">
+                                            <span class="fa-solid fa-award text-accent"></span>
+                                            <div th:text="${'Pass: ' + examination.passingGrade}"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-5 d-flex flex-column justify-content-center align-items-center">
+                                        <a th:href="@{/}" class="d-flex justify-content-center align-items-center gap-2 rounded-pill pill-link">
+                                            <span class="fa-regular fa-user fa-md"></span>
+                                            <div th:text="${'47'}" class=""></div>
+                                        </a>
+                                    </div>
+                                    <div class="col-2 d-flex justify-content-center align-items-center">
+                                        <a th:href="@{/}" class="d-flex align-items-center fw-semibold exam-edit">
+                                            Edit
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </details>
+    </div>
+
 </div>
 </body>
 </html>
