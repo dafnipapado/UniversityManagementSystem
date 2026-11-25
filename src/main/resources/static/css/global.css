@@ -20,6 +20,10 @@ body {
     height: 100px;
 }
 
+.h-42 {
+    height: 42%;
+}
+
 .h-85 {
     height: 85%;
 }
@@ -48,12 +52,20 @@ body {
     height: 4rem;
 }
 
+.h-5rem {
+    height: 5rem;
+}
+
 .h-10rem {
     height: 10rem;
 }
 
 .h-12rem {
     height: 12rem;
+}
+
+.lh-2_2rem {
+    line-height: 2.2rem;
 }
 
 .lh-3rem {
@@ -90,6 +102,10 @@ body {
 
 .w-70 {
     width: 70%;
+}
+
+.w-85 {
+    width: 85%;
 }
 
 .w-48px {
@@ -140,6 +156,10 @@ body {
     color: var(--color-accent);
 }
 
+.text-size-0_75rem {
+    font-size: 0.75rem;
+}
+
 .text-size-1_05rem {
     font-size: 1.05rem;
 }
@@ -150,6 +170,14 @@ body {
 
 .text-size-1_2rem {
     font-size: 1.2rem;
+}
+
+.text-size-1_4rem {
+    font-size: 1.4rem;
+}
+
+.text-size-2_5rem {
+    font-size: 2.5rem;
 }
 
 .border-grey {
