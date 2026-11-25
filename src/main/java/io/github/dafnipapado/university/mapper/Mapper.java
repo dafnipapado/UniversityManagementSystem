@@ -258,7 +258,8 @@ public class Mapper {
                 examination.getPassingGrade(),
                 examination.getExaminationDate().getMonth().toString(),
                 examination.getCourseOffering().getCourse().getName(),
-                examination.getCourseOffering().getCourse().getCode()
+                examination.getCourseOffering().getCourse().getCode(),
+                examination.getCourseOffering().getUuid()
         );
     }
 }
